@@ -12,7 +12,7 @@ permalink: /projects/tools/bitbar/mfa
 
 Built specifically for [`bitbar`](https://github.com/p-e-w/argos), this tool reads OATH codes from [YubiKey](https://www.yubico.com/), displays them on-screen and copies them to the system clipboard. 
 
-[Go to the parent repository](https://github.com/bryandodd/bitbar){: .btn }
+[jump to parent repo](https://github.com/bryandodd/bitbar){: .btn }
 
 <details open markdown="block">
   <summary>

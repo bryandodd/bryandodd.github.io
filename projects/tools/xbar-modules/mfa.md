@@ -14,7 +14,7 @@ Built specifically for [`xbar`](https://xbarapp.com/) (macOS port of [`bitbar`](
 
 Development of this tool will focus primarily on the YubiKey supported version from this point forward because it allows for significantly better security by default, but I will try to continue working on the older (now referred to as "legacy") version as I'm able. 
 
-[Go to the parent repository](https://github.com/bryandodd/xbar){: .btn }
+[jump to parent repo](https://github.com/bryandodd/xbar){: .btn }
 
 <details open markdown="block">
   <summary>
@@ -31,8 +31,6 @@ Development of this tool will focus primarily on the YubiKey supported version f
 
 Current
 {: .label .label-green }
-
-[jump to repo](https://github.com/bryandodd/xbar/tree/main/yubikey-support){: .btn .btn-blue }
 
 ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/yubikey-1.png)  ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/yubikey-2.png) 
 
@@ -74,8 +72,6 @@ Current
 
 Supplemental
 {: .label .label-blue }
-
-[jump to repo](https://github.com/bryandodd/xbar/tree/main/terminal-yubikey){: .btn .btn-blue }
 
 ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/yubikey-terminal.png)
 
@@ -160,8 +156,6 @@ $ ./yubikey-mfa.sh "AWS:usera@homeemail.com"
 Deprecated
 {: .label .label-yellow }
 
-[jump to repo](https://github.com/bryandodd/xbar/tree/main/legacy){: .btn .btn-blue }
-
 ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/mfa-codes-1.png)  ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/mfa-codes-2.png) 
 
 ### Notes
@@ -200,8 +194,6 @@ Deprecated
 Deprecated
 {: .label .label-yellow }
 
-[jump to repo](https://github.com/bryandodd/xbar/tree/main/terminal-legacy){: .btn .btn-blue }
-
 ![](https://raw.githubusercontent.com/bryandodd/xbar/main/images/mfa-terminal.png)
 
 This was the first tool I created to assist in management and use of MFA codes, predating my discovery of `xbar`. Use requires two files:
@@ -212,7 +204,7 @@ This was the first tool I created to assist in management and use of MFA codes, 
 
 The MFA key file should be saved to your local system with a name similar to `.mfa-codes`. For the sake of example we'll say this is saved at `~/.mfa/.mfa-codes`. This file should contain information structured as follows: 
 ```
-short-name, tab-character, mfa-code, tab-character, username (or email), tab-character, long-description, new-line
+sh1ort-name, tab-character, mfa-code, tab-character, username (or email), tab-character, long-description, new-line
 ```
 
 The contents of the file should look something like this:
