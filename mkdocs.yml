@@ -1,0 +1,120 @@
+site_name: dodd.dev
+site_url: https://dodd.dev
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: yellow
+  favicon: assets/favicon/term-b.ico
+  icon:
+    logo: fontawesome/solid/terminal #octicons/code-review-16 #fontawesome/solid/code #fontawesome/solid/code-pull-request #simple/codecrafters
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    #- navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.annotate
+    - content.code.copy
+    - content.footnote.tooltips
+    - content.tooltips
+extra_css:
+  - stylesheets/extra.css
+extra:
+  status:
+    new: Recently Added
+    deprecated: Deprecated
+  generator: false
+  social:
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/dodd.dev
+copyright: "Copyright &copy; 2025 - Bryan Dodd</br><sup>PGP Fingerprint: <code>74BD 90B5 90F9 AA98 4391 7073 8330 8CA8 5B65 951C</code></sup>"
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret:
+      smart_insert: true
+      insert: true
+      superscript: true
+  - pymdownx.mark:
+      smart_mark: true
+  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.blocks.caption
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.smartsymbols:
+      trademark: true
+      copyright: true
+      registered: true
+      care_of: true
+      plusminus: true
+      arrows: true
+      notequal: true
+      fractions: true
+      ordinal_numbers: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: false
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - About: index.md
+  - Misc:
+    - scripts/index.md
+    - PGP:
+      - scripts/pgp/index.md
+      - Primer: scripts/pgp/pgp.md
+    - Yubikey: 
+      - scripts/yubikey/index.md
+      - OpenPGP Setup: scripts/yubikey/yk-openpgp.md
+      - PIV Setup: scripts/yubikey/yk-piv.md
+      - OATH Setup: scripts/yubikey/yk-oath.md
+      - Passkeys: scripts/yubikey/yk-fido2.md
+    - Bash:
+      - scripts/bash/index.md
+      - AWS MFA Auth: scripts/bash/bash-aws-auth.md
+      - AWS SG Audit: scripts/bash/bash-aws-sg-audit.md
+    - PowerShell:
+      - scripts/powershell/index.md
+      - AWS: scripts/powershell/pwsh-aws.md
+      - M365: scripts/powershell/pwsh-m365.md
+      - Windows: scripts/powershell/pwsh-win.md
+    - Python:
+      - scripts/python/index.md
+      - Leetgen: scripts/python/leetgen.md
+  - Projects: 
+    #- projects/index.md
+    - PGP: projects/misc/email.md
+
+    - Arcolinux:
+      - Gnome Config: projects/arcolinux/gnome.md
+      - Xfce Config: projects/arcolinux/xfce.md
+    - TOTP:
+      - xbar: projects/totp/xbar.md
+      - Argos: projects/totp/argos.md
