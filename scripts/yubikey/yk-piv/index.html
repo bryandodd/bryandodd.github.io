@@ -1,0 +1,1894 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dodd.dev/scripts/yubikey/yk-piv/">
+      
+      
+        <link rel="prev" href="../yk-openpgp/">
+      
+      
+        <link rel="next" href="../yk-oath/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon/term-b.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Yubikey PIV Configuration - dodd.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="yellow">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#yubikey-piv-personal-identity-verification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="dodd.dev" class="md-header__button md-logo" aria-label="dodd.dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M9.4 86.6c-12.5-12.5-12.5-32.7 0-45.2s32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256zM256 416h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dodd.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Yubikey PIV Configuration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../projects/misc/email/" class="md-tabs__link">
+          
+  
+    
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="dodd.dev" class="md-nav__button md-logo" aria-label="dodd.dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M9.4 86.6c-12.5-12.5-12.5-32.7 0-45.2s32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256zM256 416h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+
+    </a>
+    dodd.dev
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pgp/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.968 11.583h1.274v-3.82A7.76 7.76 0 0 1 12.005 0a7.76 7.76 0 0 1 7.762 7.763v3.783c-.018.01-.037.028-.056.037l-.01.01-.008.009h-.01l-.01.01-.009.009h-.028l-.018.018h-.02l-.018.01h-.01l-.009.01-.009.009h-.01l-.009.009-.009.01-.01.009-.009.009-.028.019-.019.01-.028.018-.018.01-.02.009-.027.018-.019.01-.01.009-.027.019-.02.01-.046.027-.019.01-.018.009-.02.01h-.008l-.057.027h-.019c-.018.01-.037.02-.065.038h-.01l-.009.01-.028.018-.018.01-.029.018-.018.01h-.01l-.028.018-.018.01-.02.009c-.018.01-.046.019-.065.028l-.018.01-.02.009-.037.018-.037.02-.047.018-.047.019-.019.009-.037.019-.019.01c-1.545.739-4.017 1.516-8.708 1.853-3.362.244-5.403 1.723-6.724 3.502zm4.842 0h8.371v-3.82a4.184 4.184 0 0 0-4.186-4.186A4.184 4.184 0 0 0 7.81 7.763zm13.222 1.461V24H5.572c1.704-.946 2.968-.852 5.075-.787 2.865.094 6.03-1.105 7.585-2.696s-.14-.375-1.901.074c-1.76.45-5.17.497-7.454-.103 7.173.094 9.973-2.219 11.555-4.307 1.583-2.079-.683-.365-2.153.356-1.47.72-4.036 1.227-6.864.852 4.27-.01 7.52-2.144 9.607-4.345z"/></svg>
+  
+  <span class="md-ellipsis">
+    PGP
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            PGP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pgp/pgp/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75M8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/></svg>
+  
+  <span class="md-ellipsis">
+    Primer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.356 12.388 2.521-7.138h3.64l-6.135 15.093H8.539l1.755-4.136L6 5.25h3.717ZM12 0C5.381 0 0 5.381 0 12s5.381 12 12 12 12-5.381 12-12S18.619 0 12 0m0 1.5c5.808 0 10.5 4.692 10.5 10.5S17.808 22.5 12 22.5 1.5 17.808 1.5 12 6.192 1.5 12 1.5"/></svg>
+  
+  <span class="md-ellipsis">
+    Yubikey
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Yubikey
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yk-openpgp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenPGP Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    PIV Setup
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    PIV Setup
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pin-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      PIN Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificate-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Certificate Slots
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Certificate Slots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      About Certificates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slot-9a-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slot 9a - Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slot-9c-digital-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slot 9c - Digital Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Slots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub Example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yk-oath/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OATH Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../yk-fido2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passkeys
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../bash/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9h2.31l.32-3h2l-.32 3h2l.32-3h2l-.32 3H15v2h-1.9l-.2 2H15v2h-2.31l-.32 3h-2l.32-3h-2l-.32 3h-2l.32-3H5v-2h1.9l.2-2H5zm4.1 2-.2 2h2l.2-2M19 6h-2v8h2m0 2h-2v2h2Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Bash
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bash
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/bash-aws-auth/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.429V20.57c0 .258-.171.429-.429.429H.43C.17 21 0 20.829 0 20.571V3.43C0 3.17.171 3 .429 3H23.57c.258 0 .429.171.429.429M.857 20.143h22.286V3.857H.857Zm12.857-5.572h6.429v.858h-6.429ZM19.286 12h2.143v.857h-2.143zm-5.572 0h3.429v.857h-3.429ZM2.143 18.429V11.57q0-.171.128-.3.129-.128.3-.128h.858v-3c0-1.5 1.542-2.7 3.428-2.7s3.429 1.2 3.429 2.7v3h.857a.43.43 0 0 1 .428.428v6.858q0 .171-.128.3-.129.128-.3.128H2.57a.43.43 0 0 1-.428-.428M3 18h7.714v-1.714H9v-.857h1.714v-1.286H9v-.857h1.714V12H3Zm5.143-3.429c0 .558-.343 1.029-.857 1.2v.943h-.857v-.943a1.25 1.25 0 0 1-.858-1.2c0-.685.6-1.285 1.286-1.285.729 0 1.286.6 1.286 1.285m-3.857-3.428h5.143v-3c0-.986-1.2-1.843-2.572-1.843-1.371 0-2.571.857-2.571 1.843Zm3 3.429a.43.43 0 0 0-.429-.429.46.46 0 0 0-.428.429.43.43 0 0 0 .428.428c.257 0 .429-.171.429-.429M20.57 9.429h.858v.857h-.858zm-6.857 0h4.715v.857h-4.715z"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS MFA Auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/bash-aws-sg-audit/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.429 17.571h10.714V6.857H6.429zM18 6.857h1.714v.857H18V9.43h1.714v.857H18v1.285h1.714v.858H18v1.714h1.714V15H18v1.714h1.714v.857H18v.059a.8.8 0 0 1-.799.799h-.058v1.714h-.857v-1.714H14.57v1.714h-.857v-1.714H12.43v1.714h-.858v-1.714H9.857v1.714H9v-1.714H7.286v1.714h-.857v-1.714H6.37a.8.8 0 0 1-.799-.8v-.058H4.286v-.857H5.57V15H4.286v-.857H5.57v-1.714H4.286v-.858H5.57v-1.285H4.286v-.857H5.57V7.714H4.286v-.857H5.57V6.8a.8.8 0 0 1 .8-.799h.058V4.286h.857V6H9V4.286h.857V6h1.714V4.286h.858V6h1.285V4.286h.857V6h1.715V4.286h.857V6h.058a.8.8 0 0 1 .799.799zM12.429 23.09a.054.054 0 0 1-.054.053H.91a.053.053 0 0 1-.053-.053V11.625c0-.03.024-.054.053-.054h2.52v-.857H.91a.91.91 0 0 0-.91.91V23.09c0 .502.408.91.91.91h11.465a.91.91 0 0 0 .91-.91V21h-.856ZM24 .91v11.465a.91.91 0 0 1-.91.91h-2.52v-.856h2.519a.054.054 0 0 0 .053-.054V.91a.053.053 0 0 0-.053-.053H11.625a.053.053 0 0 0-.054.053v2.52h-.857V.91c0-.502.409-.91.91-.91H23.09a.91.91 0 0 1 .91.91"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS SG Audit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../powershell/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.83 4c.49 0 .8.4.67.89l-3.16 14.22c-.11.49-.59.89-1.08.89H2.17c-.49 0-.8-.4-.67-.89L4.66 4.89C4.77 4.4 5.25 4 5.74 4zm-6 12h-4c-.46 0-.83.38-.83.84 0 .47.37.85.83.85h4c.47 0 .85-.38.85-.85 0-.46-.38-.84-.85-.84m-10.05.28a.87.87 0 0 0-.21 1.22c.28.42.84.5 1.24.23 7.35-5.17 7.4-5.23 7.45-5.26.18-.16.27-.38.28-.6.01-.2-.04-.37-.16-.56L9.46 6.03A.867.867 0 0 0 8.21 6c-.36.32-.38.88-.05 1.24l4.15 4.44z"/></svg>
+  
+  <span class="md-ellipsis">
+    PowerShell
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/pwsh-aws/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.429V20.57c0 .258-.171.429-.429.429H.43C.17 21 0 20.829 0 20.571V3.43C0 3.17.171 3 .429 3H23.57c.258 0 .429.171.429.429M.857 20.143h22.286V3.857H.857Zm12.857-5.572h6.429v.858h-6.429ZM19.286 12h2.143v.857h-2.143zm-5.572 0h3.429v.857h-3.429ZM2.143 18.429V11.57q0-.171.128-.3.129-.128.3-.128h.858v-3c0-1.5 1.542-2.7 3.428-2.7s3.429 1.2 3.429 2.7v3h.857a.43.43 0 0 1 .428.428v6.858q0 .171-.128.3-.129.128-.3.128H2.57a.43.43 0 0 1-.428-.428M3 18h7.714v-1.714H9v-.857h1.714v-1.286H9v-.857h1.714V12H3Zm5.143-3.429c0 .558-.343 1.029-.857 1.2v.943h-.857v-.943a1.25 1.25 0 0 1-.858-1.2c0-.685.6-1.285 1.286-1.285.729 0 1.286.6 1.286 1.285m-3.857-3.428h5.143v-3c0-.986-1.2-1.843-2.572-1.843-1.371 0-2.571.857-2.571 1.843Zm3 3.429a.43.43 0 0 0-.429-.429.46.46 0 0 0-.428.429.43.43 0 0 0 .428.428c.257 0 .429-.171.429-.429M20.57 9.429h.858v.857h-.858zm-6.857 0h4.715v.857h-4.715z"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/pwsh-m365/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.05 4.24 6.56 18.05 2 18l5.09-8.76zm.7 1.09L22 19.76H6.74l9.3-1.66-4.87-5.79z"/></svg>
+  
+  <span class="md-ellipsis">
+    M365
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../powershell/pwsh-win/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z"/></svg>
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../python/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg>
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/leetgen/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 5h14v2H7zm0 8v-2h14v2zM4 4.5A1.5 1.5 0 0 1 5.5 6 1.5 1.5 0 0 1 4 7.5 1.5 1.5 0 0 1 2.5 6 1.5 1.5 0 0 1 4 4.5m0 6A1.5 1.5 0 0 1 5.5 12 1.5 1.5 0 0 1 4 13.5 1.5 1.5 0 0 1 2.5 12 1.5 1.5 0 0 1 4 10.5M7 19v-2h14v2zm-3-2.5A1.5 1.5 0 0 1 5.5 18 1.5 1.5 0 0 1 4 19.5 1.5 1.5 0 0 1 2.5 18 1.5 1.5 0 0 1 4 16.5"/></svg>
+  
+  <span class="md-ellipsis">
+    Leetgen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Projects
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Projects
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/misc/email/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18.2c0-.96.5-1.86 1.2-2.46v-.24c0-2.44 2.2-4.5 4.8-4.5 1.65 0 3.13.83 4 2.06V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h8zM4 6l8 5 8-5v2l-8 5-8-5zm16.8 11v-1.5c0-1.4-1.4-2.5-2.8-2.5s-2.8 1.1-2.8 2.5V17c-.6 0-1.2.6-1.2 1.2v3.5c0 .7.6 1.3 1.2 1.3h5.5c.7 0 1.3-.6 1.3-1.2v-3.5c0-.7-.6-1.3-1.2-1.3m-1.3 0h-3v-1.5c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3z"/></svg>
+  
+  <span class="md-ellipsis">
+    PGP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arcolinux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arcolinux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/arcolinux/gnome/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.703 0c-4.99 0-5.927 7.111-3.12 7.111 2.81 0 8.113-7.111 3.12-7.111M11.99.872q-.119-.001-.25.016c-2.811.364-1.82 5.25-.324 5.34 1.449.09 3.032-5.347.574-5.356M7.123 2.803a1.4 1.4 0 0 0-.488.114c-2.259.933-.344 4.776.921 4.519 1.168-.24 1.319-4.671-.433-4.632Zm-3.6 3.016a1.05 1.05 0 0 0-.634.215c-1.807 1.248.607 4.269 1.671 3.799.93-.41.338-3.967-1.037-4.014m10.032 2.309c-3.835.033-8.716 1.978-9.567 5.784C3.044 18.14 7.875 24 12.915 24c2.48 0 5.34-2.24 5.875-5.077.409-2.163-4.81-1.295-4.623.137.225 1.715-1.258 2.561-2.711 1.454-4.623-3.52 7.658-5.276 6.847-10.086-.263-1.56-2.29-2.322-4.748-2.301Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Gnome Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/arcolinux/xfce/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.121 5.727a.1.1 0 0 0-.034.002L.07 5.73l-.014.007a.1.1 0 0 0-.048.053.1.1 0 0 0-.007.067c.008.037.023.056.04.076q.047.058.142.128.192.148.597.38c.54.306 1.36.712 2.428 1.152 1.053.433 2.318 1.205 3.286 1.911.484.353.894.69 1.165.958.136.133.237.25.293.337a.4.4 0 0 1 .05.1l.002.018c-.7.987-1.113 2.187-.83 4.196.006.038-.03.127-.12.235-.088.108-.216.233-.346.365-.129.133-.26.273-.357.42s-.163.305-.138.471v.001c.013.074.062.14.125.169a.36.36 0 0 0 .2.018c.137-.018.294-.079.453-.145.158-.066.316-.139.437-.183a1 1 0 0 1 .131-.038c0 .021.003.031-.003.065-.01.061-.03.139-.054.225-.048.173-.119.382-.184.588a4 4 0 0 0-.15.57.7.7 0 0 0-.008.222c.01.067.049.141.122.168l.003.001.003.001c.05.015.083.001.116-.012a1 1 0 0 0 .104-.054q.113-.07.266-.191c.202-.16.451-.375.697-.592s.487-.433.673-.594c.093-.08.172-.146.23-.189l.062-.044c1.497.446 3.202.502 4.549.441a21 21 0 0 0 1.687-.144 15 15 0 0 0 .643-.097l.033-.007.087.04.318.144c.265.12.622.28.987.436s.738.307 1.038.41q.226.079.387.114.079.016.143.02a.2.2 0 0 0 .127-.029l.01-.006.007-.008c.176-.19.183-.426.1-.633-.084-.207-.246-.402-.413-.586-.167-.185-.342-.358-.45-.5a.6.6 0 0 1-.104-.178c-.012-.039-.007-.053.005-.07a.2.2 0 0 1 .05 0c.06.005.147.023.25.05.204.054.473.144.741.232.269.089.537.176.75.226q.16.038.276.042.059.002.112-.015a.16.16 0 0 0 .096-.088v-.002l.002-.003c.05-.151-.006-.313-.095-.476-.09-.162-.22-.33-.36-.492-.14-.163-.287-.318-.41-.45a3 3 0 0 1-.249-.292.67.67 0 0 1-.083-.398.54.54 0 0 1 .248-.394 3 3 0 0 1 .268-.14l.51-.24c.4-.187.898-.425 1.381-.69s.95-.557 1.294-.859c.342-.301.575-.619.529-.948-.072-.535-.425-.943-.897-1.25-.471-.305-1.065-.517-1.65-.67a16 16 0 0 0-1.595-.318c-.217-.033-.399-.06-.525-.083a2 2 0 0 1-.144-.032l-.001-.087c0-.083.002-.198 0-.331a6 6 0 0 0-.075-.942c-.056-.33-.15-.646-.331-.86s-.47-.304-.821-.165c-.232.087-.363.288-.418.519-.055.23-.045.497-.01.76.037.26.1.518.156.724.057.206.11.37.119.411.006.027.005.018-.005.026a.2.2 0 0 1-.084.025.4.4 0 0 1-.126-.01c-.037-.01-.062-.03-.057-.023a1 1 0 0 1-.07-.129l-.113-.255a9 9 0 0 0-.32-.67c-.125-.228-.265-.443-.428-.587a.65.65 0 0 0-.27-.15.44.44 0 0 0-.306.036h-.002l-.001.002a.9.9 0 0 0-.45.607c-.055.241-.037.502.004.743.04.242.105.466.145.629.02.081.035.148.038.187.002.012 0 .014 0 .018-.182.114-.274.294-.345.479-.075.194-.137.397-.264.573v.001c-.039.055-.12.105-.247.138a2 2 0 0 1-.49.049c-.392 0-.892-.059-1.413-.142-1.042-.165-2.161-.422-2.733-.457-.43-.025-.837.136-1.146.288-.154.076-.284.15-.376.198a1 1 0 0 1-.096.044c-.997-.993-3.013-2.688-5.25-3.26-.613-.167-1.387-.495-2.015-.78-.314-.142-.591-.274-.796-.37l-.248-.113-.077-.032-.03-.01zm22.7 1.835-.019.005c-.02.009-.025.019-.031.027a.2.2 0 0 0-.026.053 2 2 0 0 0-.052.176 8 8 0 0 0-.188 1.14 1.3 1.3 0 0 0 0 .213.3.3 0 0 0 .016.077.1.1 0 0 0 .047.059.1.1 0 0 0 .044.013.1.1 0 0 0 .043-.018.15.15 0 0 0 .042-.057 1 1 0 0 0 .06-.175c.038-.147.074-.35.103-.557s.05-.421.057-.59a2 2 0 0 0-.002-.214.4.4 0 0 0-.013-.076.1.1 0 0 0-.036-.059q-.008-.01-.024-.015a.1.1 0 0 0-.022-.002zm1.11.212a.1.1 0 0 0-.042.007.2.2 0 0 0-.065.043 1 1 0 0 0-.144.157 5 5 0 0 0-.35.517 4 4 0 0 0-.287.569 1 1 0 0 0-.061.225c-.007.064 0 .129.05.167.03.021.068.015.09.004a.2.2 0 0 0 .06-.048q.058-.06.129-.168a7 7 0 0 0 .31-.54 10 10 0 0 0 .276-.568 3 3 0 0 0 .08-.2 1 1 0 0 0 .02-.067l.003-.03c0-.011 0-.028-.02-.048l-.001-.002-.002-.002a.1.1 0 0 0-.046-.016M19.57 9.629c.182 0 .335.17.335.388 0 .217-.153.387-.335.387s-.334-.17-.334-.387c0-.218.152-.388.334-.388m-.882.34c.079.29.178.512.35.647.163.128.396.173.69.181-.181.13-.346.191-.481.175-.168-.02-.31-.124-.414-.268s-.17-.326-.187-.483a.44.44 0 0 1 .042-.252m2.09 1.78c.054-.004.083.006.091.014l.009.008.01.004c.008.002.004 0 .006.002a.4.4 0 0 1-.112.093 4 4 0 0 1-.58.278 8 8 0 0 1-.657.235c-.059.017-.098.026-.142.037.029-.022.05-.04.089-.065a6 6 0 0 1 .52-.306 4 4 0 0 1 .56-.251 1 1 0 0 1 .206-.049m.241.471a.1.1 0 0 1 .025.003c.026.03.04.058.035.096a.36.36 0 0 1-.071.154 2 2 0 0 1-.399.367c-.163.119-.337.226-.47.302-.048.028-.082.046-.116.064.015-.03.029-.058.056-.099.078-.116.2-.266.332-.409a3 3 0 0 1 .4-.37.8.8 0 0 1 .163-.096.2.2 0 0 1 .045-.012"/></svg>
+  
+  <span class="md-ellipsis">
+    Xfce Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TOTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            TOTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/totp/xbar/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+  
+  <span class="md-ellipsis">
+    xbar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/totp/argos/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.703 0c-4.99 0-5.927 7.111-3.12 7.111 2.81 0 8.113-7.111 3.12-7.111M11.99.872q-.119-.001-.25.016c-2.811.364-1.82 5.25-.324 5.34 1.449.09 3.032-5.347.574-5.356M7.123 2.803a1.4 1.4 0 0 0-.488.114c-2.259.933-.344 4.776.921 4.519 1.168-.24 1.319-4.671-.433-4.632Zm-3.6 3.016a1.05 1.05 0 0 0-.634.215c-1.807 1.248.607 4.269 1.671 3.799.93-.41.338-3.967-1.037-4.014m10.032 2.309c-3.835.033-8.716 1.978-9.567 5.784C3.044 18.14 7.875 24 12.915 24c2.48 0 5.34-2.24 5.875-5.077.409-2.163-4.81-1.295-4.623.137.225 1.715-1.258 2.561-2.711 1.454-4.623-3.52 7.658-5.276 6.847-10.086-.263-1.56-2.29-2.322-4.748-2.301Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Argos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pin-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      PIN Management
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certificate-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Certificate Slots
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Certificate Slots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      About Certificates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slot-9a-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slot 9a - Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slot-9c-digital-signature" class="md-nav__link">
+    <span class="md-ellipsis">
+      Slot 9c - Digital Signature
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify Slots
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitHub Example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="yubikey-piv-personal-identity-verification">Yubikey PIV (Personal Identity Verification)<a class="headerlink" href="#yubikey-piv-personal-identity-verification" title="Permanent link">&para;</a></h1>
+<p>Yubikeys are multi-faceted and can be used for a number of different security needs. One of those is to function like a "smart card" through it's PIV functionality. Think of this like a digital ID card that proves who you are when logging into computers or securing files. </p>
+<p>PIV is like a digital passport - it contains a special digital certificate that proves your identity, just like a real passport proves who you are at the airport. Instead of using a password, your compuer can check your Yubikey to confirm that its really you trying to log in. Your private key is stored safely within the Yubikey and can't ever be exported.</p>
+<p>It can be used for anything from logging into computers securely, SSH'ing into a remote machine, encrypting files/email, and digitally signing documents. One example of this is signing documents in Adobe Acrobat. It's a different kind of signature from simply putting your "written" signature on a document - instead, it relies on a certificate stored in Yubikey that identifies who you are. </p>
+<p>PIV can perform sign/encrypt operations through common interfaces like PKCS#11. And Yubikey supports RSA and ECDSA keys for this purpose. I'll touch on this a little later, but even though Yubikey supports ED25519 keys, there is a limitation with PKCS#11 currently that prevents us from using them easily. For now, I'm using RSA keys due to their widespread support with both new and legacy systems. </p>
+<div class="admonition important">
+<p class="admonition-title">Default PINs</p>
+<p>If this is a new key and you haven't modified anything yet, make note of the PIV defaults below. We'll be changing them shortly.</p>
+<ul>
+<li><strong>PIN: <code>123456</code></strong></li>
+<li><strong>PUK: <code>12345678</code></strong></li>
+<li><strong>Mgmt Key: <code>(3DES) 010203040506070801020304050607080102030405060708</code></strong></li>
+</ul>
+</div>
+<h2 id="pin-management">PIN Management<a class="headerlink" href="#pin-management" title="Permanent link">&para;</a></h2>
+<p>PIV has two levels of access:</p>
+<ul>
+<li>End-user (cardholder) level - protected by a PIN. This level is for the normal daily usage of PIV functionality.</li>
+<li>Administrator level - protected by management key. This level is for provisioning credentials.</li>
+</ul>
+<p>The table below lists the different PIV operations and when the PIN, PUK, or Management Key (MGMT) are needed:</p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th style="text-align: center;">MGMT</th>
+<th style="text-align: center;">PIN</th>
+<th style="text-align: center;">PUK</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Generate key pair</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Change MGMT</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td>Requires a new MGMT</td>
+</tr>
+<tr>
+<td>Change retry counters</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td>Yubico extension. Resets PIN and PUK to defaults</td>
+</tr>
+<tr>
+<td>Import private key</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Import certificate</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Move key</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Delete key</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Set CHUID</td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Reset card</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td>Requires both PIN and PUK to be blocked</td>
+</tr>
+<tr>
+<td>Verify PIN</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Sign data</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Decrypt data</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td></td>
+</tr>
+<tr>
+<td>Change PIN</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td style="text-align: center;"></td>
+<td>Requires a new PIN</td>
+</tr>
+<tr>
+<td>Change PUK</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td>Requires a new PUK</td>
+</tr>
+<tr>
+<td>Reset PIN (unblock)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416m0 464a256 256 0 1 0 0-512 256 256 0 1 0 0 512m113-303c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0z"/></svg></span></td>
+<td>Requires a new PIN</td>
+</tr>
+</tbody>
+</table>
+<p>Newer firmwares for Yubikey support a 64-character Management Key (AES-256). For maximum security, generate a random compatible string for use as your Management Key:</p>
+<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-c<span class="w"> </span><span class="m">32</span><span class="w"> </span>/dev/urandom<span class="w"> </span><span class="p">|</span><span class="w"> </span>hexdump<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;16/1 &quot;%02x&quot; &quot;\n&quot;&#39;</span>
+</code></pre></div>
+<p>This should output a string like the example below:</p>
+<div class="highlight"><pre><span></span><code>77343a10df05ede9758df5b248e45eb9e7f95fca74bbe9e3f17e7e3611249acd
+</code></pre></div>
+<p><strong><em>Save this value to your password manager</em></strong>, and proceed with the rest of the Yubikey PIV setup. In the steps below, we'll be replacing the Yubikey Management Key, PIN, and PIN Unlock Key (PUK).  But before we get that far, if you want to change your retry counters from their default value of 3, this is the time to do it. Your Management Key will remain unchanged, but changing the retry counters will reset the PIN and PUK (if you've already set them). It's best to change this first to avoid having to reset your PIN and PUK a second time later. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Change the PIN and PUK retry counts from 3 to 6</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> </span>set-retries<span class="w"> </span>-m<span class="w"> </span><span class="m">010203040506070801020304050607080102030405060708</span><span class="w"> </span>-P<span class="w"> </span><span class="m">123456</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">6</span>
+</code></pre></div>
+<div class="admonition warning inline end">
+<p class="admonition-title">Lost Keys / PINS</p>
+<p>If you lose your <strong><em>Management Key</em></strong>, the only way to recover is to <a href="https://developers.yubico.com/PIV/Guides/Device_setup.html">completely reset</a> all PIV functionality, <span style="color: yellow">erasing all keys/certs</span> on the device. This only affects the PIV features.</p>
+<p>If the wrong <strong><em>PIN</em></strong> is entered <em>3 times consecutively</em>, the PIN will become <strong>blocked</strong> (totally unusable). You must use the <strong>PUK</strong> to set a new PIN.</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Replace the 3DES default management key with AES256 and the random string generated earlier</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> </span>change-management-key<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span><span class="m">010203040506070801020304050607080102030405060708</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-a<span class="w"> </span>AES256<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span>77343a10df05ede9758df5b248e45eb9e7f95fca74bbe9e3f17e7e3611249acd
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Replace the default PIN</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> </span>change-pin<span class="w"> </span>-P<span class="w"> </span><span class="m">123456</span><span class="w"> </span>-n<span class="w"> </span><span class="m">654321</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Replace the default PUK</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> </span>change-puk<span class="w"> </span>-p<span class="w"> </span><span class="m">12345678</span><span class="w"> </span>-n<span class="w"> </span><span class="m">87654321</span>
+</code></pre></div>
+<p>For the sake of example, the commands above have changed the PIN and PUK to the reverse of their default values.</p>
+<h2 id="certificate-slots">Certificate Slots<a class="headerlink" href="#certificate-slots" title="Permanent link">&para;</a></h2>
+<p>Yubikey 5's hold 24 slots, each capable of holding an X.509 certificate along with its accompanying private key. The slots are very similar, but used for different purposes. Although you can use just about any slot for any purpose, it's best to use them as prescribed by Yubico for maximum compatibility and to avoid confusion.</p>
+<dl>
+<dt><span style="color: dodgerblue"><strong><em>Slot 9a: PIV Authentication</em></strong></span></dt>
+<dd>
+<p>Used to authenticate the card and the cardholder. This slot is used for things like system login. PIN is required. Once provided successfully, multiple private key operations can be performed without additional cardholder consent. </p>
+<p><strong><em>Example use case:</em></strong> Add your SSH key. Load your public key to remote servers as an authorized key, and use the PKCS#11 interface to authenticate during login. The PKCS#11 interface can also be used to connect this slot to GitHub.</p>
+</dd>
+<dt><span style="color: dodgerblue"><strong><em>Slot 9c: Digital Signature</em></strong></span></dt>
+<dd>
+<p>Used for digital signatures for the purpose of document signing, or signing files and executables. PIN is required, and must be submitted every time immediately before a sign operation to ensure cardholder participation at every digital signature generated.</p>
+<p><strong><em>Example use case:</em></strong> Adobe Acrobat signatures, code-signing, etc.</p>
+</dd>
+<dt><span style="color: dodgerblue"><strong><em>Slot 9d: Key Management</em></strong></span></dt>
+<dd>
+<p>Used for encryption. This slot is used for things like encrypting email or files. PIN is required. Once provided successfully, multiple private key operations can be performed without additional cardholder consent.</p>
+<p><strong><em>Example use case:</em></strong> S/MIME certificates for mail encryption via your email client. This slot is NOT intended for GPG encryption.</p>
+</dd>
+<dt><span style="color: dodgerblue"><strong><em>Slot 9e: Card Authentication</em></strong></span></dt>
+<dd>
+<p>Used to support physical access applications like providing access to a building via PIV-enabled door locks. PIN is <strong>not</strong> required to perform private key operations with this slot.</p>
+</dd>
+<dt><span style="color: dodgerblue"><strong><em>Slots 82 through 95: Retired Key Management</em></strong></span></dt>
+<dd>
+<p>These slots are intended for previously used Key Management keys in order to be able to decrypt previously encrypted documents or emails.</p>
+</dd>
+<dt><span style="color: dodgerblue"><strong><em>Slot f9: Attestation</em></strong></span></dt>
+<dd>
+<p>No, that's not a typo - the slot is <code>f9</code>. This slot can only be used for attestation of other keys generated <strong><em>on-device</em></strong> with instruction <code>f9</code>. This slot is not cleared on reset, but can be overwritten. Read more about <a href="https://developers.yubico.com/PIV/Introduction/PIV_attestation.html">PIV Attestation</a> on the Yubico website.</p>
+</dd>
+</dl>
+<hr />
+<h3 id="about-certificates">About Certificates<a class="headerlink" href="#about-certificates" title="Permanent link">&para;</a></h3>
+<p>The normal way to go about getting certificates for use with Yubikey is to purchase them from known certification authorities. This is the approach you'd want to take if you were a business purchasing certificates for employees to use to sign official company documents. These can get quite expensive. They're usually only valid for a limited period of time, and some of them only allow a certain number of signing or certifying events before you have to pay to bump up to the next tier. And finding certificates that you can load onto your existing Yubikey can be challenging. </p>
+<p>I encourage you to read more about this in Adobe's own documentation:</p>
+<ul>
+<li><a href="https://helpx.adobe.com/acrobat/kb/approved-trust-list1.html">Adobe Approved Trust List</a> (these are who you would need to purchase certificates from to have them work most readily / reliably with Adobe Acrobat)</li>
+<li><a href="https://helpx.adobe.com/acrobat/kb/certificate-signatures.html">About certificate signatures in Adobe Acrobat</a></li>
+<li><a href="https://helpx.adobe.com/acrobat/using/certificate-based-signatures.html">How to create certificate-based signatures in Adobe Acrobat</a> (how to use your certificates to sign documents)</li>
+</ul>
+<p>With that said, the approach I've taken below is to effectively create my own Public Key Infrastructure (PKI). This just means that I'm creating my own self-signed Root Certificate Authority, creating an Intermediate CA, and then issuing certificates from my Intermediate CA for use with my Yubikey. The down side is that if someone received an Adobe document from me that I signed with my keys, Adobe would alert them that the signature isn' recognized by one of their "Adobe Approved Trust List" vendors. However - I've published both my Root CA and Intermediate CA on GitHub so that anyone receiving a signed document that claimed to be signed by me, could indeed be validated using my custom CA certificates. The process adds extra steps, because it would require someone to grab my CA certificates, install them, and mark them as Trusted. But then going forward, any document they received signed by me (with these certificates) would be flagged as a valid, authentic signature. </p>
+<p>This document isn't going to go through all of the steps in detail needed to setup your own PKI -- but I will cover some of the different attributes that I gave my Authentication (9a) and Signing (9c) certificates.</p>
+<hr />
+<h3 id="slot-9a-authentication">Slot 9a - Authentication<a class="headerlink" href="#slot-9a-authentication" title="Permanent link">&para;</a></h3>
+<p>For my purposes, I want the Authentication key to be multi-purpose - usable for SSH authentication, but also for other forms of authentication as well. To make this simpler, I'm use a tool called <a href="https://www.hohnstaedt.de/xca/index.php">XCA</a> to manage a personal PKI, complete with Root CA, Intermediate CA, and individual keys. This is absolutely not required, but how I've chosen to go about it for my personal use <em>(and because I don't want to pay $300+ annually for "Adobe Approved" certificates)</em>. If you're interested in learning more about XCA, you can check them out on <a href="https://github.com/chris2511/xca">GitHub</a> and pick it up via <a href="https://formulae.brew.sh/cask/xca#default">Homebrew</a>. </p>
+<p>Be aware that to use these keys with Yubikey, you need a PKCS#11 library. For macOS, there are multiple options, though the two most common are:</p>
+<ul>
+<li><code>/usr/lib/ssh-keychain.dylib</code> - A native PKCS#11 module for macOS that enables SSH to use keys stored in the system keychain.</li>
+<li><code>/opt/homebrew/lib/libykcs11.dylib</code> - Yubico's PKCS#11 module, packaged with <code>yubico-piv-tool</code>.</li>
+</ul>
+<p>The primary differences between them are:</p>
+<ul>
+<li>SSH agent forwarding only works with <code>ssh-keychain.dylib</code>. Generally speaking, SSH agent forwarding should be avoided for security reasons - only perform SSH agent forwarding to machines you have high levels of trust in.</li>
+<li>The Yubico library, <code>libykcs11.dylib</code>, will export <strong><em>all</em></strong> keys stored on Yubikey. The slot order remains the same, so utilizing the slots for their intended purpose makes identifying the public keys associated with your target private key much easier. </li>
+</ul>
+<p>Yubikey itself supports ED25519 keys with the PIV application, but there are limitations in PKCS#11 libraries that make it a royal pain to try to work with at present. I recommend sticking with the tried and true RSA until such time there are better ED25519 options available.</p>
+<p>My Root and Intermediate CAs are both 4096-bit, but my <code>Authentication (9a)</code> and <code>Signing (9c)</code> certificates are 2048-bit for maximum compatibility.</p>
+<p>The <code>Key Usage</code> and <code>Extended Key Usage</code> will be based on your specific needs -- for my purposes, here are the values I've selected:</p>
+<p><strong>Key Usage</strong></p>
+<ul>
+<li><strong><em>Digital Signature</em></strong> - required for authentication tasks (proof of possession of the private key in challenges)</li>
+<li><strong><em>Key Encipherment</em></strong> - required for key exchange in protocols like TLS</li>
+<li><strong><em>Non-Repudiation</em></strong> - content commitment</li>
+</ul>
+<p><strong>Extended Key Usage</strong></p>
+<ul>
+<li><strong><em>TLS Web Client Authentication</em></strong> (<code>1.3.6.1.5.5.7.3.2</code>) - enables authentication to systems and services (VPN, web applications, SSH, etc.)</li>
+<li><strong><em>Smartcard Logon</em></strong> (<code>1.3.6.1.4.1.311.20.2.2</code>) - required for Windows Smart Card logon</li>
+<li><strong><em>Email Protection</em></strong> (<code>1.3.6.1.5.5.7.3.4</code>) - used for S/MIME email encryption or signing</li>
+<li><strong><em>SSH Client</em></strong></li>
+<li><strong><em>IPSec End Systems</em></strong> (<code>1.3.6.1.5.5.7.3.5</code>) - used for authentication in IPSec-based VPNs<ul>
+<li>Also included (for maximum compatibility with legacy systems):<ul>
+<li>IPSec Tunnel</li>
+<li>IPSec User</li>
+<li>IP security end entity</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># from the directory where you&#39;ve saved and output your Private Key &amp; Certificate in PEM format</span>
+<span class="c1"># (if your private key has a passphrase associated, you&#39;ll be prompted for that passphrase or</span>
+<span class="c1"># can modify this command to pass it at load-time)</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>keys<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>&lt;mgmt-key-here&gt;<span class="w"> </span>9a<span class="w"> </span>private-key-for-9a.pem
+
+ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>&lt;mgmt-key-here&gt;<span class="w"> </span>--pin<span class="w"> </span>&lt;pin&gt;<span class="w"> </span>--verify<span class="w"> </span>9a<span class="w"> </span>cert-for-9a.crt
+<span class="c1"># if the management key or pin are not provided, you will be prompted to enter them</span>
+</code></pre></div>
+<hr />
+<h3 id="slot-9c-digital-signature">Slot 9c - Digital Signature<a class="headerlink" href="#slot-9c-digital-signature" title="Permanent link">&para;</a></h3>
+<p>For the signature certificate, my <code>Key Usage</code> and <code>Extended Key Usage</code> are:</p>
+<p><strong>Key Usage</strong></p>
+<ul>
+<li><strong><em>Digital Signature</em></strong> - mandatory for signing operations</li>
+<li><strong><em>Non-Repudiation</em></strong> - indicates signatures are binding, commonly used for legal and regulatory compliance</li>
+<li>Critical: <code>true</code></li>
+</ul>
+<p><strong>Extended Key Usage</strong></p>
+<ul>
+<li><strong><em>Microsoft Office Signing</em></strong> (<code>1.3.6.1.4.1.311.10.3.12</code>), widely accepted as <code>Document Signing</code></li>
+<li><strong><em>Adobe PDF Signing</em></strong> (<code>1.2.840.113583.1.1.5</code>) - specific to Adobe and used to help Acrobat identify specific keys as suitable for PDF signing</li>
+<li><strong><em>Email Protection</em></strong> (<code>1.3.6.1.5.5.7.3.4</code>) - used for signing email</li>
+<li><strong><em>Time Stamping</em></strong> (<code>1.3.6.1.5.5.7.3.8</code>) - used for trusted timestamping</li>
+<li><strong><em>Code Signing</em></strong> (<code>1.3.6.1.5.5.7.3.3</code>) - used for signing software or scripts to verify authenticity and integrity</li>
+<li><strong><em>Microsoft Individual Code Signing</em></strong> (<code>1.3.6.1.4.1.311.2.1.21</code>) - used for code signing by an individual developer rather than an organization or company</li>
+<li>Critical: <code>false</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># from the directory where you&#39;ve saved and output your Private Key &amp; Certificate in PEM format</span>
+<span class="c1"># (if your private key has a passphrase associated, you&#39;ll be prompted for that passphrase or</span>
+<span class="c1"># can modify this command to pass it at load-time)</span>
+ykman<span class="w"> </span>piv<span class="w"> </span>keys<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>&lt;mgmt-key-here&gt;<span class="w"> </span>9c<span class="w"> </span>private-key-for-9c.pem
+
+ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>&lt;mgmt-key-here&gt;<span class="w"> </span>--pin<span class="w"> </span>&lt;pin&gt;<span class="w"> </span>--verify<span class="w"> </span>9c<span class="w"> </span>cert-for-9c.crt
+<span class="c1"># if the management key or pin are not provided, you will be prompted to enter them</span>
+</code></pre></div>
+<hr />
+<h2 id="verify-slots">Verify Slots<a class="headerlink" href="#verify-slots" title="Permanent link">&para;</a></h2>
+<p>Certificates can be verified with the following commands:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ykman<span class="w"> </span>piv<span class="w"> </span>info
+
+PIV<span class="w"> </span>version:<span class="w">              </span><span class="m">5</span>.7.1
+PIN<span class="w"> </span>tries<span class="w"> </span>remaining:<span class="w">      </span><span class="m">6</span>/6
+PUK<span class="w"> </span>tries<span class="w"> </span>remaining:<span class="w">      </span><span class="m">6</span>/6
+Management<span class="w"> </span>key<span class="w"> </span>algorithm:<span class="w"> </span>AES256
+CHUID:<span class="w"> </span>&lt;your-chuid-value&gt;
+CCC:<span class="w">   </span>No<span class="w"> </span>data<span class="w"> </span>available
+Slot<span class="w"> </span>9A<span class="w"> </span><span class="o">(</span>AUTHENTICATION<span class="o">)</span>:
+<span class="w">  </span>Private<span class="w"> </span>key<span class="w"> </span>type:<span class="w"> </span>RSA2048
+<span class="w">  </span>Public<span class="w"> </span>key<span class="w"> </span>type:<span class="w">  </span>RSA2048
+<span class="w">  </span>Subject<span class="w"> </span>DN:<span class="w">       </span><span class="nv">CN</span><span class="o">=</span>YourCommonName,OU<span class="o">=</span>YourOrgUnit,O<span class="o">=</span>YourOrg,L<span class="o">=</span>YourLocality,ST<span class="o">=</span>YourState,C<span class="o">=</span>US
+<span class="w">  </span>Issuer<span class="w"> </span>DN:<span class="w">        </span><span class="nv">CN</span><span class="o">=</span>Your<span class="w"> </span>Intermediate<span class="w"> </span>CA,OU<span class="o">=</span>Certificate<span class="w"> </span>Authority,O<span class="o">=</span>YourOrg,L<span class="o">=</span>YourLocality,ST<span class="o">=</span>YourState,C<span class="o">=</span>US
+<span class="w">  </span>Serial:<span class="w">           </span><span class="m">00</span>:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+<span class="w">  </span>Fingerprint:<span class="w">      </span>abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc1
+<span class="w">  </span>Not<span class="w"> </span>before:<span class="w">       </span><span class="m">2025</span>-01-26T20:31:00+00:00
+<span class="w">  </span>Not<span class="w"> </span>after:<span class="w">        </span><span class="m">2035</span>-01-26T20:31:00+00:00
+
+Slot<span class="w"> </span>9C<span class="w"> </span><span class="o">(</span>SIGNATURE<span class="o">)</span>:
+<span class="w">  </span>Private<span class="w"> </span>key<span class="w"> </span>type:<span class="w"> </span>RSA2048
+<span class="w">  </span>Public<span class="w"> </span>key<span class="w"> </span>type:<span class="w">  </span>RSA2048
+<span class="w">  </span>Subject<span class="w"> </span>DN:<span class="w">       </span><span class="nv">CN</span><span class="o">=</span>YourCommonName,OU<span class="o">=</span>YourOrgUnit,O<span class="o">=</span>YourOrg,L<span class="o">=</span>YourLocality,ST<span class="o">=</span>YourState,C<span class="o">=</span>US
+<span class="w">  </span>Issuer<span class="w"> </span>DN:<span class="w">        </span><span class="nv">CN</span><span class="o">=</span>Your<span class="w"> </span>Intermediate<span class="w"> </span>CA,OU<span class="o">=</span>Certificate<span class="w"> </span>Authority,O<span class="o">=</span>YourOrg,L<span class="o">=</span>YourLocality,ST<span class="o">=</span>YourState,C<span class="o">=</span>US
+<span class="w">  </span>Serial:<span class="w">           </span><span class="m">00</span>:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+<span class="w">  </span>Fingerprint:<span class="w">      </span>def456def456def456def456def456def456def456def456def456def456def4
+<span class="w">  </span>Not<span class="w"> </span>before:<span class="w">       </span><span class="m">2025</span>-01-26T21:20:00+00:00
+<span class="w">  </span>Not<span class="w"> </span>after:<span class="w">        </span><span class="m">2035</span>-01-26T21:20:00+00:00
+
+
+$<span class="w"> </span>yubico-piv-tool<span class="w"> </span>-a<span class="w"> </span>status
+
+Version:<span class="w">    </span><span class="m">5</span>.7.1
+Serial<span class="w"> </span>Number:<span class="w">  </span><span class="m">12345678</span>
+CHUID:<span class="w">  </span>&lt;your-chuid-value&gt;
+CCC:<span class="w">    </span>No<span class="w"> </span>data<span class="w"> </span>available
+Slot<span class="w"> </span>9a:<span class="w">    </span>
+<span class="w">    </span>Algorithm:<span class="w">  </span>RSA2048
+<span class="w">    </span>Subject<span class="w"> </span>DN:<span class="w"> </span><span class="nv">C</span><span class="o">=</span>US,<span class="w"> </span><span class="nv">ST</span><span class="o">=</span>State,<span class="w"> </span><span class="nv">L</span><span class="o">=</span>Locality,<span class="w"> </span><span class="nv">O</span><span class="o">=</span>Organization,<span class="w"> </span><span class="nv">OU</span><span class="o">=</span>OrgUnit,<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>CommonName
+<span class="w">    </span>Issuer<span class="w"> </span>DN:<span class="w">  </span><span class="nv">C</span><span class="o">=</span>US,<span class="w"> </span><span class="nv">ST</span><span class="o">=</span>State,<span class="w"> </span><span class="nv">L</span><span class="o">=</span>Locality,<span class="w"> </span><span class="nv">O</span><span class="o">=</span>Organization,<span class="w"> </span><span class="nv">OU</span><span class="o">=</span>Certificate<span class="w"> </span>Authority,<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>Intermediate<span class="w"> </span>CA
+<span class="w">    </span>Fingerprint:<span class="w">    </span>abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc1
+<span class="w">    </span>Not<span class="w"> </span>Before:<span class="w"> </span>Jan<span class="w"> </span><span class="m">26</span><span class="w"> </span><span class="m">20</span>:31:00<span class="w"> </span><span class="m">2025</span><span class="w"> </span>GMT
+<span class="w">    </span>Not<span class="w"> </span>After:<span class="w">  </span>Jan<span class="w"> </span><span class="m">26</span><span class="w"> </span><span class="m">20</span>:31:00<span class="w"> </span><span class="m">2035</span><span class="w"> </span>GMT
+Slot<span class="w"> </span>9c:<span class="w">    </span>
+<span class="w">    </span>Algorithm:<span class="w">  </span>RSA2048
+<span class="w">    </span>Subject<span class="w"> </span>DN:<span class="w"> </span><span class="nv">C</span><span class="o">=</span>US,<span class="w"> </span><span class="nv">ST</span><span class="o">=</span>State,<span class="w"> </span><span class="nv">L</span><span class="o">=</span>Locality,<span class="w"> </span><span class="nv">O</span><span class="o">=</span>Organization,<span class="w"> </span><span class="nv">OU</span><span class="o">=</span>OrgUnit,<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>CommonName
+<span class="w">    </span>Issuer<span class="w"> </span>DN:<span class="w">  </span><span class="nv">C</span><span class="o">=</span>US,<span class="w"> </span><span class="nv">ST</span><span class="o">=</span>State,<span class="w"> </span><span class="nv">L</span><span class="o">=</span>Locality,<span class="w"> </span><span class="nv">O</span><span class="o">=</span>Organization,<span class="w"> </span><span class="nv">OU</span><span class="o">=</span>Certificate<span class="w"> </span>Authority,<span class="w"> </span><span class="nv">CN</span><span class="o">=</span>Intermediate<span class="w"> </span>CA
+<span class="w">    </span>Fingerprint:<span class="w">    </span>def456def456def456def456def456def456def456def456def456def456def4
+<span class="w">    </span>Not<span class="w"> </span>Before:<span class="w"> </span>Jan<span class="w"> </span><span class="m">26</span><span class="w"> </span><span class="m">21</span>:20:00<span class="w"> </span><span class="m">2025</span><span class="w"> </span>GMT
+<span class="w">    </span>Not<span class="w"> </span>After:<span class="w">  </span>Jan<span class="w"> </span><span class="m">26</span><span class="w"> </span><span class="m">21</span>:20:00<span class="w"> </span><span class="m">2035</span><span class="w"> </span>GMT
+PIN<span class="w"> </span>tries<span class="w"> </span>left:<span class="w"> </span><span class="m">6</span>
+</code></pre></div>
+<hr />
+<p>In order to use this key, we'll need to modify <code>~/.ssh/config</code>:</p>
+<div class="highlight"><span class="filename">~/.ssh/config</span><pre><span></span><code>PKCS11Provider <span class="s">/opt/homebrew/lib/libykcs11.dylib</span>
+IdentitiesOnly yes
+IdentityFile <span class="s">~/.ssh/id_piv.pub</span>
+</code></pre></div>
+<p>The <code>IdentityFile</code> line item can be repeated as many times as needed depending on the number of smartcards you have. It's use is necessary because <code>libykcs11.dylib</code>, as mentioned above, will output ALL keys and certificates on Yubikey. If we didn't limit to <code>IdentitiesOnly</code> and define them in the <code>IdentityFile</code>, Yubikey can send 4 keys to a remote host at once. And if you had multiple Yubikeys connected, even more would be sent.</p>
+<p>Execute the following command and copy the output for <code>Public key for PIV Authentication</code> to <code>~/.ssh/id_piv.pub</code>:</p>
+<div class="highlight"><pre><span></span><code>ssh-keygen<span class="w"> </span>-D<span class="w"> </span>/opt/homebrew/lib/libykcs11.dylib
+</code></pre></div>
+<p><strong><em>Alternatively</em></strong> - to use <code>ssh-keychain.dylib</code>:</p>
+<div class="highlight"><span class="filename">~/.ssh/config</span><pre><span></span><code>PKCS11Provider <span class="s">/usr/lib/ssh-keychain.dylib</span>
+IdentitiesOnly yes
+IdentityFile <span class="s">~/.ssh/id_piv.pub</span>
+</code></pre></div>
+<div class="admonition info inline end">
+<p class="admonition-title">Important Distinction</p>
+<p><code>ssh-keychain.dylib</code> works only with keys in slot <strong><code>9a</code></strong>.</p>
+</div>
+<p>Grab the public key and write it directly to <code>~/.ssh/id_piv.pub</code> with:</p>
+<div class="highlight"><pre><span></span><code>ssh-keygen<span class="w"> </span>-D<span class="w"> </span>/usr/lib/ssh-keychain.dylib<span class="w"> </span>&gt;<span class="w"> </span>~/.ssh/id_piv.pub
+</code></pre></div>
+<h2 id="github-example">GitHub Example<a class="headerlink" href="#github-example" title="Permanent link">&para;</a></h2>
+<p>If you followed the steps above and intend to use this form of authentication with GitHub, for example, you might have an entry in your <code>~/.ssh/config</code> file that looks similar to the following:</p>
+<div class="highlight"><pre><span></span><code>Host github.com
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+  HostName github.com
+  User git
+  PKCS11Provider /opt/homebrew/lib/libykcs11.dylib
+  IdentityFile ~/.ssh/id_piv.pub
+</code></pre></div>
+<p><code>IdentityFile</code> is traditionally used for private key files, but in the case of Yubikey we specifically want to point to the public key and let the tools identify the appropriate private key. </p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 - Bryan Dodd</br><sup>PGP Fingerprint: <code>74BD 90B5 90F9 AA98 4391 7073 8330 8CA8 5B65 951C</code></sup>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://bsky.app/profile/dodd.dev" target="_blank" rel="noopener" title="bsky.app" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2 42.1-31.6 110.3-56 110.3 21.8 0 15.5-8.9 130.5-14.1 149.2-18.2 64.8-84.4 81.4-143.3 71.3C456 322 482.2 380 425.6 438c-107.4 110.2-154.3-27.6-166.3-62.9-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8c-12 35.3-59 173.1-166.3 62.9-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1 10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.top", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.footnote.tooltips", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>

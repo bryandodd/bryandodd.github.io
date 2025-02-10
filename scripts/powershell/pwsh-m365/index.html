@@ -1,0 +1,1683 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://dodd.dev/scripts/powershell/pwsh-m365/">
+      
+      
+        <link rel="prev" href="../pwsh-aws/">
+      
+      
+        <link rel="next" href="../pwsh-win/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon/term-b.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>M365 PS Snippets - dodd.dev</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="yellow">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#m365-snippets" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="dodd.dev" class="md-header__button md-logo" aria-label="dodd.dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M9.4 86.6c-12.5-12.5-12.5-32.7 0-45.2s32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256zM256 416h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            dodd.dev
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              M365 PS Snippets
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  Misc
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../projects/misc/email/" class="md-tabs__link">
+          
+  
+    
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="dodd.dev" class="md-nav__button md-logo" aria-label="dodd.dev" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M9.4 86.6c-12.5-12.5-12.5-32.7 0-45.2s32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L178.7 256zM256 416h288c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+
+    </a>
+    dodd.dev
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Misc
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Misc
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pgp/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.968 11.583h1.274v-3.82A7.76 7.76 0 0 1 12.005 0a7.76 7.76 0 0 1 7.762 7.763v3.783c-.018.01-.037.028-.056.037l-.01.01-.008.009h-.01l-.01.01-.009.009h-.028l-.018.018h-.02l-.018.01h-.01l-.009.01-.009.009h-.01l-.009.009-.009.01-.01.009-.009.009-.028.019-.019.01-.028.018-.018.01-.02.009-.027.018-.019.01-.01.009-.027.019-.02.01-.046.027-.019.01-.018.009-.02.01h-.008l-.057.027h-.019c-.018.01-.037.02-.065.038h-.01l-.009.01-.028.018-.018.01-.029.018-.018.01h-.01l-.028.018-.018.01-.02.009c-.018.01-.046.019-.065.028l-.018.01-.02.009-.037.018-.037.02-.047.018-.047.019-.019.009-.037.019-.019.01c-1.545.739-4.017 1.516-8.708 1.853-3.362.244-5.403 1.723-6.724 3.502zm4.842 0h8.371v-3.82a4.184 4.184 0 0 0-4.186-4.186A4.184 4.184 0 0 0 7.81 7.763zm13.222 1.461V24H5.572c1.704-.946 2.968-.852 5.075-.787 2.865.094 6.03-1.105 7.585-2.696s-.14-.375-1.901.074c-1.76.45-5.17.497-7.454-.103 7.173.094 9.973-2.219 11.555-4.307 1.583-2.079-.683-.365-2.153.356-1.47.72-4.036 1.227-6.864.852 4.27-.01 7.52-2.144 9.607-4.345z"/></svg>
+  
+  <span class="md-ellipsis">
+    PGP
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            PGP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pgp/pgp/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75M8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/></svg>
+  
+  <span class="md-ellipsis">
+    Primer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../yubikey/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.356 12.388 2.521-7.138h3.64l-6.135 15.093H8.539l1.755-4.136L6 5.25h3.717ZM12 0C5.381 0 0 5.381 0 12s5.381 12 12 12 12-5.381 12-12S18.619 0 12 0m0 1.5c5.808 0 10.5 4.692 10.5 10.5S17.808 22.5 12 22.5 1.5 17.808 1.5 12 6.192 1.5 12 1.5"/></svg>
+  
+  <span class="md-ellipsis">
+    Yubikey
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Yubikey
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yubikey/yk-openpgp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OpenPGP Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yubikey/yk-piv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PIV Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yubikey/yk-oath/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OATH Setup
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../yubikey/yk-fido2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passkeys
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../bash/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 9h2.31l.32-3h2l-.32 3h2l.32-3h2l-.32 3H15v2h-1.9l-.2 2H15v2h-2.31l-.32 3h-2l.32-3h-2l-.32 3h-2l.32-3H5v-2h1.9l.2-2H5zm4.1 2-.2 2h2l.2-2M19 6h-2v8h2m0 2h-2v2h2Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Bash
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bash
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/bash-aws-auth/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.429V20.57c0 .258-.171.429-.429.429H.43C.17 21 0 20.829 0 20.571V3.43C0 3.17.171 3 .429 3H23.57c.258 0 .429.171.429.429M.857 20.143h22.286V3.857H.857Zm12.857-5.572h6.429v.858h-6.429ZM19.286 12h2.143v.857h-2.143zm-5.572 0h3.429v.857h-3.429ZM2.143 18.429V11.57q0-.171.128-.3.129-.128.3-.128h.858v-3c0-1.5 1.542-2.7 3.428-2.7s3.429 1.2 3.429 2.7v3h.857a.43.43 0 0 1 .428.428v6.858q0 .171-.128.3-.129.128-.3.128H2.57a.43.43 0 0 1-.428-.428M3 18h7.714v-1.714H9v-.857h1.714v-1.286H9v-.857h1.714V12H3Zm5.143-3.429c0 .558-.343 1.029-.857 1.2v.943h-.857v-.943a1.25 1.25 0 0 1-.858-1.2c0-.685.6-1.285 1.286-1.285.729 0 1.286.6 1.286 1.285m-3.857-3.428h5.143v-3c0-.986-1.2-1.843-2.572-1.843-1.371 0-2.571.857-2.571 1.843Zm3 3.429a.43.43 0 0 0-.429-.429.46.46 0 0 0-.428.429.43.43 0 0 0 .428.428c.257 0 .429-.171.429-.429M20.57 9.429h.858v.857h-.858zm-6.857 0h4.715v.857h-4.715z"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS MFA Auth
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bash/bash-aws-sg-audit/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.429 17.571h10.714V6.857H6.429zM18 6.857h1.714v.857H18V9.43h1.714v.857H18v1.285h1.714v.858H18v1.714h1.714V15H18v1.714h1.714v.857H18v.059a.8.8 0 0 1-.799.799h-.058v1.714h-.857v-1.714H14.57v1.714h-.857v-1.714H12.43v1.714h-.858v-1.714H9.857v1.714H9v-1.714H7.286v1.714h-.857v-1.714H6.37a.8.8 0 0 1-.799-.8v-.058H4.286v-.857H5.57V15H4.286v-.857H5.57v-1.714H4.286v-.858H5.57v-1.285H4.286v-.857H5.57V7.714H4.286v-.857H5.57V6.8a.8.8 0 0 1 .8-.799h.058V4.286h.857V6H9V4.286h.857V6h1.714V4.286h.858V6h1.285V4.286h.857V6h1.715V4.286h.857V6h.058a.8.8 0 0 1 .799.799zM12.429 23.09a.054.054 0 0 1-.054.053H.91a.053.053 0 0 1-.053-.053V11.625c0-.03.024-.054.053-.054h2.52v-.857H.91a.91.91 0 0 0-.91.91V23.09c0 .502.408.91.91.91h11.465a.91.91 0 0 0 .91-.91V21h-.856ZM24 .91v11.465a.91.91 0 0 1-.91.91h-2.52v-.856h2.519a.054.054 0 0 0 .053-.054V.91a.053.053 0 0 0-.053-.053H11.625a.053.053 0 0 0-.054.053v2.52h-.857V.91c0-.502.409-.91.91-.91H23.09a.91.91 0 0 1 .91.91"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS SG Audit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.83 4c.49 0 .8.4.67.89l-3.16 14.22c-.11.49-.59.89-1.08.89H2.17c-.49 0-.8-.4-.67-.89L4.66 4.89C4.77 4.4 5.25 4 5.74 4zm-6 12h-4c-.46 0-.83.38-.83.84 0 .47.37.85.83.85h4c.47 0 .85-.38.85-.85 0-.46-.38-.84-.85-.84m-10.05.28a.87.87 0 0 0-.21 1.22c.28.42.84.5 1.24.23 7.35-5.17 7.4-5.23 7.45-5.26.18-.16.27-.38.28-.6.01-.2-.04-.37-.16-.56L9.46 6.03A.867.867 0 0 0 8.21 6c-.36.32-.38.88-.05 1.24l4.15 4.44z"/></svg>
+  
+  <span class="md-ellipsis">
+    PowerShell
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            PowerShell
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pwsh-aws/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 3.429V20.57c0 .258-.171.429-.429.429H.43C.17 21 0 20.829 0 20.571V3.43C0 3.17.171 3 .429 3H23.57c.258 0 .429.171.429.429M.857 20.143h22.286V3.857H.857Zm12.857-5.572h6.429v.858h-6.429ZM19.286 12h2.143v.857h-2.143zm-5.572 0h3.429v.857h-3.429ZM2.143 18.429V11.57q0-.171.128-.3.129-.128.3-.128h.858v-3c0-1.5 1.542-2.7 3.428-2.7s3.429 1.2 3.429 2.7v3h.857a.43.43 0 0 1 .428.428v6.858q0 .171-.128.3-.129.128-.3.128H2.57a.43.43 0 0 1-.428-.428M3 18h7.714v-1.714H9v-.857h1.714v-1.286H9v-.857h1.714V12H3Zm5.143-3.429c0 .558-.343 1.029-.857 1.2v.943h-.857v-.943a1.25 1.25 0 0 1-.858-1.2c0-.685.6-1.285 1.286-1.285.729 0 1.286.6 1.286 1.285m-3.857-3.428h5.143v-3c0-.986-1.2-1.843-2.572-1.843-1.371 0-2.571.857-2.571 1.843Zm3 3.429a.43.43 0 0 0-.429-.429.46.46 0 0 0-.428.429.43.43 0 0 0 .428.428c.257 0 .429-.171.429-.429M20.57 9.429h.858v.857h-.858zm-6.857 0h4.715v.857h-4.715z"/></svg>
+  
+  <span class="md-ellipsis">
+    AWS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.05 4.24 6.56 18.05 2 18l5.09-8.76zm.7 1.09L22 19.76H6.74l9.3-1.66-4.87-5.79z"/></svg>
+  
+  <span class="md-ellipsis">
+    M365
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.05 4.24 6.56 18.05 2 18l5.09-8.76zm.7 1.09L22 19.76H6.74l9.3-1.66-4.87-5.79z"/></svg>
+  
+  <span class="md-ellipsis">
+    M365
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exchange
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exchange">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mailboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mailboxes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mailboxes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-tenant-mailboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      All Tenant Mailboxes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specific-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specific User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mailbox-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mailbox Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendars" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calendars
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendars">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#view-calendar-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      View Calendar Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-meeting-subject-and-remove-organizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Show Meeting Subject and Remove Organizer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teams
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Teams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-outbound-dialing-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Outbound Dialing Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-oubound-dialing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable Oubound Dialing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pwsh-win/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32v6.48zm17-9v8.75l-10 .15V5.21zM3 13l6 .09v6.81l-6-1.15zm17 .25V22l-10-1.91V13.1z"/></svg>
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../python/" class="md-nav__link ">
+              
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg>
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../python/leetgen/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 5h14v2H7zm0 8v-2h14v2zM4 4.5A1.5 1.5 0 0 1 5.5 6 1.5 1.5 0 0 1 4 7.5 1.5 1.5 0 0 1 2.5 6 1.5 1.5 0 0 1 4 4.5m0 6A1.5 1.5 0 0 1 5.5 12 1.5 1.5 0 0 1 4 13.5 1.5 1.5 0 0 1 2.5 12 1.5 1.5 0 0 1 4 10.5M7 19v-2h14v2zm-3-2.5A1.5 1.5 0 0 1 5.5 18 1.5 1.5 0 0 1 4 19.5 1.5 1.5 0 0 1 2.5 18 1.5 1.5 0 0 1 4 16.5"/></svg>
+  
+  <span class="md-ellipsis">
+    Leetgen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Projects
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Projects
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/misc/email/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18.2c0-.96.5-1.86 1.2-2.46v-.24c0-2.44 2.2-4.5 4.8-4.5 1.65 0 3.13.83 4 2.06V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h8zM4 6l8 5 8-5v2l-8 5-8-5zm16.8 11v-1.5c0-1.4-1.4-2.5-2.8-2.5s-2.8 1.1-2.8 2.5V17c-.6 0-1.2.6-1.2 1.2v3.5c0 .7.6 1.3 1.2 1.3h5.5c.7 0 1.3-.6 1.3-1.2v-3.5c0-.7-.6-1.3-1.2-1.3m-1.3 0h-3v-1.5c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3z"/></svg>
+  
+  <span class="md-ellipsis">
+    PGP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Arcolinux
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Arcolinux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/arcolinux/gnome/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.703 0c-4.99 0-5.927 7.111-3.12 7.111 2.81 0 8.113-7.111 3.12-7.111M11.99.872q-.119-.001-.25.016c-2.811.364-1.82 5.25-.324 5.34 1.449.09 3.032-5.347.574-5.356M7.123 2.803a1.4 1.4 0 0 0-.488.114c-2.259.933-.344 4.776.921 4.519 1.168-.24 1.319-4.671-.433-4.632Zm-3.6 3.016a1.05 1.05 0 0 0-.634.215c-1.807 1.248.607 4.269 1.671 3.799.93-.41.338-3.967-1.037-4.014m10.032 2.309c-3.835.033-8.716 1.978-9.567 5.784C3.044 18.14 7.875 24 12.915 24c2.48 0 5.34-2.24 5.875-5.077.409-2.163-4.81-1.295-4.623.137.225 1.715-1.258 2.561-2.711 1.454-4.623-3.52 7.658-5.276 6.847-10.086-.263-1.56-2.29-2.322-4.748-2.301Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Gnome Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/arcolinux/xfce/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M.121 5.727a.1.1 0 0 0-.034.002L.07 5.73l-.014.007a.1.1 0 0 0-.048.053.1.1 0 0 0-.007.067c.008.037.023.056.04.076q.047.058.142.128.192.148.597.38c.54.306 1.36.712 2.428 1.152 1.053.433 2.318 1.205 3.286 1.911.484.353.894.69 1.165.958.136.133.237.25.293.337a.4.4 0 0 1 .05.1l.002.018c-.7.987-1.113 2.187-.83 4.196.006.038-.03.127-.12.235-.088.108-.216.233-.346.365-.129.133-.26.273-.357.42s-.163.305-.138.471v.001c.013.074.062.14.125.169a.36.36 0 0 0 .2.018c.137-.018.294-.079.453-.145.158-.066.316-.139.437-.183a1 1 0 0 1 .131-.038c0 .021.003.031-.003.065-.01.061-.03.139-.054.225-.048.173-.119.382-.184.588a4 4 0 0 0-.15.57.7.7 0 0 0-.008.222c.01.067.049.141.122.168l.003.001.003.001c.05.015.083.001.116-.012a1 1 0 0 0 .104-.054q.113-.07.266-.191c.202-.16.451-.375.697-.592s.487-.433.673-.594c.093-.08.172-.146.23-.189l.062-.044c1.497.446 3.202.502 4.549.441a21 21 0 0 0 1.687-.144 15 15 0 0 0 .643-.097l.033-.007.087.04.318.144c.265.12.622.28.987.436s.738.307 1.038.41q.226.079.387.114.079.016.143.02a.2.2 0 0 0 .127-.029l.01-.006.007-.008c.176-.19.183-.426.1-.633-.084-.207-.246-.402-.413-.586-.167-.185-.342-.358-.45-.5a.6.6 0 0 1-.104-.178c-.012-.039-.007-.053.005-.07a.2.2 0 0 1 .05 0c.06.005.147.023.25.05.204.054.473.144.741.232.269.089.537.176.75.226q.16.038.276.042.059.002.112-.015a.16.16 0 0 0 .096-.088v-.002l.002-.003c.05-.151-.006-.313-.095-.476-.09-.162-.22-.33-.36-.492-.14-.163-.287-.318-.41-.45a3 3 0 0 1-.249-.292.67.67 0 0 1-.083-.398.54.54 0 0 1 .248-.394 3 3 0 0 1 .268-.14l.51-.24c.4-.187.898-.425 1.381-.69s.95-.557 1.294-.859c.342-.301.575-.619.529-.948-.072-.535-.425-.943-.897-1.25-.471-.305-1.065-.517-1.65-.67a16 16 0 0 0-1.595-.318c-.217-.033-.399-.06-.525-.083a2 2 0 0 1-.144-.032l-.001-.087c0-.083.002-.198 0-.331a6 6 0 0 0-.075-.942c-.056-.33-.15-.646-.331-.86s-.47-.304-.821-.165c-.232.087-.363.288-.418.519-.055.23-.045.497-.01.76.037.26.1.518.156.724.057.206.11.37.119.411.006.027.005.018-.005.026a.2.2 0 0 1-.084.025.4.4 0 0 1-.126-.01c-.037-.01-.062-.03-.057-.023a1 1 0 0 1-.07-.129l-.113-.255a9 9 0 0 0-.32-.67c-.125-.228-.265-.443-.428-.587a.65.65 0 0 0-.27-.15.44.44 0 0 0-.306.036h-.002l-.001.002a.9.9 0 0 0-.45.607c-.055.241-.037.502.004.743.04.242.105.466.145.629.02.081.035.148.038.187.002.012 0 .014 0 .018-.182.114-.274.294-.345.479-.075.194-.137.397-.264.573v.001c-.039.055-.12.105-.247.138a2 2 0 0 1-.49.049c-.392 0-.892-.059-1.413-.142-1.042-.165-2.161-.422-2.733-.457-.43-.025-.837.136-1.146.288-.154.076-.284.15-.376.198a1 1 0 0 1-.096.044c-.997-.993-3.013-2.688-5.25-3.26-.613-.167-1.387-.495-2.015-.78-.314-.142-.591-.274-.796-.37l-.248-.113-.077-.032-.03-.01zm22.7 1.835-.019.005c-.02.009-.025.019-.031.027a.2.2 0 0 0-.026.053 2 2 0 0 0-.052.176 8 8 0 0 0-.188 1.14 1.3 1.3 0 0 0 0 .213.3.3 0 0 0 .016.077.1.1 0 0 0 .047.059.1.1 0 0 0 .044.013.1.1 0 0 0 .043-.018.15.15 0 0 0 .042-.057 1 1 0 0 0 .06-.175c.038-.147.074-.35.103-.557s.05-.421.057-.59a2 2 0 0 0-.002-.214.4.4 0 0 0-.013-.076.1.1 0 0 0-.036-.059q-.008-.01-.024-.015a.1.1 0 0 0-.022-.002zm1.11.212a.1.1 0 0 0-.042.007.2.2 0 0 0-.065.043 1 1 0 0 0-.144.157 5 5 0 0 0-.35.517 4 4 0 0 0-.287.569 1 1 0 0 0-.061.225c-.007.064 0 .129.05.167.03.021.068.015.09.004a.2.2 0 0 0 .06-.048q.058-.06.129-.168a7 7 0 0 0 .31-.54 10 10 0 0 0 .276-.568 3 3 0 0 0 .08-.2 1 1 0 0 0 .02-.067l.003-.03c0-.011 0-.028-.02-.048l-.001-.002-.002-.002a.1.1 0 0 0-.046-.016M19.57 9.629c.182 0 .335.17.335.388 0 .217-.153.387-.335.387s-.334-.17-.334-.387c0-.218.152-.388.334-.388m-.882.34c.079.29.178.512.35.647.163.128.396.173.69.181-.181.13-.346.191-.481.175-.168-.02-.31-.124-.414-.268s-.17-.326-.187-.483a.44.44 0 0 1 .042-.252m2.09 1.78c.054-.004.083.006.091.014l.009.008.01.004c.008.002.004 0 .006.002a.4.4 0 0 1-.112.093 4 4 0 0 1-.58.278 8 8 0 0 1-.657.235c-.059.017-.098.026-.142.037.029-.022.05-.04.089-.065a6 6 0 0 1 .52-.306 4 4 0 0 1 .56-.251 1 1 0 0 1 .206-.049m.241.471a.1.1 0 0 1 .025.003c.026.03.04.058.035.096a.36.36 0 0 1-.071.154 2 2 0 0 1-.399.367c-.163.119-.337.226-.47.302-.048.028-.082.046-.116.064.015-.03.029-.058.056-.099.078-.116.2-.266.332-.409a3 3 0 0 1 .4-.37.8.8 0 0 1 .163-.096.2.2 0 0 1 .045-.012"/></svg>
+  
+  <span class="md-ellipsis">
+    Xfce Config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TOTP
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            TOTP
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/totp/xbar/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+  
+  <span class="md-ellipsis">
+    xbar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/totp/argos/" class="md-nav__link">
+        
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.703 0c-4.99 0-5.927 7.111-3.12 7.111 2.81 0 8.113-7.111 3.12-7.111M11.99.872q-.119-.001-.25.016c-2.811.364-1.82 5.25-.324 5.34 1.449.09 3.032-5.347.574-5.356M7.123 2.803a1.4 1.4 0 0 0-.488.114c-2.259.933-.344 4.776.921 4.519 1.168-.24 1.319-4.671-.433-4.632Zm-3.6 3.016a1.05 1.05 0 0 0-.634.215c-1.807 1.248.607 4.269 1.671 3.799.93-.41.338-3.967-1.037-4.014m10.032 2.309c-3.835.033-8.716 1.978-9.567 5.784C3.044 18.14 7.875 24 12.915 24c2.48 0 5.34-2.24 5.875-5.077.409-2.163-4.81-1.295-4.623.137.225 1.715-1.258 2.561-2.711 1.454-4.623-3.52 7.658-5.276 6.847-10.086-.263-1.56-2.29-2.322-4.748-2.301Z"/></svg>
+  
+  <span class="md-ellipsis">
+    Argos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exchange
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exchange">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mailboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mailboxes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mailboxes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#all-tenant-mailboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      All Tenant Mailboxes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specific-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specific User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mailbox-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mailbox Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calendars" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calendars
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Calendars">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#view-calendar-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      View Calendar Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#show-meeting-subject-and-remove-organizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Show Meeting Subject and Remove Organizer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#teams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Teams
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Teams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get-outbound-dialing-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Outbound Dialing Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-oubound-dialing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable Oubound Dialing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="m365-snippets">M365 Snippets<a class="headerlink" href="#m365-snippets" title="Permanent link">&para;</a></h1>
+<h2 id="exchange">Exchange<a class="headerlink" href="#exchange" title="Permanent link">&para;</a></h2>
+<p><div class="highlight"><pre><span></span><code><span class="nb">Import-Module</span> <span class="n">-Name</span> <span class="n">ExchangeOnlineManagement</span>
+<span class="nb">Connect-ExchangeOnline</span> <span class="n">-UserPrincipalName</span> <span class="n">name</span><span class="nv">@example</span><span class="p">.</span><span class="n">com</span>
+</code></pre></div>
+<a href="https://learn.microsoft.com/en-us/powershell/exchange/connect-to-exchange-online-powershell?view=exchange-ps">Documentation</a></p>
+<h3 id="mailboxes">Mailboxes<a class="headerlink" href="#mailboxes" title="Permanent link">&para;</a></h3>
+<h4 id="all-tenant-mailboxes">All Tenant Mailboxes<a class="headerlink" href="#all-tenant-mailboxes" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="nb">Get-Mailbox</span> <span class="n">-ResultSize</span> <span class="n">Unlimited</span> <span class="p">`</span>
+    <span class="p">|</span> <span class="p">%</span> <span class="p">{</span> <span class="nb">Get-MailboxStatistics</span> <span class="nv">$_</span><span class="p">.</span><span class="n">UserPrincipalName</span> <span class="p">`</span>
+    <span class="p">|</span> <span class="nb">Select </span><span class="n">DisplayName</span><span class="p">,</span> <span class="n">ItemCount</span><span class="p">,</span> <span class="n">TotalItemSize</span><span class="p">,</span> <span class="p">}</span> <span class="p">`</span>
+    <span class="p">|</span> <span class="nb">Export-CSV</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">export</span><span class="p">.</span><span class="n">csv</span> <span class="n">-NoTypeInformation</span>
+</code></pre></div>
+Additional fields: <code>MailboxTypeDetail</code>, <code>DeletedItemCount</code>, <code>TotalDeletedItemSize</code></p>
+<h4 id="specific-user">Specific User<a class="headerlink" href="#specific-user" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-EXOMailbox</span> <span class="n">-Identity</span> <span class="n">name</span><span class="nv">@example</span><span class="p">.</span><span class="n">com</span> <span class="p">`</span>
+    <span class="p">|</span> <span class="nb">Get-EXOMailboxStatistics</span>
+</code></pre></div>
+<h4 id="mailbox-rules">Mailbox Rules<a class="headerlink" href="#mailbox-rules" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-InboxRule</span> <span class="n">-Mailbox</span> <span class="n">name</span><span class="nv">@example</span><span class="p">.</span><span class="n">com</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-InboxRule</span> <span class="n">-Mailbox</span> <span class="n">name</span><span class="nv">@example</span><span class="p">.</span><span class="n">com</span> <span class="p">|</span> <span class="nb">Select </span><span class="p">*</span> <span class="p">|</span> <span class="p">`</span>
+    <span class="nb">Export-CSV</span> <span class="n">-Path</span> <span class="p">.\</span><span class="n">mboxrules</span><span class="p">.</span><span class="n">csv</span> <span class="n">-NoTypeInformation</span><span class="p">`</span>
+</code></pre></div>
+<h3 id="calendars">Calendars<a class="headerlink" href="#calendars" title="Permanent link">&para;</a></h3>
+<h4 id="view-calendar-permissions">View Calendar Permissions<a class="headerlink" href="#view-calendar-permissions" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-MailboxFolderPermission</span> <span class="p">`</span>
+    <span class="n">-Identity</span> <span class="n">room</span><span class="nv">@example</span><span class="p">.</span><span class="n">com</span><span class="p">:\</span><span class="n">Calendar</span> <span class="p">|</span> <span class="nb">Format-List</span>
+</code></pre></div>
+<h4 id="show-meeting-subject-and-remove-organizer">Show Meeting Subject and Remove Organizer<a class="headerlink" href="#show-meeting-subject-and-remove-organizer" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Set-CalendarProcessing</span> <span class="n">-Identity</span> <span class="s2">&quot;room@example.com&quot;</span> <span class="p">`</span>
+    <span class="n">-DeleteSubject</span> <span class="nv">$False</span> <span class="p">`</span>
+    <span class="n">-AddOrganizerToSubject</span> <span class="nv">$False</span>
+</code></pre></div>
+<h3 id="teams">Teams<a class="headerlink" href="#teams" title="Permanent link">&para;</a></h3>
+<h4 id="get-outbound-dialing-policy">Get Outbound Dialing Policy<a class="headerlink" href="#get-outbound-dialing-policy" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">Get-CsUserPolicyAssignment</span> <span class="n">-Identity</span> <span class="s2">&quot;name@example.com&quot;</span>
+</code></pre></div>
+<h4 id="disable-oubound-dialing">Disable Oubound Dialing<a class="headerlink" href="#disable-oubound-dialing" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c"># Before</span>
+<span class="nb">Get-CsUserPolicyAssignment</span> <span class="n">-Identity</span> <span class="s2">&quot;name@example.com&quot;</span>
+
+<span class="nb">Grant-CsDialoutPolicy</span> <span class="n">-Identity</span> <span class="s2">&quot;name@example.com&quot;</span> <span class="p">`</span>
+    <span class="n">-PolicyName</span> <span class="s2">&quot;DialoutCPCDisabledPSTNInternational&quot;</span>
+
+<span class="c"># After</span>
+<span class="nb">Get-CsUserPolicyAssignment</span> <span class="n">-Identity</span> <span class="s2">&quot;name@example.com&quot;</span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 - Bryan Dodd</br><sup>PGP Fingerprint: <code>74BD 90B5 90F9 AA98 4391 7073 8330 8CA8 5B65 951C</code></sup>
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://bsky.app/profile/dodd.dev" target="_blank" rel="noopener" title="bsky.app" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M111.8 62.2C170.2 105.9 233 194.7 256 242.4c23-47.6 85.8-136.4 144.2-180.2 42.1-31.6 110.3-56 110.3 21.8 0 15.5-8.9 130.5-14.1 149.2-18.2 64.8-84.4 81.4-143.3 71.3C456 322 482.2 380 425.6 438c-107.4 110.2-154.3-27.6-166.3-62.9-1.7-4.9-2.6-7.8-3.3-7.8s-1.6 3-3.3 7.8c-12 35.3-59 173.1-166.3 62.9-56.5-58-30.4-116 72.5-133.5C100 314.6 33.8 298 15.7 233.1 10.4 214.4 1.5 99.4 1.5 83.9c0-77.8 68.2-53.4 110.3-21.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.top", "navigation.indexes", "content.code.annotate", "content.code.copy", "content.footnote.tooltips", "content.tooltips"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>
