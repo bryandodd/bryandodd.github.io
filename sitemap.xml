@@ -2,94 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://dodd.dev/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/projects/arcolinux/gnome/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/projects/arcolinux/xfce/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/projects/misc/email/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/projects/totp/argos/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/projects/totp/xbar/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/bash/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/bash/bash-aws-auth/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/bash/bash-aws-sg-audit/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/pgp/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/pgp/pgp/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/powershell/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/powershell/pwsh-aws/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/powershell/pwsh-m365/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/powershell/pwsh-win/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/python/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/python/leetgen/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/yubikey/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/yubikey/yk-fido2/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/yubikey/yk-oath/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/yubikey/yk-openpgp/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
     <url>
          <loc>https://dodd.dev/scripts/yubikey/yk-piv/</loc>
-         <lastmod>2025-02-10</lastmod>
+         <lastmod>2025-02-15</lastmod>
     </url>
 </urlset>
