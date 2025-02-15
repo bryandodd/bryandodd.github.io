@@ -226,6 +226,22 @@ ykman piv certificates import -m <mgmt-key-here> --pin <pin> --verify 9c cert-fo
 
 ---
 
+### Slot 82 & 83 - Root and Intermediate CA (Retired Key Slots)
+
+If using a *roll-your-own* PKI, it will be helpful to have a copy of your Root and Intermediate CA certificates available on-the-go.  You can accomplish this easily by storing them in slots 82 and 83 of Yubikey, ensuring you have them with you at all times for full-chain signatures. 
+
+``` bash
+# Root CA in Slot 82
+ykman piv certificates import -m 77343a10df05ede9758df5b248e45eb9e7f95fca74bbe9e3f17e7e3611249acd 82 your-root-ca.crt
+Certificate imported into slot RETIRED1
+
+# Intermediate CA in Slot 83
+ykman piv certificates import -m 77343a10df05ede9758df5b248e45eb9e7f95fca74bbe9e3f17e7e3611249acd 83 your-intermediate.ca.crt
+Certificate imported into slot RETIRED2
+```
+
+---
+
 ## Verify Slots
 
 Certificates can be verified with the following commands:
@@ -239,6 +255,26 @@ PUK tries remaining:      6/6
 Management key algorithm: AES256
 CHUID: <your-chuid-value>
 CCC:   No data available
+Slot 82 (RETIRED1):
+  Private key type: EMPTY
+  Public key type:  RSA4096
+  Subject DN:       1.2.840.113549.1.9.1=info@example.com,CN=My Root CA,OU=Certificate Authority,O=MeMyselfAndI,L=MyCity,ST=MyState,C=US
+  Issuer DN:        1.2.840.113549.1.9.1=info@example.com,CN=My Root CA,OU=Certificate Authority,O=MeMyselfAndI,L=MyCity,ST=MyState,C=US
+  Serial:           1234567891234567891 (0x111c222b333d444e)
+  Fingerprint:      769fb8695f130bb752b59ae794c9dad19ddaff399822c7f49d729afa505e3b98
+  Not before:       2025-01-25T00:00:00+00:00
+  Not after:        2045-01-31T23:59:59+00:00
+
+Slot 83 (RETIRED2):
+  Private key type: EMPTY
+  Public key type:  RSA4096
+  Subject DN:       1.2.840.113549.1.9.1=info@example.com,CN=My Intermediate CA,OU=Certificate Authority,O=MeMyselfAndI,L=MyCity,ST=MyState,C=US
+  Issuer DN:        1.2.840.113549.1.9.1=info@example.com,CN=My Root CA,OU=Certificate Authority,O=MeMyselfAndI,L=MyCity,ST=MyState,C=US
+  Serial:           9876543210987654321 (0x555d666e777f888a)
+  Fingerprint:      29c8ba82731d79be8c8520d68ba65e15df3d8dcc1a9d3da282e1e786f329c4ae
+  Not before:       2025-01-25T00:00:00+00:00
+  Not after:        2045-01-31T23:59:59+00:00
+
 Slot 9A (AUTHENTICATION):
   Private key type: RSA2048
   Public key type:  RSA2048
@@ -280,6 +316,20 @@ Slot 9c:
 	Fingerprint:	def456def456def456def456def456def456def456def456def456def456def4
 	Not Before:	Jan 26 21:20:00 2025 GMT
 	Not After:	Jan 26 21:20:00 2035 GMT
+Slot 82:	
+	Algorithm:	RSA4096
+	Subject DN:	C=US, ST=MyState, L=MyCity, O=MeMyselfAndI, OU=Certificate Authority, CN=My Root CA
+	Issuer DN:	C=US, ST=MyState, L=MyCity, O=MeMyselfAndI, OU=Certificate Authority, CN=My Root CA
+	Fingerprint:	769fb8695f130bb752b59ae794c9dad19ddaff399822c7f49d729afa505e3b98
+	Not Before:	Jan 25 00:00:00 2025 GMT
+	Not After:	Jan 31 23:59:59 2045 GMT
+Slot 83:	
+	Algorithm:	RSA4096
+	Subject DN:	C=US, ST=MyState, L=MyCity, O=MeMyselfAndI, OU=Certificate Authority, CN=My Intermediate CA
+	Issuer DN:	C=US, ST=MyState, L=MyCity, O=MeMyselfAndI, OU=Certificate Authority, CN=My Root CA
+	Fingerprint:	29c8ba82731d79be8c8520d68ba65e15df3d8dcc1a9d3da282e1e786f329c4ae
+	Not Before:	Jan 25 00:00:00 2025 GMT
+	Not After:	Jan 31 23:59:59 2045 GMT
 PIN tries left:	6
 ```
 
@@ -319,7 +369,7 @@ Grab the public key and write it directly to `~/.ssh/id_piv.pub` with:
 ssh-keygen -D /usr/lib/ssh-keychain.dylib > ~/.ssh/id_piv.pub
 ```
 
-## GitHub Example
+### GitHub Example
 
 If you followed the steps above and intend to use this form of authentication with GitHub, for example, you might have an entry in your `~/.ssh/config` file that looks similar to the following:
 
@@ -334,3 +384,232 @@ Host github.com
 ```
 
 `IdentityFile` is traditionally used for private key files, but in the case of Yubikey we specifically want to point to the public key and let the tools identify the appropriate private key. 
+
+### Retrieve Specific Keys Quickly
+
+The fastest way to recall a certificate is by using `ykman` and specifying the certificate by slot. For example:
+
+``` bash
+# Output PEM format content of slot 83 to the the screen
+ykman piv certificates export 83 -
+
+# Create a copy of the certificate on the local system
+ykman piv certificates export 9a my-auth-certificate.pem
+```
+
+---
+
+## Signing Documents With Adobe Acrobat
+
+The most well-known use for these keys is digitally signing documents in Adobe Acrobat. Certificates and Yubikeys aren't required to sign documents digitally -- you can upload an image of your signature and apply it to documents through the Adobe UI without either one. The result is a "visible" signature on the document, but anyone with a scanned image of your signature could just as easily apply your signature to a different docoument. 
+
+Certificate-based signatures help with two core issues: ***authenticating*** the signer, and ***verifying*** that a document hasn't been tampered with. At a high level, the concept is this:
+
+* Only you have access to your signing certificate. It's something you have physical possession of, and is ideally protected by some additional mechanism - be it a PIN, a passphrase, or a combination of protections. Someone seeking to impersonate you would not simply be able to find an existing document you've signed and copy/paste your signature into a new document. 
+
+* When you certify / verify a document, your certificate is used to calculate a one-way hash of the document you just signed. This hash takes into consideration everything in the document - visible and invisible - to create a unique value that would be completely different if you'd left a comma out of a sentence or placed your signature in a slightly different position on the page.  When your recipient receives your signed and certified document, their machine uses your public key to re-compute the hash of the document. If the document has not been modified or tampered with, the hash will calculate identically to your original hash, confirming the document is authentic.  
+
+### Acrobat Settings
+
+!!! info "Instructions for macOS"
+
+     The information presented below comes from my experience with Adobe Acrobat on Apple Silicon. The experience for Windows or even macOS on Intel may be entirely different. I've included links to a few othe resources worth checking out, but know going into this that your mileage may vary.
+
+
+#### Disable "Protected Mode" 
+
+To use a non-Adobe ATL certificate, open Adobe Preferences, look for the "Security (Enhanced)" section, and de-select "Enable PRotected Mode at startup." If this option was enabled for your system, untick the box, click "OK" to close the preferences window, completely exit out of Acrobat, and re-launch the application. 
+
+Yubico Documentation: [Yubikeys for Digital Signature in Adobe Acrobat Reader on Windows using PKCS#11](https://support.yubico.com/hc/en-us/articles/4412049077522-YubiKeys-for-Digital-Signature-in-Adobe-Acrobat-Reader-on-Windows-using-PKCS-11)
+
+![Adobe Protected Mode](../../assets/images/adobe/protected-mode.png)
+/// caption
+<sup>Disable "Protected Mode" and restart Adobe Acrobat</sup>
+///
+
+
+#### Add a PKCS#11 Module
+
+This step may or may not be required any longer. Truthfully, I don't know if this is unique to Apple Silicon or macOS in general, so test this for yourself to confirm whether or not it's even needed. 
+
+On my system, macOS appears to automatically read from my Yubikey's PIV application and pull my Slot 9A and 9C certificates into KeyChain automatically. I say "*appears*" because while Adobe recognizes the keys and they appear under "Keychain Digital IDs" only when my Yubikey is connected, I cannot locate the keys in KeyChain Access. 
+
+If your system does not automatically detect the certificates on your Yubikey, return to Adobe Preferences > Signatures, and click the "More" button under "Identities & Trusted Certificates."  
+
+![Adobe Identities](../../assets/images/adobe/adobe-identities.png)
+/// caption
+<sup></sup>
+///
+
+Within the "Digital ID and Trusted Certificate Settings" window, expand "Digital IDs" from he left navigation menu if not already expanded, then click "PKCS#11 Modules and Tokans."  Select "Attach Module" from the top of the window, and enter the path to your Yubikey PKCS#11 module.<br />*(You must have Yubikey Manager / `ykman` installed in order for the module to exist at the locations specified.)*
+
+![Adobe PKCS11](../../assets/images/adobe/adobe-pkcs11.png)
+/// caption
+<sup></sup>
+///
+
+Possible paths for the Yubikey PKCS#11 library:
+
+* Apple Silicon:  `/opt/homebrew/lib/libykcs11.dylib`
+* Intel Apple: `/usr/local/lib/libykcs11.dylib`
+* Windows: `C:\Program Files (x86)\Yubico\Yubico PIV Tool\bin\libykcs11.dll` or `C:\Program Files\Yubico\Yubico PIV Tool\bin\libykcs11.dll`
+
+After the module is added, click the "Login" button at the top of the window. You will be prompted to enter your Yubikey PIV PIN. If provided successfully, a list of certificates loaded to your Yubikey will appear on-screen. 
+
+
+#### Certificate Settings
+
+If you used the same Key Usage and Extended Key Usage values that I used, and loaded both keys to your Yubikey, you'll see both keys in the list. They may also both appear the same -- same name, same issuer, etc. 
+
+Select one of the keys and click the "Certificate Details" button at the top of the window. The "Certificate Viewer" window will appear, and should be defaulted to the "Summary" tab. Look under "Intended Usage" near the center of this window -- if you see "Code Signing" and "Acrobat Authentic Documents," you've selected the correct key. 
+
+Swith to the "Details" tab and scroll through the list of certificate data until you see "Serial number." Take note of this value, because this is how you can easily identify and differentiate your signing key from your authentication key. 
+
+Click "OK" to close the Certificate Viewer and make sure you've still got the correct certificate selected. Click the "Usage Options" button at the top of the window, and select "Use for Signing," and again for "Use for Certifying."  A blue ribbon icon will appear to the left of the certificate name. 
+
+By doing this, when you select the options to either sign or certify documents in the future, Adobe will prompt you to choose between the two certificates saved to your Yubikey. Setting the "use for" options will cause Adobe to default to correct certificate automatically. You can always verify and confirm this by clicking the "View Details" button beside the certificate and checking the "intended usage" values for "Code Signing" and "Acrobat Authentic Documents."
+
+SSL.com Documentation [Configuring Your Business Identity Document SIgning Certificates and Yubikey with Adobe Acrobat on macOS](https://www.ssl.com/how-to/yubikey-document-signing-certificate-with-adobe-acrobat-macos/)
+
+
+#### Add A Signature Image
+
+To customize the appearance of your signatures and certifications, head back to Adobe Preferences > Signatures, but this time hit the button under "Creation & Appearance."
+
+![Adobe Appearance 1](../../assets/images/adobe/adobe-appearance1.png)
+/// caption
+<sup></sup>
+///
+
+In the "Creation and Appearance Preferences" window, leave everything as it is and click the "New" button under the "Appearances" section near the bottom. Give your signature a friendly title, set the "Configure Text" options according to your preferences, and in the "Configure Graphic" section, select "imported graphic" and click the "file" button. 
+
+![Adobe Appearance 2](../../assets/images/adobe/adobe-appearance-final.png)
+/// caption
+<sup></sup>
+///
+
+You can create mulitiple appearances to fit your needs -- for example, you could have one version that was your full signature, and another variant that included your initials only. 
+
+
+#### Sign or Certify
+
+![Adobe - All Tools - View More](../../assets/images/adobe/adobe-view-more.png){ align=left }
+
+To begin the process of signing or certifying a document, start with the document open in Adobe Acrobat, select "All Tools" from the top left corner of the screen, then look for the "View More" button near the bottom of the list on the left side of the screen.
+
+In the expanded list, you're looking for the option that says "Use a certificate."  It will be an aqua-colored icon of an ink pen nib. 
+
+You'll be presented with five options -- four of which will be available if the document you're looking at has not been signed previously:
+
+* Digitally sign
+* Timestamp
+* Certify (visible signature)
+* Certify (invisible signature)
+
+The options are as they sound -- digitally signing is only providing an authenticated signature. The idea is that this signature proves that you were the one who did it.  Certify has the effect of "hashing" the document so that your recipient can compute the hash themselves to check and confirm that the document hasn't been tampered with.  In fact, this is what the grayed-out option on your screen is -- "Validate all signatures." 
+
+With Certify, you have two optionis -- to include a visible signature, or not.  Most often, you're going to be using either the Digitally Sign or Certify with Visible Signature options. 
+
+Select the option to "Digitally sign" the document. Adobe will throw a pop-up notification instructing you to *"click and drag to draw the area where you would like the signature to appear."*  This behavior is the same for both Digitally Sign and Certify with Visibile Signature.  Click "OK" and find an open area of the screen to click-and-drag a moderately large horizontal rectangle. 
+
+As soon as you release the mouse, Adobe will display the "Sign with a Digital ID" window. If you specified which certificate should be used for Signing and Certifying, the default selection *should* be your Slot 9c certificate. Double-check this by selecting the "View Details" button beside the certificate name. 
+
+Select the "Continue" button to move onto the appearance settings for your signature. By default, Adobe will pre-select "Standard Text." If you uploaded a signature image earlier, you can select the dropdown box at the top of this window to select your full signature or initial-only variants. 
+
+***If you chose "Digitally sign":***
+
+* You will have the additional option of "Locking" the document after signing, plus any other optional settings you might have enabled within the appearance settings, such as adding a signature reason or location. 
+
+***If you chose "Certify with Visible Signature":***
+
+* In addition to any optionsl settings you enabled, you'll also see options for "Permitted Actions After Certifying" and "Review document content that may affect signing." 
+     * Permitted Actions allow you to determine whether anyone is allowed to make any kind of changes after you've certified the document. You can optionally allow other people to fill out any forms in the document and provide their own signatures, or also allow them to make annotations on the document. 
+     * The "Review" button will show you a list of all of the properties of the PDF document that could create problems for certifying the document. These are items that *could* cause a document to be rendered "invalid" due to having changed AFTER you certified it. Review these carefully before taking action from the prompts on-screen. 
+
+Finally, when you click "OK" to create your signature, Adobe will prompt you to select where you want to save the signed version of your document. This is to allow you you to save your signed document as a new file without overwriting the original document you were working from. 
+
+The final prompt may be a PIN request popup from Adobe looking for you to enter your Yubikey PIV PIN in order to complete the signature. 
+
+SSL.com Documentation: [Digitally Sign a PDF in Adobe Acrobat Reader using a Yubikey](https://www.ssl.com/how-to/sign-a-pdf-in-adobe-acrobat-reader/)
+
+
+---
+
+
+## At least one signature has problems
+
+If you went the route of using your own custom PKI instead of paying for an Adobe ATL certificate, Adobe will display a caution / warning prompt at the top of your signed document. The reason for this is because Adobe doesn't trust your custom Root CA / Intermediate CA. 
+
+Select the "Signature Panel" button to open the details dialog for the signature warning from Adobe. Adobe will provide a breakdown of what it sees as potentially problematic about the signature and will include a button to view the certificate details. 
+
+![Certificate Summary](../../assets/images/adobe/adobe-cert-summary.png)
+/// caption
+<sup></sup>
+///
+
+![Certificate Revocation](../../assets/images/adobe/adobe-cert-revocation.png)
+/// caption
+<sup></sup>
+///
+
+![Certificate Trust](../../assets/images/adobe/adobe-cert-trust.png)
+/// caption
+<sup></sup>
+///
+
+## Add Trusted Certificates
+
+
+There are two routes you can take to resolve this. 
+
+* Option 1: Select "Add to Trusted Certificates" from the "Trust" tab. 
+* Option 2: Add the Root CA / Intermediate CA to the Trusted Certificates list.
+
+Option 2 is the better approach, assuming your recipient indeed trusts the certificates you or your company are issuing. If you try to use the "Add to Trusted Certificates" button on the Trust tab, Adobe will display a warning that adding certificates directly from a document is unsafe. 
+
+This is where its helpful to have the Root CA and Intermediate CA available directly from your Yubikey. 
+
+``` bash
+# Export a copy of the Root CA
+ykman piv certificates export 82 my-root-ca.crt
+
+# Export a copy of the Intermediate CA
+ykman piv certificates export 83 my-intermediate-ca.crt
+```
+
+With the two `.crt` files saved, navigate back to Adobe Preferences > Signatures > Identities & Trusted Certificates. Select "Trusted Certificates" from the left navigation menu, then seelct "Import." 
+
+![Import Root CA](../../assets/images/adobe/adobe-root-import.png)
+/// caption
+<sup></sup>
+///
+
+In the dialog window that appears, select "Browse," then navigate to the `.crt` file you just exported from your Yubikey for the Root CA Certificate. When selected, click the name of the certificate in the top box on this window to populate the "Certificates" list in the lower half. 
+
+Select the certificate itself in the lower box, then click the "Trust" button directly to the right.
+
+![Root CA Trust Settings](../../assets/images/adobe/adobe-root-trust.png)
+/// caption
+<sup></sup>
+///
+
+From the "Import Contact Settings" box, select the checkboxes that represent the level of trust you have for the certificate. To mark the certificate as trusted, at a minimum it requries the *"Use this certificate as a trusted root"* selection. But in addition, there are other options you can enable / toggle depending on the level of trust you have. When you've finished making your selections, click "OK" in the bottom right corner, then click "Import" on the previous dialog box. 
+
+![Root CA Import Complete](../../assets/images/adobe/adobe-import-complete.png)
+/// caption
+<sup></sup>
+///
+
+If successful, you should see a "Import Complete" popup box with an "OK" button. Click to dismiss. Repeat the import process to import the Intermediate CA certificate as well.
+
+Finally, re-open the document you signed previously. A notification bar across the top of the document should now reflect *"Signed and all signatures are valid."* Click into the "Signature Panel" for details.
+
+![Trusted Certificate 1](../../assets/images/adobe/adobe-trusted-1.png)
+/// caption
+<sup></sup>
+///
+
+![Trusted Certificate 2](../../assets/images/adobe/adobe-trusted-2.png)
+/// caption
+<sup></sup>
+///
