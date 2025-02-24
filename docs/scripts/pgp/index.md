@@ -306,3 +306,22 @@ ssb>  ed25519 2020-01-28 [A]
       4444444444444444444444444444444444444444
       Card serial no. = 0006 12345678
 ```
+
+And to identify keygrip files (`~/.gnupg/private-keys-v1.d/<keygrip>.key`):
+
+``` bash
+$ gpg --list-secret-keys --with-keygrip
+
+[keyboxd]
+---------
+sec#  ed25519 YYYY-MM-DD [C]
+      7777777777777777777777777777777777777777
+      Keygrip = ...A47E26C0196ED67BD
+uid           [ultimate] Joe Schmoe <joe@schmoe.com>
+ssb>  ed25519 YYYY-MM-DD [S]    
+      Keygrip = ...BA272DF1
+ssb>  cv25519 YYYY-MM-DD [E]
+      Keygrip = ...CC740E41
+ssb>  ed25519 YYYY-MM-DD [A]
+      Keygrip = ...E566D05C
+```

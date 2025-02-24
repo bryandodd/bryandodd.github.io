@@ -2,26 +2,57 @@
 title: Yubikey OpenPGP Configuration
 ---
 
-# Yubikey Configuration
+# Yubikey OpenPGP Configuration
 
-- [YubiKey Technical Manual](https://docs.yubico.com/hardware/yubikey/yk-tech-manual/webdocs.pdf)
-- [ykman CLI and YubiKey Manager GUI Guide](https://docs.yubico.com/software/yubikey/tools/ykman/webdocs.pdf)
+For more information about PGP *(you'll also see it referred to as "GPG")*, see the [PGP Primer](../pgp/pgp.md). You'll need to have your Keys and Secret Keys handy to successfully store them on your Yubikey. 
 
-## OpenPGP
+## Expected / Assumed Configuration
 
-Yubikeys are kind of like supercharged house keys, except instead of unlocking a door (which it can do), it helps unlock online accounts and protect sensitive data. It's OpenPGP support means it can be used for encrypting and signing messages securely using a time-tested and trusted system called OpenPGP. 
+```
+gpg --list-secret-keys --with-subkey-fingerprint
 
-With it, you can encrypt (lock) and digitally sign emails or files to keep them private and tamper-proof. Normally, OpenPGP uses a private key, which is like a secret password that should never be shared. Instead of storing the key on a computer where it could get lost in a harddrive crash or stolen by bad actors, Yubikey stores them safely inside itself. When you neeed to encrypt, decrypt, or sign something, Yubikey does the work for you (using the keys you've loaded) to keep your private key protected.
+[keyboxd]
+---------
+sec#  ed25519 YYYY-MM-DD [C]
+      74BD90B590F9AA984391707383308CA85B65951C
+uid           [ultimate] Bryan Dodd <bryan@dodd.dev>
+ssb>  ed25519 YYYY-MM-DD [S]
+      ................................5400D8FF
+      Card serial no. = 0006 23456789
+ssb>  cv25519 YYYY-MM-DD [E]
+      ................................B4C98A69
+      Card serial no. = 0006 23456789 
+ssb>  ed25519 YYYY-MM-DD [A]
+      ................................EB5285E8
+      Card serial no. = 0006 23456789 
+```
 
-Once a key has been saved to a Yubikey, you can't get it out again. If you need to replace the key, your only option is to erase it and add a new one. 
+Yubikey's conventions expect that you have a master certifying key `[C]` from which three (3) subkeys have been derived:
 
-The most basic explaination is this: Imagine you want to send a secret letter to a friend but you're fresh out of invisible ink. So with your Yubikey, you put your letter into a box that only your friend can open. Better yet, when your friend receives your letter, they can validate that its contents is indeed from you and hasn't been tampered with at any point on it's journey to them.  
+* A signing key `[S]`
+* An encryption key `[E]`
+* An authentication key `[A]`
 
-If you want a little more depth about PGP *(you'll also see it referred to as "GPG" - that's not a typo, but for now just think of them as one-and-the-same)*, see my [PGP Primer](../pgp/pgp.md). You're going to need to have your Keys and Secret Keys handy to successfully store them on your Yubikey. 
+In the above example:
 
-### Getting Started
+* sec# : `sec` stands for Secret Key (in this case a master certifying key). Ideally you do not want this key to reside on the machine you use daily because the only time it is ever needed is when generating new subkeys or revoking them. The `#` symbold indicates that the machine these keys are associated with is aware that a secret certifying key exists, but it does not exist on the machine. If this key were present, there would be no additional symbol displayed - it would simply read `sec`.
 
-Begin by ensuring that only your new Yubikey is connected to your machine, and execute `gpg --card-status` and `ykman info` to verify that you're targeting the correct device. Its possible to work with multiple Yubikeys connected at once, but far easier to set them up one at a time if this is your first experience with them. 
+* ssb> : `ssb` stands for Subkey. As with `sec` above, `ssb` by itself indicates that the subkey's material is actually present and saved on the local machine's keyring. The `>` symbol means that the machine is aware of the subkey and knows where to get it, but does not have a copy of the key material saved locally on the machine. This is often referred to as a `key stub`. You will this referred to as "stubbing out keys" or "the keys have been stubbed (out)."
+
+* Directly under the `sec` key information is `uid`. This is the key identity. Because this is my key, the secret key is marked with `[ultimate]` trust. This means that any operations relying on this key should assume that it has ultimate authority and no additional prompts need to be shown to the user. How much trust you place in a key is entirely subjective. It is up to individual users to determine how much they trust a key - this is referred to as the [Web of Trust](https://en.wikipedia.org/wiki/Web_of_trust).
+
+Trust levels:
+
+* `unknown`: The default trust level, where there is not enough information to discern the trust of a key.
+* `never`: You've explicitly marked this key so it is ***never*** trusted. You might use this if you know the key has been compromised or being used by a threat actor.
+* `marginal`: Marginal means "they're good, but not *too* good." GnuPG will mark a key as `trusted` when it has received signatures from at least three (3) other keys that you have granted at least `marginal` trust to. (See "Web of Trust" link above).
+* `full`: Should only be used with keys you actually trust. Unlike `marginal` trust, `full` trust only requires one signature from a key you've marked as `trusted`. Think of this as a "vouching" system. 
+    * e.g.: John trusts Mark's key. Mark signs Paul's key. John now trusts Paul's key because Mark is `trusted` and trusts (vouched) for Paul. 
+* `ultimate`: Should really only ever be used with your own keys because it is the highest level of trust that can be assigned. 
+
+## Getting Started
+
+Begin by ensuring that only your new Yubikey is connected to your machine, and execute `gpg --card-status` and `ykman info` to verify that you're targeting the correct device. 
 
 Though *some* of the initial steps can be done with the YubiKey Manager GUI app, it doesn't support or include everything you need to configure OpenPGP with your Yubikey, so I recommend sticking with the command-line tools for this setup.
 
@@ -78,7 +109,7 @@ YubiHSM Auth	Enabled	Enabled
     - **PIN: `123456`**
     - **Admin PIN: `12345678`**
 
-### Update PINs
+## Update PINs
 
 > Admin PIN must be set before Reset Code
 
@@ -105,7 +136,7 @@ ykman openpgp access set-retries 6 6 6
 
 Here, we're changing the default retry / attempt counts from their default `3` to `6`.
 
-### Set Operational Settings
+## Update Operational Settings
 
 ``` bash
 ykman openpgp keys set-touch --help   
@@ -166,7 +197,7 @@ In the commands above, I've set the "touch" requirements for signing, encryption
 | `Cached` | touch required, cached for 15s after use |
 | `Cached-Fixed` | touch required, cached for 15s after use, can't be disabled<br />without deleting the private key |
 
-### Confirm Touch Settings
+## Confirm Touch Settings
 
 ``` bash
 $ ykman openpgp info
@@ -185,7 +216,7 @@ Touch policies:
   Attestation key:    Cached
 ```
 
-### Set Yubikey Properties
+## Update Yubikey PGP Properties
 
 ``` bash
 $ gpg --card-edit
@@ -295,14 +326,14 @@ Not every property is required to be set, but setting as much as you can is help
 
 For example, setting the URL enables use of the `--fetch` command to automatically retrieve a copy of your public key.
 
-### Loading PGP Keys
+## Loading PGP Keys
 
-!!! warning "This is where you need to have a plan before continuing ..."
+!!! warning "Plan ahead before continuing ..."
 
     Keys can ***ONLY*** be transferred to Yubikey from your ***GnuPG Keyring***.
 
     * If you've previously loaded them to another Yubikey, all you have in your current keyring will be key *stubs*. This is not sufficient for setting up a new Yubikey, so additional steps will be required.
-    * If you've got your public / private keys exported to ASCII-armored files, this alone is not sufficient for setting up a new Yubikey.
+    * Make sure you've got your public / private keys exported to ASCII-armored files. You will need to re-load your keys from backup to replace stubs with actual keys.
     * Loading keys to Yubikey is a <span style="color: var(--md-code-hl-special-color)">***one way operation***</span>. Once loaded into Yubikey, you can't export your private key again, so your only option is to delete the keys and upload new ones.
 
     **This step is especially important.** If you intend to load your OpenPGP keys onto ***multiple Yubikeys***, pay close attention to the order of operations performed here.
@@ -313,9 +344,9 @@ When you issue the command to move your keys to Yubikey, the keys are *literally
 
 ---
 
-To determine if your keys are physically present on your machine or if they've been moved elsewhere, run `gpg --list-secret-keys`. The all-important subkeys will be listed at the bottom as `ssb`.  If you see the `>` symbol, this indicates you only have stubs loaded. You will not be able to transfer your keys to Yubikey in this state.
+To determine if your keys are physically present on your machine or if they've been moved elsewhere, run `gpg --list-secret-keys`. The subkeys will be listed at the bottom as `ssb`.  If you see the `>` symbol, this indicates you only have stubs loaded. You will not be able to transfer your keys to Yubikey in this state.
 
-To remedy this, you must have a previously exported set of your private keys available to you - whether thats on your local filesystem, a USB drive, a network drive, etc. If you followed along with the key generation in my [PGP Primer](../pgp/pgp.md#creating-your-keys), you should have a copy of your subkeys saved as `subkeys.asc` (or similar). We'll need these soon.
+To remedy this, you must have a previously exported set of your private keys available to you - whether thats on your local filesystem, a USB drive, a network drive, etc. If you followed along with the key generation in the [PGP Primer](../pgp/pgp.md#creating-your-keys), you should have a copy of your subkeys saved as `subkeys.asc` (or similar). We'll need these soon.
 
 ``` bash
 $ gpg --list-secret-keys --with-keygrip
@@ -334,7 +365,7 @@ ssb>  ed25519 YYYY-MM-DD [A]
       Keygrip = ...E566D05C
 ```
 
-The `Keygrip` value from the output indicates where your key stubs are stored locally. Take extra care not to delete the wrong files, <span style="color: var(--md-code-hl-special-color)">***delete***</span> the keygrip files for the subkeys you previously stubbed: **`~/.gnupg/private-keys-v1.d/<keygrip>.key`**.
+The `Keygrip` value from the output indicates where your key stubs are stored locally. Take extra care not to delete the wrong files while you <span style="color: var(--md-code-hl-special-color)">***delete***</span> the keygrip files for the subkeys you previously stubbed: **`~/.gnupg/private-keys-v1.d/<keygrip>.key`**.
 
 With the keygrip files removed, import the subkeys from your backup `.asc` file:
 
@@ -350,7 +381,7 @@ gpg:       secret keys read: 1
 gpg:   secret keys imported: 1
 ```
 
-If your master key is passphrase protected, be prepared to enter it during the import process. Once complete, enumerate your secret keys and note that the stub identifier (`>`) is no longer present, indicating the key material is indeed present on your local keyring again.
+If your master key is passphrase protected, be prepared to enter it during the import process - even if your master key is not currently saved to the computer you're working from. Once complete, enumerate your secret keys and note that the stub identifier (`>`) is no longer present, indicating the key material is indeed present on your local keyring again.
 
 ``` bash
 $ gpg --list-secret-keys --with-subkey-fingerprint
@@ -367,7 +398,7 @@ ssb   ed25519 YYYY-MM-DD [A]
 
 1.   :material-key-alert: The "`>`" is no longer present, signifying that the key material is present on the local keyring once again.
 
-***We're now ready to copy the subkeys over to your new Yubikey!*** Like before, however, this is a one-way operation. Transferring the keys will once again replace the keys in your keyring with stubs. If this is your first time transferring private keys to Yubikey, read through the entire process carefully so you know what to expect. 
+***We're now ready to copy the subkeys over to your new Yubikey.*** Like before, however, this is a one-way operation. Transferring the keys will once again replace the keys in your keyring with stubs. If this is your first time transferring private keys to Yubikey, read through the entire process carefully so you know what to expect. 
 
 You're going to need to ...
 
@@ -541,7 +572,7 @@ gpg> save # (7)
 13.  The key has been *DE-selected*.
 14.  The key has been *DE-selected*.
 
-### Final Verification
+## Verify Keys Have Moved
 
 Let's confirm that your keys have once again been REMOVED from your local keyring and replaced with STUBS only:
 
@@ -624,9 +655,9 @@ ssb>  ed25519/2BA9D97DEB5285E8  created: YYYY-MM-DD  expires: never
 
     After copying your keys to Yubikey, your local keys will be deleted every time. You must re-import your keys from your backup in order to move them to each Yubikey you want to store them on. 
 
-    After your final Yubikey has been updated, do not restore your local keys from backup. Let them stay in your keyring as STUBS ONLY. This ensures that you can now only access your keys by having a Yubikey present.
+    ***After your final Yubikey has been updated, do not restore your local keys from backup.*** Let them stay in your keyring as STUBS ONLY. This ensures that you can now only access your keys by having a Yubikey present.
 
-### One final note ...
+## Which Yubikey to Use?
 
 If you have multiple Yubikeys that you've configured with identical OpenPGP keys, note that the GnuPG Keyring will only ever remember the last Yubikey used to stub out your keys. 
 

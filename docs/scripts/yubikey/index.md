@@ -7,11 +7,11 @@ icon: simple/yubico
 
 !!! info "Annotations"
 
-     Annotations are used throughout some of the examples below. Clicking the <span style="color: yellow">:octicons-feed-plus-16:{ title="annotation icon" }</span> symbols reveals additional comments intended for clarity.
+     Annotations are used throughout some of the examples below. Clicking the <span style="color: yellow">:octicons-feed-plus-16:{ title="annotation icon" }</span> symbol reveals additional comments intended for clarity.
 
-## Requirements
+## Tools and Requirements
 
-There are a few prerequisites you'll need to setup before continuing on to setup your key(s). The information on this page assumes you've already installed `gnupg` and initialized your local keyring. 
+There are a few prerequisites you'll need to fully configure and setup your key(s). The information on this page assumes you've already installed `GnuPG` and initialized your local keyring. 
 
 !!! abstract inline end "Requirements"
 
@@ -65,7 +65,9 @@ $ gpg-connect-agent reloadagent /bye
     `brew install ykman`
 ### `yubikey-manager` (`ykman`)
 
-Yubikey Manager is a CLI tool for configuring your Yubikey device: FIDO2, OTP, PIV, identify serial and firmware, enable or disable interfaces, and other extended features of Yubikey devices. This is the tool I use most frequently when interacting with my device.
+Yubikey Manager and it's CLI counterpart, `ykman`, are tools for configuring Yubikey *(FIDO2, OTP, PIV, identify serial and firmware, enable or disable interfaces, and other extended features)*. 
+
+The GUI version (Yubikey Manager) is occasionally helpful for quick tasks or checking information, but the majority of the time I use `ykman`. The GUI only exposes some configuration control, while the CLI tool provides full access to every feature.
 
 See also: [`ykman` CLI Documentation](https://docs.yubico.com/software/yubikey/tools/ykman/Using_the_ykman_CLI.html)
 
@@ -241,6 +243,25 @@ Usage: yubico-piv-tool [OPTION]...
 
 ---
 
+!!! abstract inline end "Requirements"
+
+    [:simple-github: Yubico/yubioath-flutter](https://github.com/Yubico/yubioath-flutter)
+
+    [:simple-yubico: Yubico Authenticator](https://www.yubico.com/products/yubico-authenticator/)
+
+    [:simple-homebrew: yubico-authenticator](https://formulae.brew.sh/cask/yubico-authenticator#default)
+    
+    `brew install --cask yubico-authenticator`
+### `Yubico Authenticator`
+
+Yubico Authenticator has evolved into a more holistic app for configuring Yubikey, but its primary purpose is serving up OATH codes saved to Yubikey. 
+
+Outside of the OATH functionality, it provides a clean UI for identifying serial number and firmware version, configuring the two touch slots, and reviewing saved Passkeys and PIV certificates.
+
+See also: [Yubico Authenticator User Guide](https://docs.yubico.com/software/yubikey/tools/authenticator/auth-guide/webdocs.pdf)
+
+---
+
 ## Yubikey Configuration Resources
 
 - [YubiKey Technical Manual](https://docs.yubico.com/hardware/yubikey/yk-tech-manual/webdocs.pdf)
@@ -317,3 +338,114 @@ PIV         	Enabled
 OpenPGP     	Enabled
 YubiHSM Auth	Enabled
 ```
+
+---
+
+## PINs and Security
+
+When reviewing the various modes available on Yubikey (section below), keep in mind that each one has it's own PIN security preference settings. Some functions require the PIN to be set while others do not. Additionally, some OSes place additional requirements on PIN type or length above and beyond the minimum supported by Yubico. 
+
+For a medium baseline of security, make sure your PINs are at least 6 digits where fewer are supported.
+
+The strength of a Yubikey's security is derived from two of the three authentication factors: something you ***have***, and something you ***know***. The stronger your PINs are, the more secure your Yubikey is. Enabling optional features that require PINs, passwords, or touch increase the security of your device at the cost of inconvenience. 
+
+| Yubikey App / PIN | PIN Length | Default | Set/Change<br />Required | Options | Notes |
+| ----------- |:---:| ------- |:--------:| ------- | ----- |
+| FIDO2<br />*(Passkeys)* | 4 to 63 | Not Set | Yes | - Always Require User Verification *(User Presence)*<br />- Change Minimum PIN Length<br /> | - Charset: 0-9, a-z, A-Z, (no special characters) | n/a | 
+| OTP<br />*(Touch slots)* | n/a | short touch /<br />long touch | No | - Configure as: Yubico OTP, Challenge-response, Static password, or OATH-HOTP | - No PIN settings. OTP operates on touch only. |
+| OATH | Unrestricted | Not Set | No | - Set / Change a password<br />- Remember password on this computer<br />- Forget / Clear password  | - Charset: 0-9, a-z, A-Z, special characters allowed<br />- Password not required by default, anyone with physical access to yubikey can generate codes. |
+| OpenPGP<br />Access PIN | 6 to 64 | `123456` | No | - Change PIN<br />- Change max attempts allowed<br />- Require touch per PGP subkey | - Charset: alphanumeric only<br />- Used for day-to-day PGP activity<br />- Changing default not required but strongly advised. |
+| OpenPGP<br />Admin PIN | 8 to 64 | `12345678` | No | - Change PIN<br />- Change max attempts allowed | - Charset: alphanumeric only<br />- Used for configuring PGP features<br />- Changing default not required but strongly advised. |
+| OpenPGP<br />Reset PIN | 6 to 64 | Not Set | No | - Set / Change PIN<br />- Change max attempts allowed | - Charset: alphanumeric only<br />- Not required, but if set must be used to reset PGP app when max retries exceeded. Useful for allowing a user to reset PGP without giving them the Admin PIN for configuration access. |
+| PIV<br />Access PIN | 6 to 8 | `123456` | No | - Change PIN<br />- Change max attempts allowed | - Charset: any ASCII, but OSes may limit to numeric only<br />- Used for day-to-day PIV activity<br />- Changing default not required but strongly advised. |
+| PIV<br />Unlock PIN | 6 to 8 | `12345678` | No | - Change PIN<br />- Change max attempts allowed | - Charset: any ASCII, but OSes may limit to numeric only<br />- Used for unlocking the PIN if max retries exceeded<br />- Changing default not required but strongly advised. |
+| PIV<br />Mgmt Key | depends on algorithm used | see note below | No | - Supports 3DES, or<br />AES 128/192/256 | - Required for management functions. |
+
+
+For the PIV Management Key: 
+
+- The default Management Key is `010203040506070801020304050607080102030405060708` 3DES (also referred to as *TDES*) and 48 characters long. Other acceptable formats are AES 128 (32 characters), AES 192 (48 characters), and AES 256 (64 characgers). Keys can be randomly generated on-device or manually entered. 
+- The Management Key can optionally be protected by PIN.
+
+
+### Attemps and Retries
+
+In general, if you exceed the retry count for a specified application, that application will become fully blocked from operation and cannot be used again until an "app reset" has been performed. This causes all data for the blocked app to be deleted. 
+
+| Yubikey App | Default Retries | Changable | Notes |
+| ----------- |:---------------:|:---------:| ----- |
+| FIDO2 | 8 | No | Three (3) incorrect attempts in a row: key must be removed and reinserted.<br />Eight (8) attempts: FIDO2 is disabled entirely and FIDO2 app must be reset, wiping all FIDO credentials from Yubikey. |
+| OTP | n/a | n/a | Touch only. |
+| OATH | no enforced limit | No | Forgotten passwords can only be 'reset' by resetting the entire OATH application on Yubikey, effectively wiping all OATH codes from the device. |
+| OpenPGP | 3 / 3 / 3 | Yes | If you exceed the *access PIN* retry count, OpenPGP becomes "**locked**" until you enter your *admin PIN*.<br />If you've set a *reset PIN*, the *reset PIN* must be used to unlock Yubikey instead.<br />If you exceed the *admin PIN* or *reset PIN* retry count, OpenPGP becomes "**blocked**" and cannot be used until OpenPGP is reset, wiping all OpenPGP keys from Yubikey. |
+| PIV | 3 / 3 | Yes | If *PIN* retry count is exceeded, PIV becomes "**locked**" until you enter your *PUK*.<br />If the *PUK* retry count is exceeded, PIV becomes "**blocked**" and cannot be used until PIV is reset, wiping all PIV data from Yubikey, including PIN, PUK, and Management Key. |
+
+---
+
+## Apps (modes of operation)
+
+### FIDO U2F / FIDO2 
+
+*(Passwordless & 2FA Authentication)*
+
+* Used for passwordless login or as a second factor for online accounts.
+* Works with services like Microsoft, Google, GitHub, and Facebook.
+* Resistant to phishing since authentication only works on legitimate sites.
+* FIDO2 enables single-factor authentication, while U2F (universal second factor) provides two-factor.
+
+***Use-case example:*** Logging into Microsoft with just your Yubikey and PIN, replacing username and password.
+
+***Capacity:*** `100 resident (discoverable) credentials` (firmware >= 5.7), `25 credentials` (firmware < 5.7)
+
+
+### OTP (Touch Slots)
+
+* Generates one-time passwords (OTP) for login security.
+* Works with legacy systems that don't support modern authentication (like older VPNs).
+* Supports both Yubico OTP (proprietary, cloud-verified) and HOTP (event-based OTP).
+
+***Use-case example:*** Logging into a VPN that requires a one-time password along with your username and password. 
+
+***Use-case example:*** Programming the long-touch slot as a 'Static Password' and assigning a very long complex password.
+
+***Capacity:*** `2 slots`
+
+The easiest way to setup one or both of the OTP slots on Yubikey is to use the "`Yubikey Manager`" or "`Yubico Authenticator`" apps. The OTP functionality is accessed by either short-pressing or long-pressing the Yubico logo on the physical key.
+
+
+### OATH (TOTP & HOTP)
+
+* Works exactly like Google Authenticator and Authy but stores the codes securely on your Yubikey - not on your computer or mobile device. 
+* Generates TOTP (time-based one-time passwords) for 2FA logins.
+* Requires the Yubikey to generate authentication codes, reading only the datetime from your computer or mobile device. 
+
+***Use-case example:*** Using the Yubico Authenticator app to generate 6-digit TOTP codes for logging into services like GitHub, Amazon, or your bank account.
+
+***Capacity:*** `64 slots` (firmware >= 5.7), `32 slots` (firmware < 5.7)
+
+
+### OpenPGP 
+
+*(Encryption, Signing, and Authentication)*
+
+*(If you've never created PGP keys before and want a walk-through of this process, see the [PGP Primer](../pgp/pgp.md#creating-your-keys))*
+
+* Stores PGP private keys securely on the Yubikey itself. 
+* Used for encrypting/decrypting emails, signing files, and SSH authentication.
+* Ensures security of private keys - keys cannot be exported once loaded into Yubikey.
+
+***Use-case example:*** Signing and encrypting emails with OpenPGP to ensure only the intended recipient can read them. 
+
+***Use-case example:*** Signing code commits on GitHub.
+
+***Capacity:*** `3 subkeys` (Encryption, Signature, Authentication) 
+
+
+### PIV (Smart Card)
+
+* Functions as a hardware smart card for identity verification.
+* Used for logging into computers securely.
+* Supports digital signing and encryption for documents.
+* Ensures security of private keys - keys cannot be exported once loaded into Yubikey.
+
+***Capacity:*** `19` functionally usable slots (`5` specific-function, `14` retired key slots).

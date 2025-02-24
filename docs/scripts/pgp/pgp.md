@@ -5,6 +5,10 @@ icon: octicons/info-16
 
 # A quick PGP primer ...
 
+!!! abstract "Skip to the walk-through ..."
+
+    Use the "Creating Your Keys" heading link on the right side of the page to skip directly to the key generation walk-through.
+
 ## What even is "PGP" ?
 
 If you've ever been curious about (or needed to know) how to encrypt files for security, PGP (or *Pretty Good Privacy*) is a simple and elegant solution - but can be a little intimidating if you've never used it before. Cryptography is a very deep subject with more rabbit holes than Reddit at 11 PM, and I wouldn't even be able get you all the way there myself. Forunately, there are a plethora of excellent resources available online if you're so inclined. This will only cover the basics, but it will be enough to actually enable you to use it. 
@@ -56,7 +60,7 @@ Because file naming can be inconsisent, I try to following one of two naming con
 
 </div>
 
-!!! question "Key confusion?"
+!!! question "Key confusion"
 
     If you get confused about which key is which, the keys themselves can be opened in any text editor (provided you saved your keys as ASCII-armored). The first and last lines of each file will identify the type of key you have: `-----BEGIN PGP PUBLIC KEY BLOCK-----` vs `-----BEGIN PGP PRIVATE KEY BLOCK-----`
 
@@ -99,6 +103,7 @@ Files are encrypted using <span style="color: var(--md-code-hl-string-color)">**
 
     I'll use my <span style="color: var(--md-code-hl-special-color)">**private**</span> key to decrypt the `.pgp` file to get the original photo, and I'll verify your signature separately using your <span style="color: var(--md-code-hl-string-color)">**public**</span> key.
 
+---
 
 ## Creating Your Keys
 
@@ -119,6 +124,8 @@ gpg: directory '/root/.gnupg' created
 gpg: keybox '/root/.gnupg/pubring.kbx' created
 gpg: /root/.gnupg/trustdb.gpg: trustdb created
 ```
+
+---
 
 ### Generating Your Keys
 
@@ -458,6 +465,7 @@ Where you see `[ultimate]` beside your name and email has to do with something c
 
 And don't forget that the 40-character long string is your key's "fingerprint."
 
+---
 
 ### Exporting Your Public Key
 
@@ -508,6 +516,8 @@ You'll get a new file (`my-public-key-binary.pgp`) as requested, but you won't b
 ??ϓv?kF???
 ```
 
+---
+
 ### Exporting Your Public Key to a Key Server
 
 There used to be a larger number of public key servers available on which you could host your public key, but these days I seem to only have success with one: [https://keys.openpgp.org/](https://keys.openpgp.org/). 
@@ -519,6 +529,8 @@ $ gpg --send-key 1C2EB5D40EBAC3871641B2E756DBD75D1A3FA918
 ```
 
 If you run into an error attempting to send the key via `gpg`, you can always go to the keyserver website and upload your public key manually. 
+
+---
 
 ### Exporting Your Private Keys
 
@@ -536,6 +548,7 @@ $ gpg --output subkeys.asc --armor --export-secret-subkeys john@smith.com
 
 Save these files in a highly secure location. Anyone with access to your Master Certify or Subkeys can perform all operations with your keys.
 
+---
 
 ### Encrypting Files
 
@@ -573,6 +586,8 @@ TOy21PkURh/szicowaRMJZ9/B4YlAYJnD9gzt8c=
 =8kzx
 -----END PGP MESSAGE-----
 ```
+
+---
 
 ### Signing (and Verifying) Files
 
@@ -625,6 +640,8 @@ gpg:                issuer "john@smith.com"
 gpg: Good signature from "John Smith <john@smith.com>" [ultimate]
 ```
 
+---
+
 #### Signing and encrypting together
 
 If we wanted to both sign *and* encrypt the file simultaneously, we can do that with:
@@ -660,6 +677,8 @@ gpg: Signature made Sun Jan 12 20:51:26 2025 UTC
 gpg:                using RSA key 1C2EB5D40EBAC3871641B2E756DBD75D1A3FA918
 gpg: Good signature from "John Smith <john@smith.com>" [ultimate]
 ```
+
+---
 
 #### Detached Signature
 
@@ -705,6 +724,8 @@ $ gpg --verify testdoc.txt.sig
 gpg: no signed data
 gpg: can't hash datafile: No data
 ```
+
+---
 
 ## Wrapping Up
 

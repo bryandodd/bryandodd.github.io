@@ -4,9 +4,9 @@ title: Yubikey FIDO2/Passkey Configuration
 
 # Yubikey FIDO2 / Passkey Configuration
 
-Passkeys are gaining steam as a new method of authenticating to websites and apps without using passwords. If you've seen any posts or videos about "passwordless" logon, Passkeys are one method commonly referred to in this context. 
+FIDO U2F and FIDO2 are both authentication protocols developed by the FIDO Alliance to enhance security and eliminate weak passwords. The main difference between them is that U2F is a second-factor protocol only, while FIDO2 can be used for passwordless (single-factor) or second-factor. 
 
-Instead of using a username and password, you authenticate with your fingerprint, Face ID, or a device PIN. Passkeys are considered more secure and easier to use because they can't be guessed or phished the way traditional passwords can. 
+U2F is still useful in the sense that it is phishing-resistant, but FIDO2 has quickly become more prominent with the rise of Passkeys.
 
 
 ## What They Are
@@ -22,54 +22,58 @@ Passkeys use public-key cryptography, which sounds intimidating but doesn't need
     * Your device confirms your identity (i.e., fingerprint, Face ID, or PIN).
     * If everything matches, you're logged in -- no password required.
 
-***Why they're better:***
+## Resident vs Non-Resident
 
-* They're more secure. No passwords mean hackers can't steal or guess them.
-* They're phish-proof. Passkeys only work for the websites they were created for, so scammers can't trick you.
-* They're easy to use. You don't have to remember any passwords or fiddle with password managers.
-* They work across devices. Your passkeys can sync across multiple devices using iCloud Keychain, Strongbox, and other password managers.
+FIDO2 uses a concept of discoverable (resident) and non-discoverable (non-resident) credentials. The primary difference between them is also the functional determiner as to whether or not it supports single-factor authentication: storage of the credential on-device. 
 
-Passkeys come in a couple of flavors: multi-device or single-device. Your phone and your password manager are two great examples of multi-device Passkeys. They're syncd across your devices and make accessing the sites and apps you've registered them for highly convenient. If you require additional security, however, a single-device Passkey may be the right choice. 
+Resident credentials require storage space - non-resident credentials are computationally determined.
 
-They work exactly like they sound. Keys are provisioned individually and locked to the device you created them with - like Yubikeys. It offers a higher level of security, but this is where having multiple keys at setup-time is helpful. You can provision your keys all at once, then stash one Yubikey somewhere safe as a backup. 
-
-
-### FIDO-U2F vs FIDO2
-
-FIDO-U2F (universal second factor) has been around longer. Its development was a collaboration between FIDO Alliance and Google, and in practice it has the same effect as the 6-digit codes everyone is familiar with using today. It can only be used for 2FA, but it is generally more secure than TOTP because you can't phish FIDO-U2F. 
-
-FIDO2 is a melding of WebAuthn (Web Authentication) and CTAP2 (Client To Authenticator Protocol), developed by FIDO Alliance, W3C, and big-tech. And this is where we get to concepts like *passwordless authentication*. FIDO2 can function as either a first-factor (password replacement) or second-factor (like U2F). When you register a FIDO2 authenticator, the authenticator generates a public-private key pair. The private key is stored on the device, while the public key is registered by the site or service you created it with. When you login, you need only a fingerprint, face scan, PIN code, or the device itself instead of a password. 
+| Feature | Resident<br />(Discoverable) | Non-Resident<br />(Non-Discoverable) |
+| ------- | --------------- | --------------- | 
+| Stored on Authenticator | Yes | No |
+| Username Required | No | Yes | 
+| Works for Passwordless | Yes | No (requires username first) | 
+| Supported by Passkeys | Yes | No |
+| Storage Limitation | Yes (limited slots on hardware keys) | No (server stores user records)
 
 
-### Why They're Frustrating
+## FIDO2 (WebAuthn + CTAP) vs Passkeys
 
-Passkeys leverage FIDO2 and WebAuthn to create either *discoverable* or *non-discoverable* credentials. Passkeys are primarily the 'discoverable' variety. This means that you shouldn't need to enter an identifier on a website to login, because the site or app should be able to see your Yubikey and locate the credentials stored there that are associated with them. But in practice, it usually doesn't work that way. In most implementations, you still have to provide your username or email address and then select an option to inform the app or site that you want to authenticate with your Passkey instead of your password.
+FIDO2 predates Passkeys, but the two are very closely related. They both utilize the same underlying technology -- WebAuthn (web authentication standard), and CTAP (a protocol for talking to security keys) -- but operate in different ways. 
 
-The second frustrating aspect of Passkeys is that they're non-exportable. And yes, I understand that was the whole point behind them in the first place ***and*** a key aspect of their security. But what this means, then, is that even if you're trying to be responsible by purchasing multiple Yubikeys to set one or two aside as spares or "emergency keys", unless you registered each key one after the other when you setup your Passkeys, you're probably going to end up with a "mishmash" of Passkeys on different Yubikeys. 
+Passkeys can be thought of more as an extension of FIDO2. Where FIDO2 was intended to be device-bound, Passkeys were intended to have multi-device support and synchronize across cloud services.
 
-***TL;DR*** - Passkeys are great for security, but throttle your enthusiasm for them because ensuring you've got backups for all of your important sites or apps is likely going to be a frustrating experience. It's best to spend time loading Passkeys on the front end, before keys end up separated (keychain, safe, off-site location, etc.).
-
-
-!!! angryface "Portable-Only (Keychain) Passkeys"
-
-    Be aware that a number of sites that claim to support Passkeys only really support the Apple implementation. Others support only "mobile" Passkeys. This simply means that unless you're creating the Passkey within your iCloud Keychain, Android, password manager, or (in some cases) Google Chrome, that site isn't going to let you create one. 
-
-    Examples of sites or apps with this restriction include [Robinhood](https://robinhood.com/), [Ring.com](https://ring.com/), [Nintendo](https://www.nintendo.com), and [Walmart](https://www.walmart.com/). If the site or app claims to support Passkeys, but only from within their mobile app, this is an indicator that you won't be able to provision a Passkey using Yubikey. 
-
-
-!!! angryface "Passkeys That Aren't Passkeys"
-
-    Just because a website claims to support Passkeys doesn't mean it does. Passkeys enable single-factor authentication. If the credential isn't discoverable (resident), its not a Passkey. And if it's not a Passkey, it's MFA-only.
+| Feature | FIDO2<br />(Traditional) | Passkeys |
+| ------- | ------------------------ | -------- |
+| Storage | Tied to a hardware device (like Yubikey) | Synced across devices via cloud<br />(Apple, Google, Microsoft) |
+| Portability | Needs the same hardware key each time | Works across devices via cloud sync |
+| Backup & Recovery | If you lose the key, you need a backup key | Cloud-based, so you can recover from another device |
+| Usability | Requires inserting and tapping a Yubikey or using built-in auth | Works across devices without needing a separate security key |
+| Adoption | Mostly used in enterprise / high-security setups | Designed for mainstream users to replace passwords easily |
 
 
-!!! angryface "Passkeys That Don't *'Passkey'*"
+## Bottom Line
 
-    What's especially frustrating are sites that claim to support Passkeys, have administrative functions to let you add them, act as though you've successfully registered them, but then never actually implement them.  [eBay](https://www.ebay.com) and [PayPal](https://www.paypal.com) are two excellent examples in this category. 
-    
-    I spent over an hour on the phone with eBay support attempting to submit a ticket because the site allowed me to create Passkeys with my Yubikeys, but the only place it actually prompts for or allows Passkeys is when navigating to the specific part of the user settings page to manage your Passkeys.  
+The definition of *Passkey* versus *FIDO2* has been loosely defined, and most websites or services don't actually differentiate between the two - even if their service supports one over the other. 
+
+Most websites that state they support ***Passkeys*** actually support ***FIDO2*** -- and because Passkeys are an extension of FIDO2, both are supported. On these sites, you can register one or more Yubikeys for authentication, or create a passkey via your mobile device or password manager. 
+
+Other websites claim to support "***passwordless authentication***," but in reality only support ***Passkeys***. FIDO2 can be "passwordless" ... but if a site only supports a *mobile-first* implemenation (iCloud, Google, password managers, etc.), what the user experiences is the ability to enable passwordless only from an iPhone or Android device. 
+
+Further still, some sites that claim to support Passkeys actually only support them as a second-factor. This can get even more muddied when they only support using them as a second factor on mobile devices. In practice, these sites only support FIDO U2F -- which could easily be opened up to significantly more device types. They are being artificially limited by a lack of understanding about which technology they're actually using and supporting.  
 
 
-## Preparing Yubikey for Passkeys
+## Yubikeys
+
+Yubikeys do not support Passkeys in the strictest definition of the technology -- however, because most sites that support Passkeys actually support FIDO2, Yubikeys can be used quite easily. 
+
+***Key Takeaway:*** If you're going to use Yubikey for FIDO2 authentication:
+
+1. Purchase multiple devices and configure them at the same time.
+2. Keep a log of which sites and services you've registered your device with. Your password manager makes an excellent location to store this information. 
+3. Note which apps / services are RESIDENT vs NON-RESIDENT.
+
+### Preparing Yubikey for Passkeys
 
 If you choose to use Yubikey to store your Passkeys, you need to setup your FIDO2 PIN ahead of time. Unlike with PIV and OpenPGP where Yubikey comes with default PINs set from the factory, FIDO2 does not.
 
@@ -96,12 +100,12 @@ Passkeys are still relatively new, and not everyone supports it yet.  But there 
 * [Keeper Security](https://www.keepersecurity.com/passkeys-directory/) also maintains a list of websites that support Passkey authentication.
 
 
-## View FIDO2 / Passkeys
+## Keep Track of Credentials
 
-You'll only be able to retrieve the list of *resident* (discoverable) FIDO2 credentials saved to Yubikey, but you can do that with the following command:
+Remember to keep a record of which sites and services you've registered your Yubikeys with, and whether or not that site has a `resident` or `non-resident` credential. Because resident credentials are discoverable (stored on Yubikey itself), you can retrieve a list of those credentials at any time:
 
 ``` bash
-$ ykman fido credentials list --pin 654321
+ykman fido credentials list --pin 654321
 
 Credential ID  RP ID                    Username            Display name      
 ba8f5853...    login.microsoft.com      jdoe@example.com    John Doe        
@@ -114,3 +118,4 @@ ac8bb687...    google.com               myother@email.com   John Doe
 4278543d...    uber.com                 jdoe@example.com    jdoe@example.com
 ```
 
+Non-resident credentials can only be identified from your memory. If you know you registered a key with a particular website or service but the credential is not listed when you run the "list" command, that credential is ***non-resident***. 

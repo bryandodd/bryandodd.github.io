@@ -5,19 +5,11 @@ hide:
 ---
 !!! note ""
 
-    This site is a personal project to help organize my thoughts and keep tabs on an ever growing list of "side projects" and other things I find interesting. There may occasionally be something here that others find helpful, so if that's you, I'm glad to have been able to help in some way.
-
-## $ whoami_
-
-I've been a "tech guy" for the last 30 years, 20 of which have been focused on my career in software engineering, infrastructure, systems, design, security and compliance, and everything inbetween.
-
-Technology evolves rapidly and the things that pique my interest tend to move in tandem with it. Occasionally things come full circle with one project piggybacking off the other to create something useful, and other times it's purely to satisfy my curiosity to learn something new. That's the idea behind this project - a convenient place for me to store sometimes useful or random bits of information that I can come back to reference later for incorporation into another project or to remind me of a subject I wanted to learn about and explore further. 
-
-Outside of IT I enjoy photography. My *day job* often requires intense focus and concentration, sometimes sucking up entire days or weeks at a time in the blink of an eye. Photography, on the other hand, forces me to slow down, to be more present in the moment, and concentrate on the story in front of me.
+    This site is a personal project to help organize my thoughts and keep track of notes, side-projects, and other things I find interesting. There may occasionally be something here that others find helpful, so if that's you, you're free to use what you can.
 
 ## $ sendmail_
 
-If you'd like to get in touch for any reason or have a question about anything published here, you can email me at <code>bryan&#64;dodd&#46;dev</code>.
+If you need to get in touch for any reason or have a question about something published here, email me at <code>bryan&#64;dodd&#46;dev</code>.
 
 To send secure mail, my [public key](https://keys.openpgp.org/vks/v1/by-fingerprint/74BD90B590F9AA984391707383308CA85B65951C) is available on keys.openpgp.org or can be copied below.
 

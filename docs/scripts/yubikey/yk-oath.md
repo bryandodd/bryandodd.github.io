@@ -16,7 +16,7 @@ There are typically two options:
 
 1. When you're presented with the QR code to scan, some apps give you a link that will reveal your TOTP Seed string. Save that string in your password manager before setting up the MFA in your app of choice. 
 
-2. If there's no option to get the TOTP Seed string, I snap a photo or screenshot when I'm away from home, or grab a screenshot when I'm sitting at my desk. Using a tool called [Zbar](https://github.com/mchehab/zbar) (you can grab it easily via [Homebrew](https://formulae.brew.sh/formula/zbar#default)) I can decode the QR code from the macOS terminal to get the full TOTP URI.
+2. If there's no option to get the TOTP Seed string, I snap a photo or screenshot when I'm away from home, or grab a screenshot when I'm sitting at my desk. Using a tool called [Zbar](https://github.com/mchehab/zbar) (get it via [Homebrew](https://formulae.brew.sh/formula/zbar#default)) I can decode the QR code from the macOS terminal to get the full TOTP URI.
 
 For demonstration purposes, I grabbed a quick demo QR code from [GitHub](https://gist.github.com/kcramer/c6148fb906e116d84e4bde7b2ab56992) and took a screenshot of just a single QR code. 
 
@@ -35,12 +35,12 @@ TOTP codes mostly follow the same format:
 * Digits = `6`
 * Period = `30` (seconds)
 
-The rest of it is fluff.  I got into the habit, years ago, of grabbing this URI for every QR code and saving the output in my password vault of choice, [Strongbox](https://strongboxsafe.com/). For each entry, I create two custom fields, both marked as `Concealable`, where one is called "TOTP URI" and the other "TOTP SEED". 
+Years ago, I got into the habit of grabbing this URI for every QR code and saving the output in my password vault, [Strongbox](https://strongboxsafe.com/). For each entry, I create two custom fields, both marked as `Concealable`, where one I named "TOTP URI" and the other "TOTP SEED". 
 
 * TOTP URI: `otpauth://totp/Amazon:jdoe@gmail.com?secret=VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV&issuer=Amazon&algorithm=SHA1&digits=6&period=30`
-* TOTP Seed: `VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV`
+* TOTP SEED: `VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV`
 
-If I ever want to move my TOTP codes to other apps or devices, it can be easily and quickly becuase I've saved a copy of the URI. (Strongbox has a built-in mechanism to display the rotating TOTP codes as well, so I've always got multiple methods from which to acquire a code when needed.)
+If I ever want to move my TOTP codes to other apps or devices, it can be done quickly and easily becuase I've saved a copy of the URI. (Strongbox has a built-in mechanism to display the rotating TOTP codes as well, so I've always got multiple methods from which to acquire a code when needed.)
 
 Where this comes into play for Yubikey, however, is bulk-loading TOTP codes to each Yubikey. 
 
