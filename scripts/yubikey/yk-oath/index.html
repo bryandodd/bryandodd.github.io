@@ -1407,7 +1407,7 @@
 <p>When you're presented with the QR code to scan, some apps give you a link that will reveal your TOTP Seed string. Save that string in your password manager before setting up the MFA in your app of choice. </p>
 </li>
 <li>
-<p>If there's no option to get the TOTP Seed string, I snap a photo or screenshot when I'm away from home, or grab a screenshot when I'm sitting at my desk. Using a tool called <a href="https://github.com/mchehab/zbar">Zbar</a> (you can grab it easily via <a href="https://formulae.brew.sh/formula/zbar#default">Homebrew</a>) I can decode the QR code from the macOS terminal to get the full TOTP URI.</p>
+<p>If there's no option to get the TOTP Seed string, I snap a photo or screenshot when I'm away from home, or grab a screenshot when I'm sitting at my desk. Using a tool called <a href="https://github.com/mchehab/zbar">Zbar</a> (get it via <a href="https://formulae.brew.sh/formula/zbar#default">Homebrew</a>) I can decode the QR code from the macOS terminal to get the full TOTP URI.</p>
 </li>
 </ol>
 <p>For demonstration purposes, I grabbed a quick demo QR code from <a href="https://gist.github.com/kcramer/c6148fb906e116d84e4bde7b2ab56992">GitHub</a> and took a screenshot of just a single QR code. </p>
@@ -1423,12 +1423,12 @@ scanned<span class="w"> </span><span class="m">1</span><span class="w"> </span>b
 <li>Digits = <code>6</code></li>
 <li>Period = <code>30</code> (seconds)</li>
 </ul>
-<p>The rest of it is fluff.  I got into the habit, years ago, of grabbing this URI for every QR code and saving the output in my password vault of choice, <a href="https://strongboxsafe.com/">Strongbox</a>. For each entry, I create two custom fields, both marked as <code>Concealable</code>, where one is called "TOTP URI" and the other "TOTP SEED". </p>
+<p>Years ago, I got into the habit of grabbing this URI for every QR code and saving the output in my password vault, <a href="https://strongboxsafe.com/">Strongbox</a>. For each entry, I create two custom fields, both marked as <code>Concealable</code>, where one I named "TOTP URI" and the other "TOTP SEED". </p>
 <ul>
 <li>TOTP URI: <code>otpauth://totp/Amazon:jdoe@gmail.com?secret=VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV&amp;issuer=Amazon&amp;algorithm=SHA1&amp;digits=6&amp;period=30</code></li>
-<li>TOTP Seed: <code>VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV</code></li>
+<li>TOTP SEED: <code>VOHJXBL54OM2TTLKANOUUCJTE7PXVOIV</code></li>
 </ul>
-<p>If I ever want to move my TOTP codes to other apps or devices, it can be easily and quickly becuase I've saved a copy of the URI. (Strongbox has a built-in mechanism to display the rotating TOTP codes as well, so I've always got multiple methods from which to acquire a code when needed.)</p>
+<p>If I ever want to move my TOTP codes to other apps or devices, it can be done quickly and easily becuase I've saved a copy of the URI. (Strongbox has a built-in mechanism to display the rotating TOTP codes as well, so I've always got multiple methods from which to acquire a code when needed.)</p>
 <p>Where this comes into play for Yubikey, however, is bulk-loading TOTP codes to each Yubikey. </p>
 <h2 id="organization-and-naming-convention">Organization and Naming Convention<a class="headerlink" href="#organization-and-naming-convention" title="Permanent link">&para;</a></h2>
 <p>If you simply scan the QR code to create the code in your app, different apps give you different options. Some let you rename the codes - others take the values directly from the URI string and you get what you get. </p>

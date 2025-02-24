@@ -1672,6 +1672,22 @@ ssb&gt;<span class="w">  </span>ed25519<span class="w"> </span><span class="m">2
 <span class="w">      </span><span class="m">4444444444444444444444444444444444444444</span>
 <span class="w">      </span>Card<span class="w"> </span>serial<span class="w"> </span>no.<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0006</span><span class="w"> </span><span class="m">12345678</span>
 </code></pre></div>
+<p>And to identify keygrip files (<code>~/.gnupg/private-keys-v1.d/&lt;keygrip&gt;.key</code>):</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--list-secret-keys<span class="w"> </span>--with-keygrip
+
+<span class="o">[</span>keyboxd<span class="o">]</span>
+---------
+sec#<span class="w">  </span>ed25519<span class="w"> </span>YYYY-MM-DD<span class="w"> </span><span class="o">[</span>C<span class="o">]</span>
+<span class="w">      </span><span class="m">7777777777777777777777777777777777777777</span>
+<span class="w">      </span><span class="nv">Keygrip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>...A47E26C0196ED67BD
+uid<span class="w">           </span><span class="o">[</span>ultimate<span class="o">]</span><span class="w"> </span>Joe<span class="w"> </span>Schmoe<span class="w"> </span>&lt;joe@schmoe.com&gt;
+ssb&gt;<span class="w">  </span>ed25519<span class="w"> </span>YYYY-MM-DD<span class="w"> </span><span class="o">[</span>S<span class="o">]</span><span class="w">    </span>
+<span class="w">      </span><span class="nv">Keygrip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>...BA272DF1
+ssb&gt;<span class="w">  </span>cv25519<span class="w"> </span>YYYY-MM-DD<span class="w"> </span><span class="o">[</span>E<span class="o">]</span>
+<span class="w">      </span><span class="nv">Keygrip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>...CC740E41
+ssb&gt;<span class="w">  </span>ed25519<span class="w"> </span>YYYY-MM-DD<span class="w"> </span><span class="o">[</span>A<span class="o">]</span>
+<span class="w">      </span><span class="nv">Keygrip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>...E566D05C
+</code></pre></div>
 
 
 

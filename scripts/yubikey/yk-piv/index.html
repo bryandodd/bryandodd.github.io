@@ -650,7 +650,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Verify Slots">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-with-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use with SSH
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use with SSH">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1544,7 +1553,16 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Verify Slots">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-with-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use with SSH
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use with SSH">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1679,10 +1697,8 @@
 
 
 <h1 id="yubikey-piv-personal-identity-verification">Yubikey PIV (Personal Identity Verification)<a class="headerlink" href="#yubikey-piv-personal-identity-verification" title="Permanent link">&para;</a></h1>
-<p>Yubikeys are multi-faceted and can be used for a number of different security needs. One of those is to function like a "smart card" through it's PIV functionality. Think of this like a digital ID card that proves who you are when logging into computers or securing files. </p>
-<p>PIV is like a digital passport - it contains a special digital certificate that proves your identity, just like a real passport proves who you are at the airport. Instead of using a password, your compuer can check your Yubikey to confirm that its really you trying to log in. Your private key is stored safely within the Yubikey and can't ever be exported.</p>
-<p>It can be used for anything from logging into computers securely, SSH'ing into a remote machine, encrypting files/email, and digitally signing documents. One example of this is signing documents in Adobe Acrobat. It's a different kind of signature from simply putting your "written" signature on a document - instead, it relies on a certificate stored in Yubikey that identifies who you are. </p>
-<p>PIV can perform sign/encrypt operations through common interfaces like PKCS#11. And Yubikey supports RSA and ECDSA keys for this purpose. I'll touch on this a little later, but even though Yubikey supports ED25519 keys, there is a limitation with PKCS#11 currently that prevents us from using them easily. For now, I'm using RSA keys due to their widespread support with both new and legacy systems. </p>
+<p>Yubikey's PIV functionality can be used for a variety of things - like behaving as a "smart card" to login to computers securely, SSHing into remote machines, encrypting files and email, or digitally signing documents with Adobe Acrobat, for example. </p>
+<p>The PIV functions perform their operations through a common interface like PKCS#11, and Yubikey supports RSA and ECDSA keys for this purpose.</p>
 <div class="admonition important">
 <p class="admonition-title">Default PINs</p>
 <p>If this is a new key and you haven't modified anything yet, make note of the PIV defaults below. We'll be changing them shortly.</p>
@@ -1829,7 +1845,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> <
 </code></pre></div>
 <div class="admonition warning inline end">
 <p class="admonition-title">Lost Keys / PINS</p>
-<p>If you lose your <strong><em>Management Key</em></strong>, the only way to recover is to <a href="https://developers.yubico.com/PIV/Guides/Device_setup.html">completely reset</a> all PIV functionality, <span style="color: yellow">erasing all keys/certs</span> on the device. This only affects the PIV features.</p>
+<p>If you lose your <strong><em>Management Key</em></strong>, the only way to recover is to <a href="https://developers.yubico.com/PIV/Guides/Device_setup.html">completely reset</a> all PIV functionality, <span style="color: yellow">erasing any keys/certs</span> on the device. This only affects the PIV features.</p>
 <p>If the wrong <strong><em>PIN</em></strong> is entered <em>3 times consecutively</em>, the PIN will become <strong>blocked</strong> (totally unusable). You must use the <strong>PUK</strong> to set a new PIN.</p>
 </div>
 <div class="highlight"><pre><span></span><code><span class="c1"># Replace the 3DES default management key with AES256 and the random string generated earlier</span>
@@ -1873,12 +1889,12 @@ ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> <
 </dd>
 <dt><span style="color: dodgerblue"><strong><em>Slot f9: Attestation</em></strong></span></dt>
 <dd>
-<p>No, that's not a typo - the slot is <code>f9</code>. This slot can only be used for attestation of other keys generated <strong><em>on-device</em></strong> with instruction <code>f9</code>. This slot is not cleared on reset, but can be overwritten. Read more about <a href="https://developers.yubico.com/PIV/Introduction/PIV_attestation.html">PIV Attestation</a> on the Yubico website.</p>
+<p>Not a typo - the slot is <code>f9</code>. This slot can only be used for attestation of other keys generated <strong><em>on-device</em></strong> with instruction <code>f9</code>. This slot is not cleared on reset, but can be overwritten. Read more about <a href="https://developers.yubico.com/PIV/Introduction/PIV_attestation.html">PIV Attestation</a> on the Yubico website.</p>
 </dd>
 </dl>
 <hr />
 <h3 id="about-certificates">About Certificates<a class="headerlink" href="#about-certificates" title="Permanent link">&para;</a></h3>
-<p>The normal way to go about getting certificates for use with Yubikey is to purchase them from known certification authorities. This is the approach you'd want to take if you were a business purchasing certificates for employees to use to sign official company documents. These can get quite expensive. They're usually only valid for a limited period of time, and some of them only allow a certain number of signing or certifying events before you have to pay to bump up to the next tier. And finding certificates that you can load onto your existing Yubikey can be challenging. </p>
+<p>The normal way to go about getting certificates for use with Yubikey is to purchase them from known certificate authorities. This is the approach you'd want to take if you were a business purchasing certificates for employees to use to sign official company documents. These can get quite expensive. They're usually only valid for a limited period of time, and some of them only allow a certain number of signing or certifying events before you have to pay to bump up to the next tier. And finding certificates that you can load onto your existing Yubikey can be challenging. </p>
 <p>I encourage you to read more about this in Adobe's own documentation:</p>
 <ul>
 <li><a href="https://helpx.adobe.com/acrobat/kb/approved-trust-list1.html">Adobe Approved Trust List</a> (these are who you would need to purchase certificates from to have them work most readily / reliably with Adobe Acrobat)</li>
@@ -1900,7 +1916,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>access<span class="w"> <
 <li>SSH agent forwarding only works with <code>ssh-keychain.dylib</code>. Generally speaking, SSH agent forwarding should be avoided for security reasons - only perform SSH agent forwarding to machines you have high levels of trust in.</li>
 <li>The Yubico library, <code>libykcs11.dylib</code>, will export <strong><em>all</em></strong> keys stored on Yubikey. The slot order remains the same, so utilizing the slots for their intended purpose makes identifying the public keys associated with your target private key much easier. </li>
 </ul>
-<p>Yubikey itself supports ED25519 keys with the PIV application, but there are limitations in PKCS#11 libraries that make it a royal pain to try to work with at present. I recommend sticking with the tried and true RSA until such time there are better ED25519 options available.</p>
+<p>Yubikey itself supports ED25519 keys with the PIV application, but there are limitations in PKCS#11 libraries that make it painful to work with at present. I recommend sticking with RSA until such time there are better ED25519 options available.</p>
 <p>My Root and Intermediate CAs are both 4096-bit, but my <code>Authentication (9a)</code> and <code>Signing (9c)</code> certificates are 2048-bit for maximum compatibility.</p>
 <p>The <code>Key Usage</code> and <code>Extended Key Usage</code> will be based on your specific needs -- for my purposes, here are the values I've selected:</p>
 <p><strong>Key Usage</strong></p>
@@ -1935,7 +1951,6 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 </code></pre></div>
 <hr />
 <h3 id="slot-9c-digital-signature">Slot 9c - Digital Signature<a class="headerlink" href="#slot-9c-digital-signature" title="Permanent link">&para;</a></h3>
-<p>For the signature certificate, my <code>Key Usage</code> and <code>Extended Key Usage</code> are:</p>
 <p><strong>Key Usage</strong></p>
 <ul>
 <li><strong><em>Digital Signature</em></strong> - mandatory for signing operations</li>
@@ -1962,7 +1977,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 </code></pre></div>
 <hr />
 <h3 id="slot-82-83-root-and-intermediate-ca-retired-key-slots">Slot 82 &amp; 83 - Root and Intermediate CA (Retired Key Slots)<a class="headerlink" href="#slot-82-83-root-and-intermediate-ca-retired-key-slots" title="Permanent link">&para;</a></h3>
-<p>If using a <em>roll-your-own</em> PKI, it will be helpful to have a copy of your Root and Intermediate CA certificates available on-the-go.  You can accomplish this easily by storing them in slots 82 and 83 of Yubikey, ensuring you have them with you at all times for full-chain signatures. </p>
+<p>Because I'm using a custom PKI, it will be helpful to have a copy of my Root and Intermediate CA certificates available when needed.  You can accomplish this easily by storing them in slots 82 and 83 of Yubikey, ensuring you have them with you at all times for full-chain signatures. </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Root CA in Slot 82</span>
 ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>77343a10df05ede9758df5b248e45eb9e7f95fca74bbe9e3f17e7e3611249acd<span class="w"> </span><span class="m">82</span><span class="w"> </span>your-root-ca.crt
 Certificate<span class="w"> </span>imported<span class="w"> </span>into<span class="w"> </span>slot<span class="w"> </span>RETIRED1
@@ -2060,6 +2075,7 @@ Slot<span class="w"> </span><span class="m">83</span>:<span class="w">    </span
 PIN<span class="w"> </span>tries<span class="w"> </span>left:<span class="w"> </span><span class="m">6</span>
 </code></pre></div>
 <hr />
+<h2 id="use-with-ssh">Use with SSH<a class="headerlink" href="#use-with-ssh" title="Permanent link">&para;</a></h2>
 <p>In order to use this key, we'll need to modify <code>~/.ssh/config</code>:</p>
 <div class="highlight"><span class="filename">~/.ssh/config</span><pre><span></span><code>PKCS11Provider <span class="s">/opt/homebrew/lib/libykcs11.dylib</span>
 IdentitiesOnly yes
@@ -2103,7 +2119,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 <hr />
 <h2 id="signing-documents-with-adobe-acrobat">Signing Documents With Adobe Acrobat<a class="headerlink" href="#signing-documents-with-adobe-acrobat" title="Permanent link">&para;</a></h2>
 <p>The most well-known use for these keys is digitally signing documents in Adobe Acrobat. Certificates and Yubikeys aren't required to sign documents digitally -- you can upload an image of your signature and apply it to documents through the Adobe UI without either one. The result is a "visible" signature on the document, but anyone with a scanned image of your signature could just as easily apply your signature to a different docoument. </p>
-<p>Certificate-based signatures help with two core issues: <strong><em>authenticating</em></strong> the signer, and <strong><em>verifying</em></strong> that a document hasn't been tampered with. At a high level, the concept is this:</p>
+<p>Certificate-based signatures help with two core issues: <strong><em>authenticating</em></strong> the signer, and <strong><em>verifying</em></strong> that a document hasn't been tampered with. At a high level, the concept is:</p>
 <ul>
 <li>
 <p>Only you have access to your signing certificate. It's something you have physical possession of, and is ideally protected by some additional mechanism - be it a PIN, a passphrase, or a combination of protections. Someone seeking to impersonate you would not simply be able to find an existing document you've signed and copy/paste your signature into a new document. </p>
@@ -2156,7 +2172,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 <p>Swith to the "Details" tab and scroll through the list of certificate data until you see "Serial number." Take note of this value, because this is how you can easily identify and differentiate your signing key from your authentication key. </p>
 <p>Click "OK" to close the Certificate Viewer and make sure you've still got the correct certificate selected. Click the "Usage Options" button at the top of the window, and select "Use for Signing," and again for "Use for Certifying."  A blue ribbon icon will appear to the left of the certificate name. </p>
 <p>By doing this, when you select the options to either sign or certify documents in the future, Adobe will prompt you to choose between the two certificates saved to your Yubikey. Setting the "use for" options will cause Adobe to default to correct certificate automatically. You can always verify and confirm this by clicking the "View Details" button beside the certificate and checking the "intended usage" values for "Code Signing" and "Acrobat Authentic Documents."</p>
-<p>SSL.com Documentation <a href="https://www.ssl.com/how-to/yubikey-document-signing-certificate-with-adobe-acrobat-macos/">Configuring Your Business Identity Document SIgning Certificates and Yubikey with Adobe Acrobat on macOS</a></p>
+<p>SSL.com Documentation: <a href="https://www.ssl.com/how-to/yubikey-document-signing-certificate-with-adobe-acrobat-macos/">Configuring Your Business Identity Document SIgning Certificates and Yubikey with Adobe Acrobat on macOS</a></p>
 <h4 id="add-a-signature-image">Add A Signature Image<a class="headerlink" href="#add-a-signature-image" title="Permanent link">&para;</a></h4>
 <p>To customize the appearance of your signatures and certifications, head back to Adobe Preferences &gt; Signatures, but this time hit the button under "Creation &amp; Appearance."</p>
 <figure>
@@ -2185,7 +2201,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 <li>Certify (invisible signature)</li>
 </ul>
 <p>The options are as they sound -- digitally signing is only providing an authenticated signature. The idea is that this signature proves that you were the one who did it.  Certify has the effect of "hashing" the document so that your recipient can compute the hash themselves to check and confirm that the document hasn't been tampered with.  In fact, this is what the grayed-out option on your screen is -- "Validate all signatures." </p>
-<p>With Certify, you have two optionis -- to include a visible signature, or not.  Most often, you're going to be using either the Digitally Sign or Certify with Visible Signature options. </p>
+<p>With Certify, you have two options -- to include a visible signature, or not.  Most often, you're going to be using either the Digitally Sign or Certify with Visible Signature options. </p>
 <p>Select the option to "Digitally sign" the document. Adobe will throw a pop-up notification instructing you to <em>"click and drag to draw the area where you would like the signature to appear."</em>  This behavior is the same for both Digitally Sign and Certify with Visibile Signature.  Click "OK" and find an open area of the screen to click-and-drag a moderately large horizontal rectangle. </p>
 <p>As soon as you release the mouse, Adobe will display the "Sign with a Digital ID" window. If you specified which certificate should be used for Signing and Certifying, the default selection <em>should</em> be your Slot 9c certificate. Double-check this by selecting the "View Details" button beside the certificate name. </p>
 <p>Select the "Continue" button to move onto the appearance settings for your signature. By default, Adobe will pre-select "Standard Text." If you uploaded a signature image earlier, you can select the dropdown box at the top of this window to select your full signature or initial-only variants. </p>
@@ -2195,7 +2211,7 @@ ykman<span class="w"> </span>piv<span class="w"> </span>certificates<span class=
 </ul>
 <p><strong><em>If you chose "Certify with Visible Signature":</em></strong></p>
 <ul>
-<li>In addition to any optionsl settings you enabled, you'll also see options for "Permitted Actions After Certifying" and "Review document content that may affect signing." <ul>
+<li>In addition to any optional settings you enabled, you'll also see options for "Permitted Actions After Certifying" and "Review document content that may affect signing." <ul>
 <li>Permitted Actions allow you to determine whether anyone is allowed to make any kind of changes after you've certified the document. You can optionally allow other people to fill out any forms in the document and provide their own signatures, or also allow them to make annotations on the document. </li>
 <li>The "Review" button will show you a list of all of the properties of the PDF document that could create problems for certifying the document. These are items that <em>could</em> cause a document to be rendered "invalid" due to having changed AFTER you certified it. Review these carefully before taking action from the prompts on-screen. </li>
 </ul>

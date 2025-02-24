@@ -1250,13 +1250,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#requirements" class="md-nav__link">
+  <a href="#tools-and-requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Requirements
+      Tools and Requirements
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Requirements">
+    <nav class="md-nav" aria-label="Tools and Requirements">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1286,6 +1286,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#yubico-authenticator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Yubico Authenticator
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1309,6 +1318,90 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#pins-and-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      PINs and Security
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PINs and Security">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#attemps-and-retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attemps and Retries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apps-modes-of-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Apps (modes of operation)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Apps (modes of operation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fido-u2f-fido2" class="md-nav__link">
+    <span class="md-ellipsis">
+      FIDO U2F / FIDO2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#otp-touch-slots" class="md-nav__link">
+    <span class="md-ellipsis">
+      OTP (Touch Slots)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oath-totp-hotp" class="md-nav__link">
+    <span class="md-ellipsis">
+      OATH (TOTP &amp; HOTP)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openpgp" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenPGP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piv-smart-card" class="md-nav__link">
+    <span class="md-ellipsis">
+      PIV (Smart Card)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1327,10 +1420,10 @@
 <h1 id="yubikey-setup-configuration">Yubikey Setup &amp; Configuration<a class="headerlink" href="#yubikey-setup-configuration" title="Permanent link">&para;</a></h1>
 <div class="admonition info">
 <p class="admonition-title">Annotations</p>
-<p>Annotations are used throughout some of the examples below. Clicking the <span style="color: yellow"><span class="twemoji" title="annotation icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0m1.062 4.312a1 1 0 1 0-2 0v2.75h-2.75a1 1 0 0 0 0 2h2.75v2.75a1 1 0 1 0 2 0v-2.75h2.75a1 1 0 1 0 0-2h-2.75Z"/></svg></span></span> symbols reveals additional comments intended for clarity.</p>
+<p>Annotations are used throughout some of the examples below. Clicking the <span style="color: yellow"><span class="twemoji" title="annotation icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0m1.062 4.312a1 1 0 1 0-2 0v2.75h-2.75a1 1 0 0 0 0 2h2.75v2.75a1 1 0 1 0 2 0v-2.75h2.75a1 1 0 1 0 0-2h-2.75Z"/></svg></span></span> symbol reveals additional comments intended for clarity.</p>
 </div>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
-<p>There are a few prerequisites you'll need to setup before continuing on to setup your key(s). The information on this page assumes you've already installed <code>gnupg</code> and initialized your local keyring. </p>
+<h2 id="tools-and-requirements">Tools and Requirements<a class="headerlink" href="#tools-and-requirements" title="Permanent link">&para;</a></h2>
+<p>There are a few prerequisites you'll need to fully configure and setup your key(s). The information on this page assumes you've already installed <code>GnuPG</code> and initialized your local keyring. </p>
 <div class="admonition abstract inline end">
 <p class="admonition-title">Requirements</p>
 <p><a href="https://github.com/GPGTools/pinentry"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span> GPGTools/pinentry</a></p>
@@ -1372,7 +1465,8 @@ $<span class="w"> </span>gpg-connect-agent<span class="w"> </span>reloadagent<sp
 <p><code>brew install ykman</code></p>
 </div>
 <h3 id="yubikey-manager-ykman"><code>yubikey-manager</code> (<code>ykman</code>)<a class="headerlink" href="#yubikey-manager-ykman" title="Permanent link">&para;</a></h3>
-<p>Yubikey Manager is a CLI tool for configuring your Yubikey device: FIDO2, OTP, PIV, identify serial and firmware, enable or disable interfaces, and other extended features of Yubikey devices. This is the tool I use most frequently when interacting with my device.</p>
+<p>Yubikey Manager and it's CLI counterpart, <code>ykman</code>, are tools for configuring Yubikey <em>(FIDO2, OTP, PIV, identify serial and firmware, enable or disable interfaces, and other extended features)</em>. </p>
+<p>The GUI version (Yubikey Manager) is occasionally helpful for quick tasks or checking information, but the majority of the time I use <code>ykman</code>. The GUI only exposes some configuration control, while the CLI tool provides full access to every feature.</p>
 <p>See also: <a href="https://docs.yubico.com/software/yubikey/tools/ykman/Using_the_ykman_CLI.html"><code>ykman</code> CLI Documentation</a></p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>ykman<span class="w"> </span>--help
 
@@ -1536,6 +1630,18 @@ Usage:<span class="w"> </span>yubico-piv-tool<span class="w"> </span><span class
 <span class="w">                             </span>Channel<span class="w"> </span>Protocol<span class="w"> </span><span class="m">11</span><span class="w"> </span><span class="o">(</span>SCP11b<span class="o">)</span><span class="w">  </span><span class="o">(</span><span class="nv">default</span><span class="o">=</span>off<span class="o">)</span>
 </code></pre></div>
 <hr />
+<div class="admonition abstract inline end">
+<p class="admonition-title">Requirements</p>
+<p><a href="https://github.com/Yubico/yubioath-flutter"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span> Yubico/yubioath-flutter</a></p>
+<p><a href="https://www.yubico.com/products/yubico-authenticator/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.356 12.388 2.521-7.138h3.64l-6.135 15.093H8.539l1.755-4.136L6 5.25h3.717ZM12 0C5.381 0 0 5.381 0 12s5.381 12 12 12 12-5.381 12-12S18.619 0 12 0m0 1.5c5.808 0 10.5 4.692 10.5 10.5S17.808 22.5 12 22.5 1.5 17.808 1.5 12 6.192 1.5 12 1.5"/></svg></span> Yubico Authenticator</a></p>
+<p><a href="https://formulae.brew.sh/cask/yubico-authenticator#default"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.938 0a.214.214 0 0 0-.206.156c-.316 1.104.179 2.15.838 2.935q.23.27.476.501a2 2 0 0 0-.665.02c-1.184.233-2.193.985-2.74 2.532a3.9 3.9 0 0 0-.2 1.466 1.565 1.565 0 0 0-1.156 1.504 1.59 1.59 0 0 0 1.227 1.541l.026 12.046c0 .195.1.377.264.482l.008.005c.537.31 2.047.812 5.21.812 3.238 0 4.7-.678 5.181-1.04l.008-.007a.57.57 0 0 0 .206-.439c.002-.344.002-1.136.002-1.604a.143.143 0 0 1 .147-.144c.397.006.869.006 1.318.005a1.826 1.826 0 0 0 1.832-1.825v-5.804a1.826 1.826 0 0 0-1.825-1.826H16.56a.14.14 0 0 1-.143-.144V10.6h.007v-.001a1.57 1.57 0 0 0 1.356-1.556c0-.816-.627-1.489-1.424-1.563-.025-1.438-.437-2.126-.736-2.58l-.005-.007c-.364-.51-1.193-1.282-2.275-1.316-.503-.016-.842.124-1.125.254-.217.1-.42.177-.67.22.002-1.286.945-1.981.945-1.981a.214.214 0 0 0 .05-.298s-.087-.122-.21-.26c-.121-.136-.269-.294-.47-.378a.2.2 0 0 0-.079-.017.21.21 0 0 0-.145.055 4.3 4.3 0 0 0-.875 1.101 3 3 0 0 0-.133.273 3.5 3.5 0 0 0-.381-.846C9.794.978 9.063.436 8.017.016A.2.2 0 0 0 7.939 0zm.156.524c.85.378 1.43.83 1.79 1.403.274.438.426.962.484 1.584a3 3 0 0 0-.012.462l-.168-.052a5.5 5.5 0 0 1-1.29-1.106c-.551-.657-.935-1.46-.804-2.291M11.8 1.618c.07.054.141.101.212.18.034.039.032.04.058.073-.332.308-1.07 1.144-.952 2.453a.214.214 0 0 0 .222.195c.469-.017.782-.172 1.056-.299.273-.126.508-.228.931-.214.875.027 1.639.715 1.939 1.134.295.449.65 1 .663 2.36a1.7 1.7 0 0 0-.41.142 1.94 1.94 0 0 0-1.77-1.16 1.94 1.94 0 0 0-1.87 1.448 1.78 1.78 0 0 0-1.356-.64c-.484 0-.91.205-1.233.517a1.87 1.87 0 0 0-1.85-1.625c-.649 0-1.218.335-1.552.84a3 3 0 0 1 .157-.735c.51-1.437 1.355-2.045 2.42-2.254.367-.073.664-.011.99.095s.671.262 1.094.342a.214.214 0 0 0 .252-.245c-.112-.67.073-1.266.336-1.744a3.7 3.7 0 0 1 .663-.863M7.44 6.611a1.442 1.442 0 0 1 1.363 1.925.214.214 0 0 0 .168.283h.005a.214.214 0 0 0 .238-.146 1.373 1.373 0 0 1 2.613-.01.214.214 0 0 0 .417-.09 1.51 1.51 0 0 1 1.504-1.664c.678 0 1.249.445 1.442 1.056a.214.214 0 0 0 .259.143l.15-.04a.2.2 0 0 0 .051-.02 1.14 1.14 0 0 1 1.702.995 1.14 1.14 0 0 1-.985 1.131h-.001a2.2 2.2 0 0 0-.485.126 11 11 0 0 1-1.176.365.21.21 0 0 0-.162.186 1.3 1.3 0 0 1-.146.478 2.07 2.07 0 0 0-.239 1.111l.001.151a.44.44 0 0 1-.16.36.67.67 0 0 1-.43.14.586.586 0 0 1-.588-.59.8.8 0 0 0-.38-.681l-.002-.002c-.24-.145-.43-.37-.532-.636a.21.21 0 0 0-.207-.138 19.5 19.5 0 0 1-5.37-.6l-.003-.002a9 9 0 0 0-.838-.194h.003a1.16 1.16 0 0 1-.937-1.134c0-.619.488-1.118 1.101-1.14a.214.214 0 0 0 .204-.176 1.44 1.44 0 0 1 1.42-1.187m8.549 4.106v.455c0 .314.259.573.572.573h1.329a1.397 1.397 0 0 1 1.397 1.397v5.804a1.396 1.396 0 0 1-1.402 1.396h-.002c-.448.002-.918 0-1.31-.005a.573.573 0 0 0-.584.573c0 .468 0 1.262-.002 1.603v.001q-.002.065-.05.107c-.346.26-1.75.95-4.915.95-3.107 0-4.587-.52-4.99-.752a.14.14 0 0 1-.065-.118l-.025-11.955q.217.05.431.11h.003c.115.031.246.064.383.097v10.37c0 .129.069.247.18.31.453.217 1.767.732 4.071.732 2.32 0 3.595-.626 4.022-.884a.36.36 0 0 0 .164-.3l.001-10.21q.4-.111.792-.254m-7.99.894a.493.493 0 0 1 .494.493v8.578a.493.493 0 0 1-.493.493.493.493 0 0 1-.494-.493v-8.578A.493.493 0 0 1 8 11.611zm8.652 1.14a.663.663 0 0 0-.662.662v5.208a.663.663 0 0 0 .662.662h1.14a.663.663 0 0 0 .662-.662v-5.209a.663.663 0 0 0-.662-.662zm0 .428h1.14a.233.233 0 0 1 .233.233v5.21a.233.233 0 0 1-.233.232h-1.14a.233.233 0 0 1-.233-.233v-5.209a.233.233 0 0 1 .233-.233"/></svg></span> yubico-authenticator</a></p>
+<p><code>brew install --cask yubico-authenticator</code></p>
+</div>
+<h3 id="yubico-authenticator"><code>Yubico Authenticator</code><a class="headerlink" href="#yubico-authenticator" title="Permanent link">&para;</a></h3>
+<p>Yubico Authenticator has evolved into a more holistic app for configuring Yubikey, but its primary purpose is serving up OATH codes saved to Yubikey. </p>
+<p>Outside of the OATH functionality, it provides a clean UI for identifying serial number and firmware version, configuring the two touch slots, and reviewing saved Passkeys and PIV certificates.</p>
+<p>See also: <a href="https://docs.yubico.com/software/yubikey/tools/authenticator/auth-guide/webdocs.pdf">Yubico Authenticator User Guide</a></p>
+<hr />
 <h2 id="yubikey-configuration-resources">Yubikey Configuration Resources<a class="headerlink" href="#yubikey-configuration-resources" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://docs.yubico.com/hardware/yubikey/yk-tech-manual/webdocs.pdf">YubiKey Technical Manual</a></li>
@@ -1602,6 +1708,195 @@ PIV<span class="w">             </span>Enabled
 OpenPGP<span class="w">         </span>Enabled
 YubiHSM<span class="w"> </span>Auth<span class="w">    </span>Enabled
 </code></pre></div>
+<hr />
+<h2 id="pins-and-security">PINs and Security<a class="headerlink" href="#pins-and-security" title="Permanent link">&para;</a></h2>
+<p>When reviewing the various modes available on Yubikey (section below), keep in mind that each one has it's own PIN security preference settings. Some functions require the PIN to be set while others do not. Additionally, some OSes place additional requirements on PIN type or length above and beyond the minimum supported by Yubico. </p>
+<p>For a medium baseline of security, make sure your PINs are at least 6 digits where fewer are supported.</p>
+<p>The strength of a Yubikey's security is derived from two of the three authentication factors: something you <strong><em>have</em></strong>, and something you <strong><em>know</em></strong>. The stronger your PINs are, the more secure your Yubikey is. Enabling optional features that require PINs, passwords, or touch increase the security of your device at the cost of inconvenience. </p>
+<table>
+<thead>
+<tr>
+<th>Yubikey App / PIN</th>
+<th style="text-align: center;">PIN Length</th>
+<th>Default</th>
+<th style="text-align: center;">Set/Change<br />Required</th>
+<th>Options</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIDO2<br /><em>(Passkeys)</em></td>
+<td style="text-align: center;">4 to 63</td>
+<td>Not Set</td>
+<td style="text-align: center;">Yes</td>
+<td>- Always Require User Verification <em>(User Presence)</em><br />- Change Minimum PIN Length<br /></td>
+<td>- Charset: 0-9, a-z, A-Z, (no special characters)</td>
+</tr>
+<tr>
+<td>OTP<br /><em>(Touch slots)</em></td>
+<td style="text-align: center;">n/a</td>
+<td>short touch /<br />long touch</td>
+<td style="text-align: center;">No</td>
+<td>- Configure as: Yubico OTP, Challenge-response, Static password, or OATH-HOTP</td>
+<td>- No PIN settings. OTP operates on touch only.</td>
+</tr>
+<tr>
+<td>OATH</td>
+<td style="text-align: center;">Unrestricted</td>
+<td>Not Set</td>
+<td style="text-align: center;">No</td>
+<td>- Set / Change a password<br />- Remember password on this computer<br />- Forget / Clear password</td>
+<td>- Charset: 0-9, a-z, A-Z, special characters allowed<br />- Password not required by default, anyone with physical access to yubikey can generate codes.</td>
+</tr>
+<tr>
+<td>OpenPGP<br />Access PIN</td>
+<td style="text-align: center;">6 to 64</td>
+<td><code>123456</code></td>
+<td style="text-align: center;">No</td>
+<td>- Change PIN<br />- Change max attempts allowed<br />- Require touch per PGP subkey</td>
+<td>- Charset: alphanumeric only<br />- Used for day-to-day PGP activity<br />- Changing default not required but strongly advised.</td>
+</tr>
+<tr>
+<td>OpenPGP<br />Admin PIN</td>
+<td style="text-align: center;">8 to 64</td>
+<td><code>12345678</code></td>
+<td style="text-align: center;">No</td>
+<td>- Change PIN<br />- Change max attempts allowed</td>
+<td>- Charset: alphanumeric only<br />- Used for configuring PGP features<br />- Changing default not required but strongly advised.</td>
+</tr>
+<tr>
+<td>OpenPGP<br />Reset PIN</td>
+<td style="text-align: center;">6 to 64</td>
+<td>Not Set</td>
+<td style="text-align: center;">No</td>
+<td>- Set / Change PIN<br />- Change max attempts allowed</td>
+<td>- Charset: alphanumeric only<br />- Not required, but if set must be used to reset PGP app when max retries exceeded. Useful for allowing a user to reset PGP without giving them the Admin PIN for configuration access.</td>
+</tr>
+<tr>
+<td>PIV<br />Access PIN</td>
+<td style="text-align: center;">6 to 8</td>
+<td><code>123456</code></td>
+<td style="text-align: center;">No</td>
+<td>- Change PIN<br />- Change max attempts allowed</td>
+<td>- Charset: any ASCII, but OSes may limit to numeric only<br />- Used for day-to-day PIV activity<br />- Changing default not required but strongly advised.</td>
+</tr>
+<tr>
+<td>PIV<br />Unlock PIN</td>
+<td style="text-align: center;">6 to 8</td>
+<td><code>12345678</code></td>
+<td style="text-align: center;">No</td>
+<td>- Change PIN<br />- Change max attempts allowed</td>
+<td>- Charset: any ASCII, but OSes may limit to numeric only<br />- Used for unlocking the PIN if max retries exceeded<br />- Changing default not required but strongly advised.</td>
+</tr>
+<tr>
+<td>PIV<br />Mgmt Key</td>
+<td style="text-align: center;">depends on algorithm used</td>
+<td>see note below</td>
+<td style="text-align: center;">No</td>
+<td>- Supports 3DES, or<br />AES 128/192/256</td>
+<td>- Required for management functions.</td>
+</tr>
+</tbody>
+</table>
+<p>For the PIV Management Key: </p>
+<ul>
+<li>The default Management Key is <code>010203040506070801020304050607080102030405060708</code> 3DES (also referred to as <em>TDES</em>) and 48 characters long. Other acceptable formats are AES 128 (32 characters), AES 192 (48 characters), and AES 256 (64 characgers). Keys can be randomly generated on-device or manually entered. </li>
+<li>The Management Key can optionally be protected by PIN.</li>
+</ul>
+<h3 id="attemps-and-retries">Attemps and Retries<a class="headerlink" href="#attemps-and-retries" title="Permanent link">&para;</a></h3>
+<p>In general, if you exceed the retry count for a specified application, that application will become fully blocked from operation and cannot be used again until an "app reset" has been performed. This causes all data for the blocked app to be deleted. </p>
+<table>
+<thead>
+<tr>
+<th>Yubikey App</th>
+<th style="text-align: center;">Default Retries</th>
+<th style="text-align: center;">Changable</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIDO2</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">No</td>
+<td>Three (3) incorrect attempts in a row: key must be removed and reinserted.<br />Eight (8) attempts: FIDO2 is disabled entirely and FIDO2 app must be reset, wiping all FIDO credentials from Yubikey.</td>
+</tr>
+<tr>
+<td>OTP</td>
+<td style="text-align: center;">n/a</td>
+<td style="text-align: center;">n/a</td>
+<td>Touch only.</td>
+</tr>
+<tr>
+<td>OATH</td>
+<td style="text-align: center;">no enforced limit</td>
+<td style="text-align: center;">No</td>
+<td>Forgotten passwords can only be 'reset' by resetting the entire OATH application on Yubikey, effectively wiping all OATH codes from the device.</td>
+</tr>
+<tr>
+<td>OpenPGP</td>
+<td style="text-align: center;">3 / 3 / 3</td>
+<td style="text-align: center;">Yes</td>
+<td>If you exceed the <em>access PIN</em> retry count, OpenPGP becomes "<strong>locked</strong>" until you enter your <em>admin PIN</em>.<br />If you've set a <em>reset PIN</em>, the <em>reset PIN</em> must be used to unlock Yubikey instead.<br />If you exceed the <em>admin PIN</em> or <em>reset PIN</em> retry count, OpenPGP becomes "<strong>blocked</strong>" and cannot be used until OpenPGP is reset, wiping all OpenPGP keys from Yubikey.</td>
+</tr>
+<tr>
+<td>PIV</td>
+<td style="text-align: center;">3 / 3</td>
+<td style="text-align: center;">Yes</td>
+<td>If <em>PIN</em> retry count is exceeded, PIV becomes "<strong>locked</strong>" until you enter your <em>PUK</em>.<br />If the <em>PUK</em> retry count is exceeded, PIV becomes "<strong>blocked</strong>" and cannot be used until PIV is reset, wiping all PIV data from Yubikey, including PIN, PUK, and Management Key.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="apps-modes-of-operation">Apps (modes of operation)<a class="headerlink" href="#apps-modes-of-operation" title="Permanent link">&para;</a></h2>
+<h3 id="fido-u2f-fido2">FIDO U2F / FIDO2<a class="headerlink" href="#fido-u2f-fido2" title="Permanent link">&para;</a></h3>
+<p><em>(Passwordless &amp; 2FA Authentication)</em></p>
+<ul>
+<li>Used for passwordless login or as a second factor for online accounts.</li>
+<li>Works with services like Microsoft, Google, GitHub, and Facebook.</li>
+<li>Resistant to phishing since authentication only works on legitimate sites.</li>
+<li>FIDO2 enables single-factor authentication, while U2F (universal second factor) provides two-factor.</li>
+</ul>
+<p><strong><em>Use-case example:</em></strong> Logging into Microsoft with just your Yubikey and PIN, replacing username and password.</p>
+<p><strong><em>Capacity:</em></strong> <code>100 resident (discoverable) credentials</code> (firmware &gt;= 5.7), <code>25 credentials</code> (firmware &lt; 5.7)</p>
+<h3 id="otp-touch-slots">OTP (Touch Slots)<a class="headerlink" href="#otp-touch-slots" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Generates one-time passwords (OTP) for login security.</li>
+<li>Works with legacy systems that don't support modern authentication (like older VPNs).</li>
+<li>Supports both Yubico OTP (proprietary, cloud-verified) and HOTP (event-based OTP).</li>
+</ul>
+<p><strong><em>Use-case example:</em></strong> Logging into a VPN that requires a one-time password along with your username and password. </p>
+<p><strong><em>Use-case example:</em></strong> Programming the long-touch slot as a 'Static Password' and assigning a very long complex password.</p>
+<p><strong><em>Capacity:</em></strong> <code>2 slots</code></p>
+<p>The easiest way to setup one or both of the OTP slots on Yubikey is to use the "<code>Yubikey Manager</code>" or "<code>Yubico Authenticator</code>" apps. The OTP functionality is accessed by either short-pressing or long-pressing the Yubico logo on the physical key.</p>
+<h3 id="oath-totp-hotp">OATH (TOTP &amp; HOTP)<a class="headerlink" href="#oath-totp-hotp" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Works exactly like Google Authenticator and Authy but stores the codes securely on your Yubikey - not on your computer or mobile device. </li>
+<li>Generates TOTP (time-based one-time passwords) for 2FA logins.</li>
+<li>Requires the Yubikey to generate authentication codes, reading only the datetime from your computer or mobile device. </li>
+</ul>
+<p><strong><em>Use-case example:</em></strong> Using the Yubico Authenticator app to generate 6-digit TOTP codes for logging into services like GitHub, Amazon, or your bank account.</p>
+<p><strong><em>Capacity:</em></strong> <code>64 slots</code> (firmware &gt;= 5.7), <code>32 slots</code> (firmware &lt; 5.7)</p>
+<h3 id="openpgp">OpenPGP<a class="headerlink" href="#openpgp" title="Permanent link">&para;</a></h3>
+<p><em>(Encryption, Signing, and Authentication)</em></p>
+<p><em>(If you've never created PGP keys before and want a walk-through of this process, see the <a href="../pgp/pgp/#creating-your-keys">PGP Primer</a>)</em></p>
+<ul>
+<li>Stores PGP private keys securely on the Yubikey itself. </li>
+<li>Used for encrypting/decrypting emails, signing files, and SSH authentication.</li>
+<li>Ensures security of private keys - keys cannot be exported once loaded into Yubikey.</li>
+</ul>
+<p><strong><em>Use-case example:</em></strong> Signing and encrypting emails with OpenPGP to ensure only the intended recipient can read them. </p>
+<p><strong><em>Use-case example:</em></strong> Signing code commits on GitHub.</p>
+<p><strong><em>Capacity:</em></strong> <code>3 subkeys</code> (Encryption, Signature, Authentication) </p>
+<h3 id="piv-smart-card">PIV (Smart Card)<a class="headerlink" href="#piv-smart-card" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Functions as a hardware smart card for identity verification.</li>
+<li>Used for logging into computers securely.</li>
+<li>Supports digital signing and encryption for documents.</li>
+<li>Ensures security of private keys - keys cannot be exported once loaded into Yubikey.</li>
+</ul>
+<p><strong><em>Capacity:</em></strong> <code>19</code> functionally usable slots (<code>5</code> specific-function, <code>14</code> retired key slots).</p>
 
 
 

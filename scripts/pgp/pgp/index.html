@@ -1585,6 +1585,10 @@
 
 
 <h1 id="a-quick-pgp-primer">A quick PGP primer ...<a class="headerlink" href="#a-quick-pgp-primer" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">Skip to the walk-through ...</p>
+<p>Use the "Creating Your Keys" heading link on the right side of the page to skip directly to the key generation walk-through.</p>
+</div>
 <h2 id="what-even-is-pgp">What even is "PGP" ?<a class="headerlink" href="#what-even-is-pgp" title="Permanent link">&para;</a></h2>
 <p>If you've ever been curious about (or needed to know) how to encrypt files for security, PGP (or <em>Pretty Good Privacy</em>) is a simple and elegant solution - but can be a little intimidating if you've never used it before. Cryptography is a very deep subject with more rabbit holes than Reddit at 11 PM, and I wouldn't even be able get you all the way there myself. Forunately, there are a plethora of excellent resources available online if you're so inclined. This will only cover the basics, but it will be enough to actually enable you to use it. </p>
 <p>PGP is <strong><em>public-key cryptography</em></strong>. Users generate a unique pair of keys (a <span style="color: var(--md-code-hl-string-color)"><strong>public</strong></span> key that can be shared openly and freely, and a <span style="color: var(--md-code-hl-special-color)"><strong>private</strong></span> key that must be kept secret) that can be used for:</p>
@@ -1677,7 +1681,7 @@
 </ul>
 </div>
 <div class="admonition question">
-<p class="admonition-title">Key confusion?</p>
+<p class="admonition-title">Key confusion</p>
 <p>If you get confused about which key is which, the keys themselves can be opened in any text editor (provided you saved your keys as ASCII-armored). The first and last lines of each file will identify the type of key you have: <code>-----BEGIN PGP PUBLIC KEY BLOCK-----</code> vs <code>-----BEGIN PGP PRIVATE KEY BLOCK-----</code></p>
 </div>
 <h2 id="encryption-and-signatures">Encryption and Signatures<a class="headerlink" href="#encryption-and-signatures" title="Permanent link">&para;</a></h2>
@@ -1727,6 +1731,7 @@
 </div>
 </div>
 </div>
+<hr />
 <h2 id="creating-your-keys">Creating Your Keys<a class="headerlink" href="#creating-your-keys" title="Permanent link">&para;</a></h2>
 <dl>
 <dt>Before you can encrypt anything, you need a keypair - that's your private and public PGP keys. </dt>
@@ -1747,6 +1752,7 @@ gpg:<span class="w"> </span>directory<span class="w"> </span><span class="s1">&#
 gpg:<span class="w"> </span>keybox<span class="w"> </span><span class="s1">&#39;/root/.gnupg/pubring.kbx&#39;</span><span class="w"> </span>created
 gpg:<span class="w"> </span>/root/.gnupg/trustdb.gpg:<span class="w"> </span>trustdb<span class="w"> </span>created
 </code></pre></div>
+<hr />
 <h3 id="generating-your-keys">Generating Your Keys<a class="headerlink" href="#generating-your-keys" title="Permanent link">&para;</a></h3>
 <p>In the next step, we'll actually create a set of keys. Reference the notes within the code snippet below:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--full-generate-key<span class="w"> </span>--expert
@@ -2068,6 +2074,7 @@ ssb<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2025
 <p>Your new keys are ready to use. </p>
 <p>Where you see <code>[ultimate]</code> beside your name and email has to do with something called the "<em>web of trust</em>." These keys were generated just now, by you, on your machine, so they're considered to have "ultimate" trust (you <em>do</em> trust yourself, after all).</p>
 <p>And don't forget that the 40-character long string is your key's "fingerprint."</p>
+<hr />
 <h3 id="exporting-your-public-key">Exporting Your Public Key<a class="headerlink" href="#exporting-your-public-key" title="Permanent link">&para;</a></h3>
 <p>Your keys are tucked away into your keyring on your machine. You can leave them there, but your public key won't do you much good if no one else has it. </p>
 <p>We'll start by demonstrating how to export your keys is general:</p>
@@ -2103,12 +2110,14 @@ $<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </s
     ???0??L??}????&amp;?!????j?2?JyFj?T)???x??܀%!ߪ&gt;y???uS
 ??ϓv?kF???
 </code></pre></div>
+<hr />
 <h3 id="exporting-your-public-key-to-a-key-server">Exporting Your Public Key to a Key Server<a class="headerlink" href="#exporting-your-public-key-to-a-key-server" title="Permanent link">&para;</a></h3>
 <p>There used to be a larger number of public key servers available on which you could host your public key, but these days I seem to only have success with one: <a href="https://keys.openpgp.org/">https://keys.openpgp.org/</a>. </p>
 <p>You will need your Key ID instead of the email address for this command:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--send-key<span class="w"> </span>1C2EB5D40EBAC3871641B2E756DBD75D1A3FA918
 </code></pre></div>
 <p>If you run into an error attempting to send the key via <code>gpg</code>, you can always go to the keyserver website and upload your public key manually. </p>
+<hr />
 <h3 id="exporting-your-private-keys">Exporting Your Private Keys<a class="headerlink" href="#exporting-your-private-keys" title="Permanent link">&para;</a></h3>
 <div class="admonition danger">
 <p class="admonition-title">Warning!</p>
@@ -2119,6 +2128,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </s
 <div class="highlight"><span class="filename">Exporting your private SUBKEYS</span><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </span>subkeys.asc<span class="w"> </span>--armor<span class="w"> </span>--export-secret-subkeys<span class="w"> </span>john@smith.com
 </code></pre></div>
 <p>Save these files in a highly secure location. Anyone with access to your Master Certify or Subkeys can perform all operations with your keys.</p>
+<hr />
 <h3 id="encrypting-files">Encrypting Files<a class="headerlink" href="#encrypting-files" title="Permanent link">&para;</a></h3>
 <p>We're finally ready to encrypt our document: <code>testdoc.txt</code>.</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--encrypt<span class="w"> </span>--recipient<span class="w"> </span>john@smith.com<span class="w"> </span>testdoc.txt
@@ -2146,6 +2156,7 @@ $<span class="w"> </span>gpg<span class="w"> </span>--output<span class="w"> </s
 <span class="s">=8kzx</span>
 <span class="gh">-----END PGP MESSAGE-----</span>
 </code></pre></div>
+<hr />
 <h3 id="signing-and-verifying-files">Signing (and Verifying) Files<a class="headerlink" href="#signing-and-verifying-files" title="Permanent link">&para;</a></h3>
 <p>We've got our original <code>testdoc.txt</code> file, our binary encrypted file (<code>testdoc.txt.gpg</code>), and our ascii armored encrypted file (<code>testdoc.txt.asc</code>). To sign a file, you don't have to encrypt it first. You can use your keys to sign anything - encrypted or not.</p>
 <h4 id="signing-an-unencrypted-file">Signing an unencrypted file<a class="headerlink" href="#signing-an-unencrypted-file" title="Permanent link">&para;</a></h4>
@@ -2185,6 +2196,7 @@ gpg:<span class="w">                </span>using<span class="w"> </span>RSA<span
 gpg:<span class="w">                </span>issuer<span class="w"> </span><span class="s2">&quot;john@smith.com&quot;</span>
 gpg:<span class="w"> </span>Good<span class="w"> </span>signature<span class="w"> </span>from<span class="w"> </span><span class="s2">&quot;John Smith &lt;john@smith.com&gt;&quot;</span><span class="w"> </span><span class="o">[</span>ultimate<span class="o">]</span>
 </code></pre></div>
+<hr />
 <h4 id="signing-and-encrypting-together">Signing and encrypting together<a class="headerlink" href="#signing-and-encrypting-together" title="Permanent link">&para;</a></h4>
 <p>If we wanted to both sign <em>and</em> encrypt the file simultaneously, we can do that with:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--encrypt<span class="w"> </span>--output<span class="w"> </span>testdoc2.txt.asc<span class="w"> </span>--sign<span class="w"> </span>--armor<span class="w"> </span>--recipient<span class="w"> </span>john@smith.com<span class="w"> </span>testdoc.txt
@@ -2212,6 +2224,7 @@ gpg:<span class="w"> </span>Signature<span class="w"> </span>made<span class="w"
 gpg:<span class="w">                </span>using<span class="w"> </span>RSA<span class="w"> </span>key<span class="w"> </span>1C2EB5D40EBAC3871641B2E756DBD75D1A3FA918
 gpg:<span class="w"> </span>Good<span class="w"> </span>signature<span class="w"> </span>from<span class="w"> </span><span class="s2">&quot;John Smith &lt;john@smith.com&gt;&quot;</span><span class="w"> </span><span class="o">[</span>ultimate<span class="o">]</span>
 </code></pre></div>
+<hr />
 <h4 id="detached-signature">Detached Signature<a class="headerlink" href="#detached-signature" title="Permanent link">&para;</a></h4>
 <p>In the earlier example where we signed an unencrypted file, PGP wrapped the content of that file inside of a new file together with the signature. What if we don't want that, though? A "detached signature" is the better option for such a scenario:</p>
 <div class="highlight"><pre><span></span><code>$<span class="w"> </span>gpg<span class="w"> </span>--detach-sign<span class="w"> </span>--local-user<span class="w"> </span>john@smith.com<span class="w"> </span>--armor<span class="w"> </span>--sign<span class="w"> </span>testdoc.txt
@@ -2241,6 +2254,7 @@ gpg:<span class="w"> </span>Good<span class="w"> </span>signature<span class="w"
 gpg:<span class="w"> </span>no<span class="w"> </span>signed<span class="w"> </span>data
 gpg:<span class="w"> </span>can<span class="err">&#39;</span>t<span class="w"> </span><span class="nb">hash</span><span class="w"> </span>datafile:<span class="w"> </span>No<span class="w"> </span>data
 </code></pre></div>
+<hr />
 <h2 id="wrapping-up">Wrapping Up<a class="headerlink" href="#wrapping-up" title="Permanent link">&para;</a></h2>
 <p>This page only skims the surface of PGP - there's much more to it if you want to use it fully. There are a lot of great resources on PGP, but here are a few to get you started:</p>
 <ul>
